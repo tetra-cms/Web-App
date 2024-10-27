@@ -2,7 +2,6 @@
 import { Desktop, Mobile } from "#components";
 
 const nuxt = useNuxtApp();
-
 function getDeviceInfo() {
     let userAgent = nuxt.ssrContext?.event.headers.get("User-Agent") ?? navigator.userAgent ?? "";
     if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {
@@ -11,6 +10,8 @@ function getDeviceInfo() {
         return UserDeviceTypes.Desktop;
     }
 }
+
+provide("deviceType", getDeviceInfo());
 </script>
 
 <template>
