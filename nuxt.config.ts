@@ -16,6 +16,9 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  css: [
+    "~layouts/inter.css",
+  ],
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo-loader']
 })
