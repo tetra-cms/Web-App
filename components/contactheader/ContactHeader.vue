@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { ContactGeneral, ContactsList, CurrentCity } from '~/modules/contactheader/ContactHeaderData';
 import GPSIcon from '~/assets/svg/gps.svg';
 import PhoneIcon from '~/assets/svg/phone.svg';
+import ContactData from '~/modules/contactheader/ContactData';
+
+const props = defineProps({
+    currentCity: String,
+    contactGeneral: String,
+    contactList: {
+        required: false,
+        type: Array<ContactData>
+    } 
+});
 </script>
 
 <template>
@@ -9,19 +18,19 @@ import PhoneIcon from '~/assets/svg/phone.svg';
         <div class="flex w-full justify-between flex-row items-center mx-[20px]">
             <div class="flex flex-row">
                 <GPSIcon/>
-                <p class="text-bold">{{ CurrentCity }}</p>
+                <p class="text-bold">{{ props.currentCity }}</p>
             </div>
 
             <div class="flex flex-col">
                 <a class="text-secondary-wrapper-light underline">Обратный звонок</a>
-                <a :href="'mailto:' + ContactGeneral">{{ ContactGeneral }}</a>
+                <a :href="'mailto:' + props.contactGeneral">{{ props.contactGeneral }}</a>
             </div>
 
             <div>
                 <ul class="flex flex-col">
-                    <li class="flex flex-row items-center" v-for="contact in ContactsList">
+                    <li class="flex flex-row items-center" v-for="contact in props.contactList">
                         <PhoneIcon/>
-                        {{ contact.contact }}
+                        <a :href="'tel:' + contact.contact">{{ contact.contact }}</a>
                     </li>
                 </ul>
             </div>
