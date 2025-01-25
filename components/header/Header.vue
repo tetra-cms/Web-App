@@ -29,13 +29,13 @@ const props = defineProps<{
 
         <nav class="w-full flex-row items-center px-[25px]">
             <ul class="flex flex-row py-[15px] justify-between">
-                <li v-for="item in MenuItems">
-                    <NuxtLink :to="item.route" class="hover:text-primary-primary font-medium">{{ item.label }}</NuxtLink>
+                <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" v-for="item in MenuItems">
+                    <NuxtLink :to="item.route" class="transition-all duration-100 font-medium">{{ item.label }}</NuxtLink>
                 </li>
             </ul>
         </nav>
 
-        <div class="flex flex-row items-center justify-between">
+        <div class="flex flex-row items-center justify-between h-full">
             <RoundedButton :icon="CartIcon"/>
             <RoundedButton :icon="PersonIcon"/>
         </div>
