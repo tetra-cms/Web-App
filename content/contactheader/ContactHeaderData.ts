@@ -1,4 +1,4 @@
-import type ContactData from "./ContactData";
+import type ContactData from "../../types/ContactData";
 
 export let CurrentCity : String = "Тольятти";
 

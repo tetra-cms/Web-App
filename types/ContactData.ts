@@ -1,4 +1,4 @@
-export default interface ContactData {
+export default interface IContactData {
     contact: string;
     type: string;
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GPSIcon from '~/assets/svg/gps.svg';
 import PhoneIcon from '~/assets/svg/phone.svg';
-import ContactData from '~/modules/contactheader/ContactData';
+import ContactData from '~/types/ContactData';
 
 const props = defineProps({
     currentCity: String,
