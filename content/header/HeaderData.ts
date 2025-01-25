@@ -12,20 +12,15 @@ export let MenuItems : Array<IMenuItem> = [
         route: "catalog"
     } as IMenuItem,
     {
-        label: "Наша продукция",
-        route: "catalog"
+        label: "Доставка и оплата",
+        route: "delivery"
     } as IMenuItem,
     {
-        label: "Наша продукция",
-        route: "catalog"
+        label: "О нас",
+        route: "aboutus"
     } as IMenuItem,
     {
-        label: "Наша продукция",
-        route: "catalog"
-    } as IMenuItem,
-    {
-        label: "Наша продукция",
-        route: "catalog"
-    } as IMenuItem,
-    
+        label: "Контакты",
+        route: "contacts"
+    } as IMenuItem
 ];
