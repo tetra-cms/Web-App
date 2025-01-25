@@ -7,12 +7,18 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
     }
   },
+  tailwindcss: {
+    configPath: '~/tailwind.config.ts'
+  },
   components: [
     {
       path: '~/components',
       pathPrefix: false,
     },
   ],
+  css: [
+    "~/layouts/inter.css",
+  ],
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss']
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo-loader']
 })

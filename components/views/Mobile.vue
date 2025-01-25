@@ -4,6 +4,6 @@
 
 <template>
     <div class="w-full h-[100vh]">
-      <router-view/>
+      <NuxtPage/>
     </div>
 </template>

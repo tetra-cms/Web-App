@@ -1,10 +1,14 @@
 <script setup lang="ts">
-
+import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
+import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 </script>
 
 <template>
   <DesktopOnly>
-    <p>Desktop представление</p>
+    <ContactHeader 
+        :contact-general="String(ContactGeneral)" 
+        :contact-list="ContactsList" 
+        :current-city="String(CurrentCity)"/>
   </DesktopOnly>
 
   <MobileOnly>
