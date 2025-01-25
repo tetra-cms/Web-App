@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GPSIcon from '~/assets/svg/gps.svg';
 import PhoneIcon from '~/assets/svg/phone.svg';
+import { formatPhoneNumber } from '~/helpers/phoneFormat';
 import ContactData from '~/types/ContactData';
 
 const props = defineProps({
@@ -11,6 +12,8 @@ const props = defineProps({
         type: Array<ContactData>
     } 
 });
+
+props.contactList?.map(item => item.contact = formatPhoneNumber(item.contact));
 </script>
 
 <template>
