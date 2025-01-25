@@ -9,7 +9,7 @@ export let CompanyData : ICompanyInfo = {
 export let MenuItems : Array<IMenuItem> = [
     {
         label: "Наша продукция",
-        route: "catalog"
+        route: "/"
     } as IMenuItem,
     {
         label: "Доставка и оплата",
