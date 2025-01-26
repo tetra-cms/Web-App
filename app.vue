@@ -15,10 +15,10 @@ function getDeviceInfo() {
 provide("deviceType", getDeviceInfo());
 
 useHead({
-  title: HeadData.title,
-  meta: [
-    { name: 'description', content: '' }
-  ]
+    title: HeadData.title,
+    meta: [
+        { name: 'description', content: HeadData.description }
+    ]
 })
 </script>
 
