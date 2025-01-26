@@ -16,8 +16,8 @@ import ContactHeader from '~/components/contactheader/ContactHeader.vue';
         :subtitle="String(CompanyData.subtitle)"></Header>
 
     <div class="flex flex-row justify-between px-[60px]">
-      <h1 class="font text-[32px] font-bold">Наша продукция</h1>
-      <div></div>
+        <h1 class="font text-[32px] font-bold">Наша продукция</h1>
+        <div></div>
     </div>
   </DesktopOnly>
 

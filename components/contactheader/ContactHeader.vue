@@ -2,18 +2,25 @@
 import GPSIcon from '~/assets/svg/gps.svg';
 import PhoneIcon from '~/assets/svg/phone.svg';
 import { formatPhoneNumber } from '~/helpers/phoneFormat';
-import ContactData from '~/types/ContactData';
+import { IContactData } from '~/types/ContactData';
+import { IFormatData } from '~/types/FormatData';
 
 const props = defineProps({
     currentCity: String,
     contactGeneral: String,
     contactList: {
         required: false,
-        type: Array<ContactData>
+        type: Array<IContactData>
     } 
 });
 
-props.contactList?.map(item => item.contact = formatPhoneNumber(item.contact));
+let filteredContacts : Array<IFormatData> = [];
+props.contactList?.forEach((item) => {
+    filteredContacts.push({
+        rawText: item.contact,
+        formatText: formatPhoneNumber(item.contact)
+    });
+});
 </script>
 
 <template>
@@ -31,9 +38,9 @@ props.contactList?.map(item => item.contact = formatPhoneNumber(item.contact));
 
             <div>
                 <ul class="flex flex-col">
-                    <li class="flex flex-row items-center" v-for="contact in props.contactList">
+                    <li class="flex flex-row items-center" v-for="contact in filteredContacts">
                         <PhoneIcon/>
-                        <a :href="'tel:' + contact.contact">{{ contact.contact }}</a>
+                        <a :href="'tel:' + contact.rawText">{{ contact.formatText }}</a>
                     </li>
                 </ul>
             </div>
