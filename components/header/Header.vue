@@ -4,6 +4,7 @@ import CartIcon from '~/assets/svg/cart.svg';
 import PersonIcon from '~/assets/svg/person.svg';
 import { MenuItems } from "~/content/header/HeaderData"
 import RoundedButton from '../roundedbutton/RoundedButton.vue';
+import { UserMenuItems } from '~/content/usermenu/UserMenuItems';
 
 const props = defineProps<{
     title: String,
@@ -40,4 +41,9 @@ const props = defineProps<{
             <RoundedButton :icon="PersonIcon"/>
         </div>
     </div>
+
+    <UserMenu 
+            nickname="Test"
+            email="test@test123.ru"
+            :menu-items="UserMenuItems"/>
 </template>
