@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Desktop, Mobile } from "#components";
+import { HeadData } from "./content/head/HeadData";
 
 const nuxt = useNuxtApp();
 function getDeviceInfo() {
@@ -12,6 +13,13 @@ function getDeviceInfo() {
 }
 
 provide("deviceType", getDeviceInfo());
+
+useHead({
+  title: HeadData.title,
+  meta: [
+    { name: 'description', content: '' }
+  ]
+})
 </script>
 
 <template>
