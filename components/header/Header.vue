@@ -36,7 +36,7 @@ const props = defineProps<{
         </nav>
 
         <div class="flex flex-row items-center justify-between h-full">
-            <RoundedButton :icon="CartIcon"/>
+            <RoundedButton :icon="CartIcon" link="/cart"/>
             <RoundedButton :icon="PersonIcon"/>
         </div>
     </div>
