@@ -43,7 +43,7 @@ const props = defineProps<{
     </div>
 
     <UserMenu 
-            nickname="Test"
-            email="test@test123.ru"
-            :menu-items="UserMenuItems"/>
+        nickname="Test"
+        email="test@test123.ru"
+        :menu-items="UserMenuItems"/>
 </template>

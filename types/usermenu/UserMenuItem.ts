@@ -1,5 +1,7 @@
 export default interface IUserMenuItem {
     label: string,
-    icon: Component,
-    color: string
+    icon: string,
+    color?: string,
+    hoverColor?: string,
+    route?: string
 }
