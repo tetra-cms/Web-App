@@ -10,7 +10,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="bg-secondary-primary w-[240px] shadow-xl rounded-[10px] p-[20px]">
+    <div class="bg-secondary-primary absolute right-0 w-[240px] shadow-xl rounded-[10px] p-[20px]">
         <div class="flex flex-row items-center bg-secondary-light p-[5px] rounded-[10px]">
             <PersonIcon class="[&>*]:fill-secondary-wrapper-dark [&>*]:w-[32px] [&>*]:h-[32px]"/>
             <div>

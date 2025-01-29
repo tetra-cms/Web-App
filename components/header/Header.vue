@@ -10,6 +10,13 @@ const props = defineProps<{
     title: String,
     subtitle: String
 }>();
+
+const userMenuShow = ref(false);
+function userClick()
+{
+    userMenuShow.value = !userMenuShow.value;
+}
+
 </script>
 
 <template>
@@ -38,11 +45,12 @@ const props = defineProps<{
 
         <div class="flex flex-row items-center justify-between h-full">
             <RoundedButton :icon="CartIcon" link="/cart"/>
-            <RoundedButton :icon="PersonIcon"/>
+            <RoundedButton :icon="PersonIcon" @click="userClick"/>
         </div>
     </div>
 
-    <UserMenu 
+    <UserMenu
+        v-if="userMenuShow"
         nickname="Test"
         email="test@test123.ru"
         :menu-items="UserMenuItems"/>
