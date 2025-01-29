@@ -24,7 +24,7 @@ const props = defineProps<{
 
     <div 
         v-else
-        class="bg-primary-primary p-[10px] mx-[10px] rounded-full transition-all transition-250 hover:bg-primary-secondary">
+        class="bg-primary-primary p-[10px] mx-[10px] rounded-full transition-all transition-250 [&>*]:w-[20px] [&>*]:h-[20px] [&>*]:fill-bg-secondary-primary hover:bg-primary-secondary">
         <component class="[&>*]:fill-bg-secondary-primary w-[20px] h-[20px]" :is="props.icon"/>
     </div>
 </template>

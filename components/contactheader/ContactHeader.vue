@@ -27,7 +27,7 @@ props.contactList?.forEach((item) => {
     <div class="flex h-[45px] bg-secondary-light">
         <div class="flex w-full justify-between flex-row items-center mx-[20px]">
             <div class="flex flex-row">
-                <GPSIcon/>
+                <GPSIcon class="w-[24px] h-[24px]"/>
                 <p class="text-bold">{{ props.currentCity }}</p>
             </div>
 
@@ -39,7 +39,7 @@ props.contactList?.forEach((item) => {
             <div>
                 <ul class="flex flex-col">
                     <li class="flex flex-row items-center" v-for="contact in filteredContacts">
-                        <PhoneIcon/>
+                        <PhoneIcon class="w-[16px] h-[16px]"/>
                         <a :href="'tel:' + contact.rawText">{{ contact.formatText }}</a>
                     </li>
                 </ul>
