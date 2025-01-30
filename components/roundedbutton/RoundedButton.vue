@@ -14,8 +14,8 @@ const props = defineProps<{
 
 <template>
     <NuxtLink v-if="props.link" class="relative" :to="String(props.link)">
-        <div class="bg-primary-primary p-[10px] mx-[10px] rounded-full transition-all transition-250 hover:bg-primary-secondary">
-            <component :is="props.icon"/>
+        <div class="bg-primary-primary p-[10px] mx-[10px] rounded-full transition-all [&>*]:w-[20px] [&>*]:h-[20px] transition-250 hover:bg-primary-secondary">
+            <component class="[&>*]:fill-bg-secondary-primary" :is="props.icon"/>
         </div>
         <p v-if="props.splashAmount" class="bg-primary-secondary text-secondary-primary rounded-full font-bold text-xs p-[2px] absolute bottom-0 right-[5px]">
             {{ props.splashAmount }}
