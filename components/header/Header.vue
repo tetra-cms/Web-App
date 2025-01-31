@@ -17,6 +17,19 @@ function userClick()
     userMenuShow.value = !userMenuShow.value;
 }
 
+onMounted(() => {
+    if (import.meta.client)
+    {
+        document.addEventListener('click', function(event) {
+            if (userMenuShow.value) {
+                if (event.target != document.getElementById("user-menu")) {
+                    userMenuShow.value = false;
+                }
+            }
+            
+        });
+    }
+});
 </script>
 
 <template>
@@ -37,7 +50,8 @@ function userClick()
 
         <nav class="w-full flex-row items-center px-[25px]">
             <ul class="flex flex-row justify-between">
-                <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" v-for="item in MenuItems">
+                <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" 
+                v-for="item in MenuItems">
                     <NuxtLink :to="item.route" class="transition-all duration-100 font-medium">{{ item.label }}</NuxtLink>
                 </li>
             </ul>
@@ -49,9 +63,13 @@ function userClick()
         </div>
     </div>
 
-    <UserMenu
-        v-if="userMenuShow"
-        nickname="Test"
-        email="test@test123.ru"
-        :menu-items="UserMenuItems"/>
+    <div 
+        id="user-menu"
+        v-if="userMenuShow">
+        <UserMenu
+            nickname="Test"
+            email="test@test123.ru"
+            :menu-items="UserMenuItems"/>
+    </div>
+    
 </template>

@@ -17,9 +17,13 @@ provide("deviceType", getDeviceInfo());
 useHead({
     title: HeadData.title,
     meta: [
-        { name: 'description', content: HeadData.description }
+        { name: 'description', content: HeadData.description },
+        { name: 'og:image', content: "/favicon.ico" }
+    ],
+    link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
-})
+});
 </script>
 
 <template>
