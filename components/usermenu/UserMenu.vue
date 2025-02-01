@@ -24,7 +24,7 @@ const props = defineProps<{
                 <NuxtLink 
                 :class="'flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary ' + ''" :to="item.route">
                     <component class="mr-[5px] w-[20px] h-[20px]" :is="item.icon"></component>
-                    <p :class="'font-medium ' + (item.color ? 'text-' + item.color + '' : '')">{{ item.label }}</p>
+                    <p :class="'font-medium transition-all transition-250 ' + (item.color ? 'text-' + item.color + '' : '')">{{ item.label }}</p>
                 </NuxtLink>
             </li>
         </ul>
