@@ -20,7 +20,7 @@ const props = defineProps<{
         </div>
 
         <ul class="my-[10px]">
-            <li class="flex flex-row items-center" v-for="item in props.menuItems">
+            <li class="flex flex-row items-center hover:[&>*]:fill-primary-primary" v-for="item in props.menuItems">
                 <NuxtLink 
                 :class="'flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary ' + ''" :to="item.route">
                     <component class="mr-[5px] w-[20px] h-[20px]" :is="item.icon"></component>

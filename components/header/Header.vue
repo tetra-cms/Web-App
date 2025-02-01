@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LogoIcon from '~/assets/svg/logo.svg';
-import CartIcon from '~/assets/svg/cart.svg';
+import CartIcon from '~/assets/svg/cart.svg?skipsvgo';
 import PersonIcon from '~/assets/svg/person.svg';
 import { MenuItems } from "~/content/header/HeaderData"
 import RoundedButton from '../roundedbutton/RoundedButton.vue';
@@ -17,19 +17,13 @@ function userClick()
     userMenuShow.value = !userMenuShow.value;
 }
 
-onMounted(() => {
-    if (import.meta.client)
+const userMenu = useTemplateRef("user-menu");
+useDetectOutsideClick(userMenu, () => {
+    if (userMenuShow.value)
     {
-        document.addEventListener('click', function(event) {
-            if (userMenuShow.value) {
-                if (event.target != document.getElementById("user-menu")) {
-                    userMenuShow.value = false;
-                }
-            }
-            
-        });
+        userMenuShow.value = !userMenuShow.value;   
     }
-});
+})
 </script>
 
 <template>
@@ -59,17 +53,17 @@ onMounted(() => {
 
         <div class="flex flex-row items-center justify-between h-full">
             <RoundedButton :icon="CartIcon" link="/cart"/>
-            <RoundedButton :icon="PersonIcon" @click="userClick"/>
-        </div>
-    </div>
+            <div
+                ref="user-menu">
+                <RoundedButton :icon="PersonIcon" @click="userClick"/>
 
-    <div 
-        id="user-menu"
-        v-if="userMenuShow">
-        <UserMenu
-            nickname="Test"
-            email="test@test123.ru"
-            :menu-items="UserMenuItems"/>
+                <UserMenu
+                    v-if="userMenuShow"
+                    nickname="Test"
+                    email="test@test123.ru"
+                    :menu-items="UserMenuItems"/>
+            </div>
+        </div>
     </div>
     
 </template>
