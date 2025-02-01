@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Desktop, Mobile } from "#components";
+import { HeadData } from "./content/head/HeadData";
 
 const nuxt = useNuxtApp();
 function getDeviceInfo() {
@@ -12,6 +13,17 @@ function getDeviceInfo() {
 }
 
 provide("deviceType", getDeviceInfo());
+
+useHead({
+    title: HeadData.title,
+    meta: [
+        { name: 'description', content: HeadData.description },
+        { name: 'og:image', content: "/favicon.ico" }
+    ],
+    link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ]
+});
 </script>
 
 <template>
