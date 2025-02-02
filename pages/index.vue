@@ -30,8 +30,8 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
               <ItemsList :items="CategoryListItems"/>
             </div>
             
-            <ul>
-              <li v-for="product in ProductListItems">
+            <ul class="flex w-full flex-wrap h-full">
+              <li class="m-[10px]" v-for="product in ProductListItems">
                 <ProductCard 
                   :image="product.image" 
                   :name="product.name" 
