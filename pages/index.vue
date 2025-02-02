@@ -2,6 +2,7 @@
 import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
 import { CompanyData } from '~/content/header/HeaderData';
 import { CategoryListItems } from '~/content/categorylist/CategoryListItems';
+import { ProductListItems } from '~/content/productlist/ProductListItems';
 
 import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
@@ -23,14 +24,20 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
           <h1 class="font text-[32px] font-bold">Наша продукция</h1>
         </div>
         
-        <div>
+        <div class="flex flex-row">
             <div class="flex flex-col px-[20px]">
               <h2 class="text-secondary-wrapper-light font-bold">Категории</h2>
               <ItemsList :items="CategoryListItems"/>
             </div>
             
             <ul>
-
+              <li v-for="product in ProductListItems">
+                <ProductCard 
+                  :image="product.image" 
+                  :name="product.name" 
+                  :description="product.description" 
+                  :price="product.price" />
+              </li>
             </ul>
         </div>
     </div>
