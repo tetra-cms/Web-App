@@ -34,7 +34,7 @@ useDetectOutsideClick(userMenu, () => {
                     <LogoIcon/>
                 </div>
                     
-                <div class="flex flex-col mr-[10px]">
+                <div class="flex flex-col mr-[10px] max-md:hidden">
                     <p class="text-primary-primary font-bold uppercase">{{ props.title }}</p>
                     <p class="text-secondary-wrapper-dark font-bold uppercase text-nowrap">{{ props.subtitle }}</p>
                 </div>

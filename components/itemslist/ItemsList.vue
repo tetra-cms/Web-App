@@ -21,7 +21,7 @@ const props = defineProps<{
     </DesktopOnly>
     
     <MobileOnly>
-        <ul class="flex w-full justify-center flex-row">
+        <ul class="flex w-full justify-center flex-row overflow-x-auto pl-[60px]">
             <li class="flex flex-row items-center p-[10px] m-[5px] bg-secondary-light rounded-[5px]" v-for="item in props.items">
                 <div class="w-[18px] h-[18px]">
                     <component :is="item.icon" />

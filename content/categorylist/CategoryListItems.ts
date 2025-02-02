@@ -2,7 +2,13 @@ import type { IItemListItem } from "~/types/ItemListItem";
 
 import PaperrollIcon from '~/assets/svg/categories/paperroll.svg';
 import NapkinsIcon from '~/assets/svg/categories/napkins.svg';
-import PaperTowelsIcon from '~/assets/svg/categories/papertowels.svg'
+import PaperTowelsIcon from '~/assets/svg/categories/papertowels.svg';
+import ChemistryIcon from '~/assets/svg/categories/chemistry.svg';
+import SpongesIcon from '~/assets/svg/categories/sponge.svg';
+import PacketIcon from '~/assets/svg/categories/packets.svg';
+import GlovesIcon from '~/assets/svg/categories/gloves.svg';
+import PlasticIcon from '~/assets/svg/categories/plastic.svg';
+import DishesIcon from '~/assets/svg/categories/dishes.svg';
 
 export const CategoryListItems : Array<IItemListItem> = [
     {
@@ -18,15 +24,27 @@ export const CategoryListItems : Array<IItemListItem> = [
         label: "Бумажные полотенца"
     } as IItemListItem,
     {
-        icon: PaperrollIcon,
-        label: "Туалетная бумага"
+        icon: ChemistryIcon,
+        label: "Бытовая химия"
     } as IItemListItem,
     {
-        icon: PaperrollIcon,
-        label: "Туалетная бумага"
+        icon: SpongesIcon,
+        label: "Губки"
     } as IItemListItem,
     {
-        icon: PaperrollIcon,
-        label: "Туалетная бумага"
+        icon: PacketIcon,
+        label: "Пакеты"
     } as IItemListItem,
+    {
+        icon: GlovesIcon,
+        label: "Перчатки"
+    } as IItemListItem,
+    {
+        icon: PlasticIcon,
+        label: "Пластик"
+    } as IItemListItem,
+    {
+        icon: DishesIcon,
+        label: "Одноразовая посуда"
+    } as IItemListItem
 ];
