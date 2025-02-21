@@ -7,7 +7,7 @@ const props = defineProps<IProductCard>();
 </script>
 
 <template>
-    <div class="flex flex-col justify-between w-[220px] h-[290px] p-[15px] border-secondary-light border-[2px] rounded-[10px]">
+    <div class="flex flex-col justify-between w-[190px] h-[290px] p-[15px] border-secondary-light border-[2px] rounded-[10px]">
         <div class="w-full flex justify-center">
             <img v-if="props.image" :src="props.image">
         </div>

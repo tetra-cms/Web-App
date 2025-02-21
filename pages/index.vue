@@ -25,7 +25,7 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
         </div>
         
         <div class="flex flex-row">
-            <div class="flex flex-col px-[20px]">
+            <div class="flex flex-col px-[20px] mr-[20px]">
               <h2 class="text-secondary-wrapper-light font-bold">Категории</h2>
               <ItemsList :items="CategoryListItems"/>
             </div>
@@ -45,5 +45,16 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
 
   <MobileOnly>
     <ItemsList :items="CategoryListItems"/>
+
+    <ul class="flex w-full flex-wrap h-full">
+      <li class="my-[10px] mx-[2px]" v-for="product in ProductListItems">
+          <ProductCard 
+            class="w-[175px]"
+            :image="product.image" 
+            :name="product.name" 
+            :description="product.description" 
+            :price="product.price" />
+      </li>
+    </ul>
   </MobileOnly>
 </template>

@@ -21,5 +21,5 @@ export default defineNuxtConfig({
     "~/layouts/inter.css",
   ],
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo-loader']
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo-loader', '@vite-pwa/nuxt']
 })
