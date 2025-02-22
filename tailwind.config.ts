@@ -20,6 +20,10 @@ module.exports = {
                     'secondary': '#C70000'
                 }
             },
+            
+        },
+        fontFamily: {
+            'druk': 'DrukWideCyr-Bold'
         }
     },
     variants: {},

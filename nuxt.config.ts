@@ -18,8 +18,14 @@ export default defineNuxtConfig({
     },
   ],
   css: [
-    "~/layouts/inter.css",
+    "~/layouts/inter/inter.css",
+    "~/layouts/druk/style.css",
   ],
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo-loader', '@vite-pwa/nuxt']
+  modules: [
+    '@nuxtjs/tailwindcss',
+    'nuxt-svgo-loader',
+    '@vite-pwa/nuxt',
+    '@pinia/nuxt'
+  ]
 })
