@@ -44,6 +44,17 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
   </DesktopOnly>
 
   <MobileOnly>
+    <div class="my-[30px]">
+      <Header 
+        :title="String(CompanyData.title)"
+        :subtitle="String(CompanyData.subtitle)"></Header>
+    </div>
+
+    <div class="my-[10px]">
+      
+    </div>
+
+    <p class="font-bold">Категории</p>
     <ItemsList :items="CategoryListItems"/>
 
     <ul class="flex w-full flex-wrap h-full">
