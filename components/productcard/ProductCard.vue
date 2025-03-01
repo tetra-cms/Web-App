@@ -22,7 +22,7 @@ const props = defineProps<IProductCard>();
                 <p>{{ props.price }} ₽</p>
             </div>
 
-            <div class="flex flex-row items-center text-center justify-center text-secondary-primary font-semibold p-[5px] rounded-[5px] bg-primary-primary">
+            <div class="flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[5px] rounded-[5px] bg-primary-primary">
                 <CartIcon class="w-[20px] h-[20px] mr-[5px] [&>*]:fill-secondary-primary"/>
                 <p class="text-[10pt]">В корзину</p>
             </div>

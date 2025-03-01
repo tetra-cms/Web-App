@@ -6,6 +6,8 @@ import { ProductListItems } from '~/content/productlist/ProductListItems';
 
 import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
+
+import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
 </script>
 
 <template>
@@ -50,8 +52,10 @@ import ItemsList from '~/components/itemslist/ItemsList.vue';
         :subtitle="String(CompanyData.subtitle)"></Header>
     </div>
 
-    <div class="my-[10px]">
-      
+    <div class="my-[10px] flex justify-center">
+      <InputWithReset
+        placeholder="Поиск"
+        />
     </div>
 
     <p class="font-bold">Категории</p>

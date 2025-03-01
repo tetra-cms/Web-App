@@ -7,6 +7,6 @@ import { TabBarItems } from '~/content/tabbar/TabBarItems';
 <template>
     <div class="w-full h-[100vh]">
       <NuxtPage/>
-      <TabBar :elements="TabBarItems"/>
     </div>
+    <TabBar :elements="TabBarItems"/>
 </template>
