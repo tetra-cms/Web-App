@@ -8,6 +8,8 @@ import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
 
 import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
+
+import SearchIcon from '~/assets/svg/search.svg';
 </script>
 
 <template>
@@ -64,7 +66,6 @@ import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vu
     <ul class="flex w-full flex-wrap h-full">
       <li class="my-[10px] mx-[2px]" v-for="product in ProductListItems">
           <ProductCard 
-            class="w-[175px]"
             :image="product.image" 
             :name="product.name" 
             :description="product.description" 

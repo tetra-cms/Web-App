@@ -13,7 +13,8 @@ import DishesIcon from '~/assets/svg/categories/dishes.svg';
 export const CategoryListItems : Array<IItemListItem> = [
     {
         icon: PaperrollIcon,
-        label: "Туалетная бумага"
+        label: "Туалетная бумага",
+        route: "?category=paper"
     } as IItemListItem,
     {
         icon: NapkinsIcon,
