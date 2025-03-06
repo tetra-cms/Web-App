@@ -8,6 +8,11 @@ import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
 
 import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
+
+function sortChange()
+{
+
+}
 </script>
 
 <template>
@@ -25,7 +30,7 @@ import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vu
         <div class="flex flex-row justify-between px-[60px] mb-[20px]">
           <h1 class="font-druk text-[24px] font-bold">Наша продукция</h1>
 
-          <SortList/>
+          <SortList v-on:sort-change="sortChange"/>
         </div>
         
         <div class="flex flex-row">
