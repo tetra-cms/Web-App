@@ -8,8 +8,6 @@ import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
 
 import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
-
-import SearchIcon from '~/assets/svg/search.svg';
 </script>
 
 <template>
@@ -34,15 +32,9 @@ import SearchIcon from '~/assets/svg/search.svg';
               <ItemsList :items="CategoryListItems"/>
             </div>
             
-            <ul class="flex w-full flex-wrap h-full">
-              <li class="m-[10px]" v-for="product in ProductListItems">
-                <ProductCard 
-                  :image="product.image" 
-                  :name="product.name" 
-                  :description="product.description" 
-                  :price="product.price" />
-              </li>
-            </ul>
+            <ProductList 
+              :maxElementsPerPage="12"
+              :items="ProductListItems"/>
         </div>
     </div>
   </DesktopOnly>
@@ -63,14 +55,8 @@ import SearchIcon from '~/assets/svg/search.svg';
     <p class="font-bold">Категории</p>
     <ItemsList :items="CategoryListItems"/>
 
-    <ul class="flex w-full flex-wrap h-full">
-      <li class="my-[10px] mx-[2px]" v-for="product in ProductListItems">
-          <ProductCard 
-            :image="product.image" 
-            :name="product.name" 
-            :description="product.description" 
-            :price="product.price" />
-      </li>
-    </ul>
+    <ProductList
+    :items="ProductListItems"/>
+
   </MobileOnly>
 </template>
