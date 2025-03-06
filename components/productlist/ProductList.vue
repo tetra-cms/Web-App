@@ -65,7 +65,8 @@ function correctPageInput()
 <template>
     <div class="flex flex-col w-full">
         <ul class="flex w-full flex-wrap h-full">
-            <li class="my-[10px] mx-[2px]" 
+            <li 
+            class="my-[10px] mx-[2px]" 
             v-for="product in props.maxElementsPerPage ? getPaginatedData(props.items) : props.items">
                 <ProductCard
                     :image="product.image" 

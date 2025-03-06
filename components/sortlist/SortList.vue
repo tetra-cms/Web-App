@@ -6,6 +6,15 @@ function menuClick()
 {
     sortMenuShow.value = !sortMenuShow.value;
 }
+
+const emit = defineEmits<{
+    sortChange: [value: string]
+}>();
+
+function sortChange(sort: string)
+{
+    emit("sortChange", sort);   
+}
 </script>
 
 <template>
@@ -16,7 +25,8 @@ function menuClick()
             <p class="select-none text-primary-primary mr-[2px]">по цене</p>
             <ArrowDownIcon />
 
-            <SortMenu 
+            <SortMenu
+                @sort-change="sortChange"
                 v-if="sortMenuShow"
             />
         </div>

@@ -8,11 +8,27 @@ import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
 
 import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
+import type { IProductCard } from '~/types/productcard/ProductCard';
 
-function sortChange()
+const renderProductList : Ref<boolean> = ref(true);
+const listOfProducts : Ref<Array<IProductCard>> = ref(ProductListItems);
+async function sortChange(sort: string)
 {
+    const sortedProducts = ProductListItems.sort(function(a, b) {
+      return b.price - a.price;
+    });
+    listOfProducts.value = sortedProducts;
 
+    if (sort == "desc") {
+      listOfProducts.value = sortedProducts.reverse();
+    }
+
+    renderProductList.value = false;
+    await nextTick();
+    renderProductList.value = true;
 }
+
+
 </script>
 
 <template>
@@ -30,7 +46,7 @@ function sortChange()
         <div class="flex flex-row justify-between px-[60px] mb-[20px]">
           <h1 class="font-druk text-[24px] font-bold">Наша продукция</h1>
 
-          <SortList v-on:sort-change="sortChange"/>
+          <SortList @sort-change="sortChange"/>
         </div>
         
         <div class="flex flex-row">
@@ -41,7 +57,8 @@ function sortChange()
             
             <ProductList 
               :maxElementsPerPage="12"
-              :items="ProductListItems"/>
+              v-if="renderProductList"
+              :items="listOfProducts"/>
         </div>
     </div>
   </DesktopOnly>
