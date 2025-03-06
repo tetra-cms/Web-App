@@ -20,10 +20,12 @@ import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vu
     <Header 
         :title="String(CompanyData.title)"
         :subtitle="String(CompanyData.subtitle)"></Header>
-
+    
     <div class="w-full flex flex-col justify-between">
         <div class="flex flex-row justify-between px-[60px] mb-[20px]">
           <h1 class="font-druk text-[24px] font-bold">Наша продукция</h1>
+
+          <SortList/>
         </div>
         
         <div class="flex flex-row">
