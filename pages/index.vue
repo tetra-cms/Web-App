@@ -27,8 +27,6 @@ async function sortChange(sort: string)
     await nextTick();
     renderProductList.value = true;
 }
-
-
 </script>
 
 <template>
