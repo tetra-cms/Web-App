@@ -18,7 +18,7 @@ export const RegisterFormFields : Array<IFormElement> = [
             type: FieldType.InputPassword
         } as IFormElement,
         {
-            placeholder: t("auth.buttons.login"),
+            placeholder: t("auth.buttons.register"),
             type: FieldType.Button
         } as IFormElement,
         {
