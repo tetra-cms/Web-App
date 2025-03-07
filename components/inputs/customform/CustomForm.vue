@@ -21,12 +21,16 @@ function getFieldType(type: FieldType)
         default: return "text"; 
     }
 }
+
+const deviceType = inject('deviceType');
 </script>
 
 <template>
     <form 
-    class="border-secondary-wrapper-light border-[1px] rounded-[10px] p-[40px] w-full max-w-[400px]" 
-    @submit.prevent="sendData">
+        class="rounded-[10px] p-[40px] w-full max-w-[400px]"
+        :class="deviceType == UserDeviceTypes.Desktop ? 'border-secondary-wrapper-light border-[1px]' : ''"
+        @submit.prevent="sendData">
+
         <h2 class="text-[24px] text-center font-bold mb-[40px]">{{ title }}</h2>
 
         <ul>
@@ -53,5 +57,6 @@ function getFieldType(type: FieldType)
                 </RouterLink>
             </li>
         </ul>
+
     </form>
 </template>

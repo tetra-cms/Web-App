@@ -6,16 +6,18 @@ import { RegisterFormFields } from '~/content/auth/RegisterFormFields';
 </script>
 
 <template>
-    <ContactHeader 
-        :contact-general="String(ContactGeneral)" 
-        :contact-list="ContactsList" 
-        :current-city="String(CurrentCity)"/>
+    <DesktopOnly>
+        <ContactHeader
+            :contact-general="String(ContactGeneral)" 
+            :contact-list="ContactsList" 
+            :current-city="String(CurrentCity)"/>
+    </DesktopOnly>
     
     <Header 
         :title="String(CompanyData.title)"
         :subtitle="String(CompanyData.subtitle)"></Header>
 
-    <div class="w-full flex justify-center items-center">
+    <div class="w-full h-[80%] flex justify-center items-center">
         <CustomForm 
             :title="$t('auth.title.register')"
             :fields="RegisterFormFields"
