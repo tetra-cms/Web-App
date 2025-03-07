@@ -8,7 +8,7 @@ module.exports = {
                 },
                 'secondary': {
                     'primary': '#FFFFFF',
-                    'secondary': '#F4F5F7',
+                    'secondary': '#F5F5F5',
                     'light': '#EFEFEF',
                     'wrapper': {
                         'dark': '#000000',
@@ -18,8 +18,23 @@ module.exports = {
                 'tomato': {
                     'primary': '#DA0404',
                     'secondary': '#C70000'
+                },
+                'dark': {
+                    'secondary': {
+                        'primary': '#000000',
+                        'secondary': '',
+                        'light': '',
+                        'wrapper': {
+                            'dark': '#FFFFFF',
+                            'light': ''
+                        }
+                    }
                 }
             },
+            
+        },
+        fontFamily: {
+            'druk': 'DrukWideCyr-Bold'
         }
     },
     variants: {},

@@ -1,0 +1,11 @@
+{
+    "common": {
+        "catalog": {
+            "sortby": "Sort by:",
+            "sort": {
+                "asc": "Ascending",
+                "desc": "Descending"
+            }
+        }
+    }
+}

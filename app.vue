@@ -27,11 +27,13 @@ useHead({
 </script>
 
 <template>
-  <div v-if="getDeviceInfo() == UserDeviceTypes.Desktop">
-      <Desktop/>
-  </div>
+    <NuxtPwaManifest/>
 
-  <div v-else>
-      <Mobile/>
-  </div>
+    <div v-if="getDeviceInfo() == UserDeviceTypes.Desktop">
+        <Desktop/>
+    </div>
+
+    <div v-else>
+        <Mobile/>
+    </div>
 </template>

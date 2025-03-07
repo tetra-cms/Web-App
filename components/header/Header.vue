@@ -27,43 +27,59 @@ useDetectOutsideClick(userMenu, () => {
 </script>
 
 <template>
-    <div class="flex justify-between items-center px-[25px] py-[25px]">
+    <DesktopOnly>
+        <div class="flex justify-between items-center px-[25px] py-[25px]">
+            <NuxtLink to="/">
+                <div class="flex flex-row">
+                    <div class="px-[10px]">
+                        <LogoIcon/>
+                    </div>
+                        
+                    <div class="flex flex-col mr-[10px] max-md:hidden">
+                        <p class="text-primary-primary font-bold uppercase">{{ props.title }}</p>
+                        <p class="text-secondary-wrapper-dark font-bold uppercase text-nowrap">{{ props.subtitle }}</p>
+                    </div>
+                </div>
+            </NuxtLink>
+            
+
+            <nav class="w-full flex-row items-center px-[25px]">
+                <ul class="flex flex-row justify-between">
+                    <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" 
+                    v-for="item in MenuItems">
+                        <NuxtLink :to="item.route" class="transition-all duration-100 font-medium">{{ item.label }}</NuxtLink>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="flex flex-row items-center justify-between h-full">
+                <RoundedButton :icon="CartIcon" link="/cart"/>
+                <div
+                    ref="user-menu">
+                    <RoundedButton :icon="PersonIcon" @click="userClick"/>
+
+                    <UserMenu
+                        v-if="userMenuShow"
+                        nickname="Test"
+                        email="test@test123.ru"
+                        :menu-items="UserMenuItems"/>
+                </div>
+            </div>
+        </div>
+    </DesktopOnly>
+    
+    <MobileOnly>
         <NuxtLink to="/">
-            <div class="flex flex-row">
+            <div class="flex justify-center flex-row">
                 <div class="px-[10px]">
                     <LogoIcon/>
                 </div>
-                    
+                        
                 <div class="flex flex-col mr-[10px]">
                     <p class="text-primary-primary font-bold uppercase">{{ props.title }}</p>
                     <p class="text-secondary-wrapper-dark font-bold uppercase text-nowrap">{{ props.subtitle }}</p>
                 </div>
             </div>
         </NuxtLink>
-        
-
-        <nav class="w-full flex-row items-center px-[25px]">
-            <ul class="flex flex-row justify-between">
-                <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" 
-                v-for="item in MenuItems">
-                    <NuxtLink :to="item.route" class="transition-all duration-100 font-medium">{{ item.label }}</NuxtLink>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="flex flex-row items-center justify-between h-full">
-            <RoundedButton :icon="CartIcon" link="/cart"/>
-            <div
-                ref="user-menu">
-                <RoundedButton :icon="PersonIcon" @click="userClick"/>
-
-                <UserMenu
-                    v-if="userMenuShow"
-                    nickname="Test"
-                    email="test@test123.ru"
-                    :menu-items="UserMenuItems"/>
-            </div>
-        </div>
-    </div>
-    
+    </MobileOnly>
 </template>
