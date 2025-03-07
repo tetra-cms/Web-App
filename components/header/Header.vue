@@ -11,10 +11,18 @@ const props = defineProps<{
     subtitle: String
 }>();
 
+const accessToken = useCookie('access_token');
+
 const userMenuShow = ref(false);
 function userClick()
 {
-    userMenuShow.value = !userMenuShow.value;
+    if (accessToken.value)
+    {
+        userMenuShow.value = !userMenuShow.value;
+    } else {
+        navigateTo("/auth");
+    }
+    
 }
 
 const userMenu = useTemplateRef("user-menu");

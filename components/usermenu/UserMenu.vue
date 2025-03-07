@@ -22,12 +22,12 @@ const props = defineProps<{
         <ul class="my-[10px]">
             <li class="flex flex-row items-center hover:[&>*]:fill-primary-primary" v-for="item in props.menuItems">
                 <NuxtLink 
-                :class="'flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary ' + ''" :to="item.route">
+                :class="'flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary ' + ''" 
+                :to="item.route">
                     <component class="mr-[5px] w-[20px] h-[20px]" :is="item.icon"></component>
                     <p :class="'font-medium transition-all transition-250 ' + (item.color ? 'text-' + item.color + '' : '')">{{ item.label }}</p>
                 </NuxtLink>
             </li>
         </ul>
     </div>
-    
 </template>

@@ -7,5 +7,25 @@
                 "desc": "Descending"
             }
         }
+    },
+
+    "auth": {
+        "title": {
+            "login": "Auhtorization",
+            "register": "Registration"
+        },
+        "message": {
+            "login": "Already have an account? Log in",
+            "register": "Don't have a account? Register"
+        },
+        "fields": {
+            "login": "Login",
+            "email": "E-mail",
+            "password": "Password"
+        },
+        "buttons": {
+            "login": "Login",
+            "register": "Register"
+        }
     }
 }
