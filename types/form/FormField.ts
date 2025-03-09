@@ -7,6 +7,7 @@ export enum FieldType {
 }
 
 export default interface IFormElement {
+    name: string,
     placeholder: string,
     type: FieldType,
     route?: string

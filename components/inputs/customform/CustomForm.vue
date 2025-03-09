@@ -7,11 +7,6 @@ const props = defineProps<{
     fields: Array<IFormElement>
 }>();
 
-function sendData()
-{
-
-}
-
 function getFieldType(type: FieldType)
 {
     switch(type) {
@@ -22,14 +17,20 @@ function getFieldType(type: FieldType)
     }
 }
 
+const emit = defineEmits(['submitinfo']);
+function onSubmit(event: SubmitEvent)
+{
+    emit("submitinfo", Object.fromEntries(new FormData(event.target as HTMLFormElement)));
+}
+
 const deviceType = inject('deviceType');
 </script>
 
 <template>
-    <form 
+    <form
         class="rounded-[10px] p-[40px] w-full max-w-[400px]"
         :class="deviceType == UserDeviceTypes.Desktop ? 'border-secondary-wrapper-light border-[1px]' : ''"
-        @submit.prevent="sendData">
+        @submit.prevent="onSubmit">
 
         <h2 class="text-[24px] text-center font-bold mb-[40px]">{{ title }}</h2>
 
@@ -38,7 +39,7 @@ const deviceType = inject('deviceType');
                 <input
                     v-if="field.type != FieldType.Button 
                     && field.type != FieldType.Link"
-
+                    :name="field.name"
                     class="w-full px-[10px] py-[5px] border-secondary-wrapper-light border-[1px] rounded-[5px]"
                     :type="getFieldType(field.type)" 
                     :placeholder="field.placeholder">

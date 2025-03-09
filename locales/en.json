@@ -26,6 +26,9 @@
         "buttons": {
             "login": "Login",
             "register": "Register"
+        },
+        "errors": {
+            "wrongpassword": "Wrong username or password"
         }
     }
 }
