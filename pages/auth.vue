@@ -5,7 +5,7 @@ import { CompanyData } from '~/content/header/HeaderData';
 import { AuthFormFields } from '~/content/auth/AuthFormFields';
 import type { AuthSubmitData, AuthResponse } from '~/content/auth/AuthFormFields';
 
-useCheckUserAuth();
+useRedirectUnauthorized();
 
 const errorMessage : Ref<string> = ref("");
 async function authUser(userData: AuthSubmitData) {

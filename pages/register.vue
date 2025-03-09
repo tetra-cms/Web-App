@@ -5,7 +5,7 @@ import { CompanyData } from '~/content/header/HeaderData';
 import { RegisterFormFields } from '~/content/auth/RegisterFormFields';
 import type { RegisterSubmitData, RegisterResponse } from '~/content/auth/RegisterFormFields';
 
-useCheckUserAuth();
+useRedirectUnauthorized();
 
 const errorMessage : Ref<string> = ref("");
 async function registerUser(userData: RegisterSubmitData) {
