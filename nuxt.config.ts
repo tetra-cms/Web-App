@@ -21,7 +21,15 @@ export default defineNuxtConfig({
     "~/layouts/inter/inter.css",
     "~/layouts/druk/style.css",
   ],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL || 'http://localhost/api',
+    },
+  },
   devtools: { enabled: true },
+  devServer: {
+    port: 8080
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-svgo-loader',
