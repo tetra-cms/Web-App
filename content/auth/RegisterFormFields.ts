@@ -27,7 +27,7 @@ export const RegisterFormFields : Array<IFormElement> = [
     {
         placeholder: t("auth.message.login"),
         type: FieldType.Link,
-        route: "/authhui"
+        route: "/auth"
     } as IFormElement
 ];
 
