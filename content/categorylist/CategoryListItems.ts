@@ -20,7 +20,7 @@ export const CategoryListItems : Array<IItemListItem> = [
     {
         icon: PaperrollIcon,
         label: "Туалетная бумага",
-        route: "?category=paper"
+        route: "?category=1"
     } as IItemListItem,
     {
         icon: NapkinsIcon,

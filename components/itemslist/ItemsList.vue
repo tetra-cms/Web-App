@@ -49,9 +49,9 @@ function isSelectedItem(sourceRoute: string) : boolean
     </DesktopOnly>
     
     <MobileOnly>
-        <ul class="flex w-full items-list justify-center flex-row overflow-x-auto pl-[150px]">
+        <ul class="flex w-full items-list justify-center flex-row overflow-x-auto pl-[250px]">
             <li :class="'flex flex-row justify-center items-center p-[15px] m-[5px] rounded-[5px] '
-            + (isSelectedItem(String(item.route)) ? 'text-primary-primary [&>*]:fill-secondary-light bg-primary-primary ' : 'hover:bg-secondary-light bg-secondary-light')" v-for="item in props.items">
+            + (isSelectedItem(String(item.route)) ? 'text-secondary-primary [&>*]:fill-secondary-primary bg-primary-primary ' : 'hover:bg-secondary-light bg-secondary-light')" v-for="item in props.items">
                 <RouterLink :to="String(item.route)">
                     <div class="w-[20px] h-[20px]">
                         <component :is="item.icon" />
