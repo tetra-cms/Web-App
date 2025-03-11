@@ -4,7 +4,8 @@
             "sortby": "Sort by:",
             "sort": {
                 "asc": "Ascending",
-                "desc": "Descending"
+                "desc": "Descending",
+                "common": "by price"
             }
         }
     },
