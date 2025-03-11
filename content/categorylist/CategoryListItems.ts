@@ -1,5 +1,6 @@
 import type { IItemListItem } from "~/types/ItemListItem";
 
+import SquaresIcon from '~/assets/svg/categories/squares.svg';
 import PaperrollIcon from '~/assets/svg/categories/paperroll.svg';
 import NapkinsIcon from '~/assets/svg/categories/napkins.svg';
 import PaperTowelsIcon from '~/assets/svg/categories/papertowels.svg';
@@ -11,6 +12,11 @@ import PlasticIcon from '~/assets/svg/categories/plastic.svg';
 import DishesIcon from '~/assets/svg/categories/dishes.svg';
 
 export const CategoryListItems : Array<IItemListItem> = [
+    {
+        icon: SquaresIcon,
+        label: "Все товары",
+        route: ""
+    } as IItemListItem,
     {
         icon: PaperrollIcon,
         label: "Туалетная бумага",
