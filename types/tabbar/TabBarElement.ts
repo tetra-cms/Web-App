@@ -1,5 +1,7 @@
+import type { DefineComponent } from "vue";
+
 export interface TabBarElement {
-    icon: Component,
+    icon: DefineComponent,
     label: string,
     route: string
 }

@@ -30,10 +30,13 @@ export default defineNuxtConfig({
   devServer: {
     port: 8080
   },
+  typesript: {
+    typecheck: true
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-svgo-loader',
     '@vite-pwa/nuxt',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
   ]
 })

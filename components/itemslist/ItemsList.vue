@@ -39,7 +39,7 @@ function isSelectedItem(sourceRoute: string) : boolean
             v-for="item in props.items">
                 <RouterLink :to="String(item.route)" class="flex flex-row">
                     <div class="w-[20px] h-[20px] mr-[5px]">
-                        <component :is="item.icon" />
+                        <component :is="useSVGIcon(item.icon)" />
                     </div>
 
                     <p class="font-medium select-none">{{ item.label }}</p>
