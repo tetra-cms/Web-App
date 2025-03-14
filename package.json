@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/svg": "^0.4.1",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "0.10.1",
     "@vite-pwa/nuxt": "0.10.6",

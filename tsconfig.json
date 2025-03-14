@@ -1,11 +1,7 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
-  "include": [
-    "./typing",
-  ],
   "compilerOptions": {
-    "verbatimModuleSyntax": true,
-    "types": ["./typing/svg.d.ts"]
+    "verbatimModuleSyntax": true
   },
 }

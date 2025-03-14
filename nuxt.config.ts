@@ -30,13 +30,14 @@ export default defineNuxtConfig({
   devServer: {
     port: 8080
   },
-  typesript: {
-    typecheck: true
-  },
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-svgo-loader',
+    'nuxt-svgo',
     '@vite-pwa/nuxt',
     '@pinia/nuxt',
-  ]
+  ],
+  svgo: {
+    autoImportPath: './assets/svg/',
+  }
 })
