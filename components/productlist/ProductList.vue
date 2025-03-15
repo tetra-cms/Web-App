@@ -69,6 +69,7 @@ function correctPageInput()
             class="my-[10px] mx-[2px]" 
             v-for="product in props.maxElementsPerPage ? getPaginatedData(props.items) : props.items">
                 <ProductCard
+                    :id="product.id"
                     :image="product.image" 
                     :name="product.name" 
                     :description="product.description" 

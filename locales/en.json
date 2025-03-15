@@ -6,6 +6,9 @@
                 "asc": "Ascending",
                 "desc": "Descending",
                 "common": "by price"
+            },
+            "error": {
+                "noitems": "No items loaded"
             }
         }
     },
@@ -31,5 +34,9 @@
         "errors": {
             "wrongpassword": "Wrong username or password"
         }
+    },
+
+    "category": {
+        "all": "All items"
     }
 }
