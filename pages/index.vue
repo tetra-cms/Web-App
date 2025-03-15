@@ -65,8 +65,7 @@ productListResponse.forEach((product) => {
     image: product.imageUrl,
     description: product.description,
     name: product.name,
-    price: product.price,
-    categoryId: product.categoryId
+    price: product.price
   });
 });
 const productItems: Ref<Array<IProductCard>> = ref(productResponse);
