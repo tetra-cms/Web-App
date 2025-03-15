@@ -37,10 +37,26 @@ catResponse.forEach((category) => {
 const categoryItems: Ref<Array<IItemListItem>> = ref(categoryResponse);
 
 
-const productListResponse : Array<ApiProductItem> = await $fetch('/product/list', {
-  baseURL: useRuntimeConfig().public.baseURL,
-  method: 'GET',
-});
+let productListResponse : Array<ApiProductItem> = [];
+
+const route = useRoute();
+const sortByCategory = route.query.category;
+if (!sortByCategory)
+{
+  productListResponse = await $fetch('/product/list', {
+    baseURL: useRuntimeConfig().public.baseURL,
+    method: 'GET',
+  });
+} else {
+  productListResponse = await $fetch('/product/list', {
+    baseURL: useRuntimeConfig().public.baseURL,
+    method: 'GET',
+    query: {
+      category: sortByCategory
+    }
+  });
+}
+
 let productResponse: Array<IProductCard> = [];
 productListResponse.forEach((product) => {
   productResponse.push(
@@ -49,10 +65,12 @@ productListResponse.forEach((product) => {
     image: product.imageUrl,
     description: product.description,
     name: product.name,
-    price: product.price
+    price: product.price,
+    categoryId: product.categoryId
   });
-})
+});
 const productItems: Ref<Array<IProductCard>> = ref(productResponse);
+
 
 const renderProductList : Ref<boolean> = ref(true);
 const listOfProducts : Ref<Array<IProductCard>> = ref(ProductListItems);
