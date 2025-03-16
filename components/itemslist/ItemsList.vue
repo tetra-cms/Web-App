@@ -15,7 +15,8 @@ function isSelectedItem(sourceRoute: string) : boolean
         return true;
     } else if (
         sourceRoute == "" &&
-        route.fullPath == "/") {
+        route.path == "/" &&
+        !route.query.category) {
         return true;
     } else {
         return false;

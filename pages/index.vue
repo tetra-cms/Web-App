@@ -37,39 +37,50 @@ catResponse.forEach((category) => {
 const categoryItems: Ref<Array<IItemListItem>> = ref(categoryResponse);
 
 
-let productListResponse : Array<ApiProductItem> = [];
-
-const route = useRoute();
-const sortByCategory = route.query.category;
-if (!sortByCategory)
+async function getProductList(category?: number)
 {
+  let productListResponse : Array<ApiProductItem> = [];
+
+  let queryParams : { category?: number } = {};
+  queryParams.category = category;
+
   productListResponse = await $fetch('/product/list', {
     baseURL: useRuntimeConfig().public.baseURL,
     method: 'GET',
+    query: queryParams
   });
-} else {
-  productListResponse = await $fetch('/product/list', {
-    baseURL: useRuntimeConfig().public.baseURL,
-    method: 'GET',
-    query: {
-      category: sortByCategory
-    }
+
+  let productResponse: Array<IProductCard> = [];
+  productListResponse.forEach((product) => {
+    productResponse.push(
+    {
+      id: String(product.id),
+      image: product.imageUrl,
+      description: product.description,
+      name: product.name,
+      price: product.price
+    });
   });
+  
+  return productResponse;
 }
 
-let productResponse: Array<IProductCard> = [];
-productListResponse.forEach((product) => {
-  productResponse.push(
-  {
-    id: String(product.id),
-    image: product.imageUrl,
-    description: product.description,
-    name: product.name,
-    price: product.price
-  });
-});
-const productItems: Ref<Array<IProductCard>> = ref(productResponse);
+const route = useRoute();
+const productItems: Ref<Array<IProductCard>> = ref([]);
 
+const sortByCategory = route.query.category;
+productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
+
+watch(route, async () => {
+  const sortByCategory = route.query.category;
+  productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
+});
+
+async function reRenderProductList() {
+  renderProductList.value = false;
+  await nextTick();
+  renderProductList.value = true;
+}
 
 const renderProductList : Ref<boolean> = ref(true);
 const listOfProducts : Ref<Array<IProductCard>> = ref(ProductListItems);
@@ -84,9 +95,7 @@ async function sortChange(sort: string)
       listOfProducts.value = sortedProducts.reverse();
     }
 
-    renderProductList.value = false;
-    await nextTick();
-    renderProductList.value = true;
+    reRenderProductList();
 }
 </script>
 
