@@ -71,9 +71,10 @@ const productItems: Ref<Array<IProductCard>> = ref([]);
 const sortByCategory = route.query.category;
 productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
 
-watch(route, async () => {
-  const sortByCategory = route.query.category;
+watch(route, async (newRoute) => {
+  const sortByCategory = newRoute.query.category;
   productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
+  reRenderProductList();
 });
 
 async function reRenderProductList() {
