@@ -33,7 +33,11 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-svgo-loader',
+    'nuxt-svgo',
     '@vite-pwa/nuxt',
-    '@pinia/nuxt'
-  ]
+    '@pinia/nuxt',
+  ],
+  svgo: {
+    autoImportPath: './assets/svg/',
+  }
 })

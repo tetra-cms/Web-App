@@ -8,10 +8,10 @@ const props = defineProps<IProductCard>();
 
 <template>
     <DesktopOnly>
-        <div class="flex flex-col justify-between w-[190px] h-[290px] p-[15px] bg-secondary-secondary rounded-[10px]">
+        <div class="flex flex-col justify-between w-[190px] h-[290px] p-[15px] border-secondary-secondary border-[3px] rounded-[10px]">
             <NuxtLink :to="'product/' + props.id">
                 <div class="w-full flex justify-center">
-                    <img v-if="props.image" :src="props.image">
+                    <img class="max-h-[85px]" v-if="props.image" :src="props.image">
                 </div>
             
                 <p class="text-[14pt] font-bold">{{ props.name }}</p>
@@ -30,7 +30,7 @@ const props = defineProps<IProductCard>();
     </DesktopOnly>
 
     <MobileOnly>
-        <div class="flex flex-col justify-between w-[180px] h-[250px] bg-secondary-primary p-[15px] rounded-[10px]">
+        <div class="flex flex-col justify-between w-[180px] h-[250px] border-secondary-secondary border-[3px] p-[15px] rounded-[10px]">
             <NuxtLink :to="'product/' + props.id">
                 <div class="w-full flex justify-center">
                     <img v-if="props.image" :src="props.image">

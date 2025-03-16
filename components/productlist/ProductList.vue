@@ -8,14 +8,33 @@ const props = defineProps<{
 
 const route = useRoute();
 
-let currentPage : Ref<number> = ref(Number(route.query.page || 1));
 let maxPages : number = Math.ceil(props.items.length / Number(props.maxElementsPerPage));
+const currentPage : Ref<number> = ref(Number(route.query.page || 1));
 
-const router = useRouter();
+let queryParams: { 
+    category?: number,
+    page?: number
+} = {
+    category: Number(route.query.category)
+};
+
+function navigateToPage(page: number) {
+    const sortByCategory = route.query.category;
+    if (sortByCategory)
+    {
+        queryParams.category = Number(route.query.category);
+    } else {
+        queryParams.category = undefined;
+    }
+    queryParams.page = page;
+
+    navigateTo({ query: queryParams });
+}
+
 if (currentPage.value > maxPages)
 {
     currentPage.value = 1;
-    router.push("?page=" + currentPage.value);
+    navigateToPage(currentPage.value);
 }
 
 function getPaginatedData(items: Array<IProductCard>)
@@ -32,13 +51,13 @@ function increasePage()
     if (currentPage.value != maxPages)
     {
         currentPage.value++;
-        router.push("?page=" + currentPage.value);
+        navigateToPage(currentPage.value);
     }
 }
 
 function nagivateToPage(page: number)
 {
-    router.push("?page=" + page);
+    navigateToPage(currentPage.value);
     currentPage.value = page;
 }
 
@@ -47,7 +66,7 @@ function decreasePage()
     if (currentPage.value != 1)
     {
         currentPage.value--;
-        router.push("?page=" + currentPage.value);
+        navigateToPage(currentPage.value);
     }
 }
 
@@ -59,6 +78,8 @@ function correctPageInput()
     } else if (currentPage.value < 1) {
         currentPage.value = 1;
     }
+
+    navigateToPage(currentPage.value);
 }
 </script>
 
@@ -69,6 +90,7 @@ function correctPageInput()
             class="my-[10px] mx-[2px]" 
             v-for="product in props.maxElementsPerPage ? getPaginatedData(props.items) : props.items">
                 <ProductCard
+                    :id="product.id"
                     :image="product.image" 
                     :name="product.name" 
                     :description="product.description" 
@@ -78,7 +100,7 @@ function correctPageInput()
 
         <div 
         class="flex flex-row justify-center"
-        v-if="props.maxElementsPerPage">
+        v-if="props.items.length > Number(props.maxElementsPerPage)">
             <button
             v-if="currentPage != 1"
             @click="decreasePage">
