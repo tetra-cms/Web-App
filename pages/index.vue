@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
 import { CompanyData } from '~/content/header/HeaderData';
-import { ProductListItems } from '~/content/productlist/ProductListItems';
 import ContactHeader from '~/components/contactheader/ContactHeader.vue';
 import ItemsList from '~/components/itemslist/ItemsList.vue';
 import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
@@ -84,10 +83,10 @@ async function reRenderProductList() {
 }
 
 const renderProductList : Ref<boolean> = ref(true);
-const listOfProducts : Ref<Array<IProductCard>> = ref(ProductListItems);
+const listOfProducts : Ref<Array<IProductCard>> = ref(productItems);
 async function sortChange(sort: string)
 {
-    const sortedProducts = ProductListItems.sort(function(a, b) {
+    const sortedProducts = productItems.value.sort(function(a, b) {
       return b.price - a.price;
     });
     listOfProducts.value = sortedProducts;
@@ -127,7 +126,7 @@ async function sortChange(sort: string)
             <ProductList 
               :maxElementsPerPage="12"
               v-if="renderProductList && productItems.length"
-              :items="productItems"/>
+              :items="listOfProducts"/>
 
             <div class="w-full" v-else>
               <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>
