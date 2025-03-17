@@ -24,7 +24,7 @@ props.contactList?.forEach((item) => {
 </script>
 
 <template>
-    <div class="flex h-[45px] bg-secondary-light">
+    <div class="flex h-[45px] bg-secondary-secondary">
         <div class="flex w-full justify-between flex-row items-center mx-[20px]">
             <div class="flex flex-row">
                 <GPSIcon class="w-[24px] h-[24px]"/>
@@ -32,7 +32,6 @@ props.contactList?.forEach((item) => {
             </div>
 
             <div class="flex flex-col">
-                <a class="text-secondary-wrapper-light underline">Обратный звонок</a>
                 <a :href="'mailto:' + props.contactGeneral">{{ props.contactGeneral }}</a>
             </div>
 

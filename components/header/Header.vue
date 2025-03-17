@@ -52,8 +52,8 @@ useDetectOutsideClick(userMenu, () => {
             
 
             <nav class="w-full flex-row items-center px-[25px]">
-                <ul class="flex flex-row justify-between">
-                    <li class="hover:text-primary-primary hover:border-b-4 transition-all duration-100 ease-in border-primary-primary" 
+                <ul class="flex flex-row justify-start">
+                    <li class="hover:text-primary-primary hover:border-b-4 transition-all mr-[50px] duration-100 ease-in border-primary-primary" 
                     v-for="item in MenuItems">
                         <NuxtLink :to="item.route" class="transition-all duration-100 font-medium">{{ item.label }}</NuxtLink>
                     </li>
