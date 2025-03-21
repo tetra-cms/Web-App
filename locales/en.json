@@ -52,5 +52,14 @@
 
     "usermenu": {
         "logout": "Logout"
+    },
+
+    "errors": {
+        "product": {
+            "404": {
+                "title": "Can't find this product",
+                "button": "Return to catalog"
+            }
+        }
     }
 }
