@@ -26,12 +26,5 @@ export let UserMenuItems : Array<IUserMenuItem> = [
         icon: GearIcon,
         label: "Настройки",
         route: "/settings"
-    } as IUserMenuItem,
-    {
-        icon: DoorIcon,
-        label: "Выйти",
-        route: "/logout",
-        color: "tomato-primary",
-        hoverColor: "tomato-secondary"
-    } as IUserMenuItem,
+    } as IUserMenuItem
 ]

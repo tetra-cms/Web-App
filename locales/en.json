@@ -10,6 +10,12 @@
             "error": {
                 "noitems": "No items loaded"
             }
+        },
+        "product": {
+            "description": "Description",
+            "price": "Price",
+            "similar": "Related products",
+            "moreproducts": "More products by this category"
         }
     },
 
@@ -38,5 +44,13 @@
 
     "category": {
         "all": "All items"
+    },
+
+    "buttons": {
+        "incart": "In cart"
+    },
+
+    "usermenu": {
+        "logout": "Logout"
     }
 }

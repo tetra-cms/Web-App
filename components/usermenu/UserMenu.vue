@@ -2,11 +2,22 @@
 import PersonIcon from '~/assets/svg/person.svg';
 import type IUserMenuItem from '~/types/usermenu/UserMenuItem';
 
+import DoorIcon from '~/assets/svg/door.svg';
+
 const props = defineProps<{
     nickname: string,
     email: string,
     menuItems: Array<IUserMenuItem>
 }>();
+
+function clearSession()
+{
+    const accessToken = useCookie("access_token");
+    accessToken.value = null;
+    navigateTo("/");
+
+    location.reload();
+}
 </script>
 
 <template>
@@ -26,6 +37,16 @@ const props = defineProps<{
                 :to="item.route">
                     <component class="mr-[5px] w-[20px] h-[20px]" :is="item.icon"></component>
                     <p :class="'font-medium transition-all transition-250 ' + (item.color ? 'text-' + item.color + '' : '')">{{ item.label }}</p>
+                </NuxtLink>
+            </li>
+
+            <li class="flex flex-row items-center hover:[&>*]:fill-primary-primary">
+                <NuxtLink 
+                class="flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary tomato-secondary tomato-primary" 
+                @click="clearSession"
+                to="/">
+                    <DoorIcon class="mr-[5px] w-[20px] h-[20px]" />
+                    <p class="font-medium transition-all transition-250">{{ $t("usermenu.logout") }}</p>
                 </NuxtLink>
             </li>
         </ul>

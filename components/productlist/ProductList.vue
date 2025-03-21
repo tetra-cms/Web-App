@@ -91,7 +91,7 @@ function correctPageInput()
             v-for="product in props.maxElementsPerPage ? getPaginatedData(props.items) : props.items">
                 <ProductCard
                     :id="product.id"
-                    :image="product.image" 
+                    :image="'/' + product.image" 
                     :name="product.name" 
                     :description="product.description" 
                     :price="product.price" />
