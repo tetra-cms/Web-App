@@ -2627,6 +2627,11 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.5.13.tgz#87b309a6379c22b926e696893237826f64339b6f"
   integrity sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==
 
+"@yandex/ymaps3-types@>=1.0.16029232":
+  version "1.0.16159873"
+  resolved "https://registry.yarnpkg.com/@yandex/ymaps3-types/-/ymaps3-types-1.0.16159873.tgz#910e558b9d6a3f28241ff3bcfbdb8057154a42bf"
+  integrity sha512-91qxVuHkohYnoylUFETymPQj0JB0WMLVu0WlD0LO2l9BCEjhn8859U8gJvpCXXEDGp1UU/RhCXZ79cc5Cga/HQ==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -9474,6 +9479,13 @@ vue-tsc@^2.2.8:
   dependencies:
     "@volar/typescript" "~2.4.11"
     "@vue/language-core" "2.2.8"
+
+vue-yandex-maps@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-2.1.7.tgz#47389284606be8dba79a385133a68afc490b50b4"
+  integrity sha512-F2iGWc3aag0hty/Zucsev3OojQKr5yVLejql/SaFAnx1VnGwaxuEJuVwixqY/jgyZ+Whg0RFnIK77g3YJHjcNg==
+  dependencies:
+    "@yandex/ymaps3-types" ">=1.0.16029232"
 
 vue@^3.5.5, vue@latest:
   version "3.5.12"
