@@ -13,14 +13,14 @@ export let MenuItems : Array<IMenuItem> = [
     } as IMenuItem,
     {
         label: "Доставка и оплата",
-        route: "delivery"
+        route: "/delivery"
     } as IMenuItem,
     {
         label: "О нас",
-        route: "aboutus"
+        route: "/aboutus"
     } as IMenuItem,
     {
         label: "Контакты",
-        route: "contacts"
+        route: "/contacts"
     } as IMenuItem
 ];

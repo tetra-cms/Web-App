@@ -21,9 +21,13 @@ export default defineNuxtConfig({
     "~/layouts/inter/inter.css",
     "~/layouts/druk/style.css",
   ],
+  plugins: [
+    { src: '~/plugins/yamaps', mode: 'client' },
+  ],
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'http://localhost/api',
+      yaApiKey: process.env.API_YA_MAPS_KEY || ''
     },
   },
   devtools: { enabled: true },

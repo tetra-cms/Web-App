@@ -19,6 +19,10 @@
         }
     },
 
+    "header": {
+        "contacts": "Contacts"
+    },
+
     "auth": {
         "title": {
             "login": "Auhtorization",
@@ -47,7 +51,8 @@
     },
 
     "buttons": {
-        "incart": "In cart"
+        "incart": "In cart",
+        "backincatalog": "Back in catalog"
     },
 
     "usermenu": {
@@ -61,5 +66,10 @@
                 "button": "Return to catalog"
             }
         }
+    },
+
+    "labels": {
+        "itn": "ITN",
+        "psnsp": "PSNSP"
     }
 }
