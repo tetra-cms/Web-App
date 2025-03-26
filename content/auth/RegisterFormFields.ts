@@ -21,6 +21,11 @@ export const RegisterFormFields : Array<IFormElement> = [
         type: FieldType.InputPassword
     } as IFormElement,
     {
+        name: "repeatpassword",
+        placeholder: t("auth.fields.repeatpassword"),
+        type: FieldType.InputPassword
+    } as IFormElement,
+    {
         placeholder: t("auth.buttons.register"),
         type: FieldType.Button
     } as IFormElement,
@@ -34,7 +39,8 @@ export const RegisterFormFields : Array<IFormElement> = [
 export interface RegisterSubmitData {
     username: string,
     email: string,
-    password: string
+    password: string,
+    repeatpassword: string
 }
 
 export interface RegisterResponse {

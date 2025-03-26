@@ -9,18 +9,26 @@ useRedirectUnauthorized();
 
 const errorMessage : Ref<string> = ref("");
 async function registerUser(userData: RegisterSubmitData) {
-    const response: RegisterResponse = await $fetch('/auth/register', {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: 'POST',
-        body: userData,
-        onResponse: function(event) {
-            if (!event.response.ok
-            || event.error) {
-                errorMessage.value = event.response._data.message;
-                return;
+    let response: RegisterResponse = {};
+
+    if (userData.repeatpassword == userData.password)
+    {   
+        response = await $fetch('/auth/register', {
+            baseURL: useRuntimeConfig().public.baseURL,
+            method: 'POST',
+            body: userData,
+            onResponse: function(event) {
+                if (!event.response.ok
+                || event.error) {
+                    errorMessage.value = event.response._data.message;
+                    return;
+                }
             }
-        }
-    });
+        });
+    } else {
+        errorMessage.value = 'errors.auth.mismatchpass';
+    }
+    
 
     if (response.createdAt)
     {
