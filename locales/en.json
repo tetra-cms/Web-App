@@ -35,7 +35,8 @@
         "fields": {
             "login": "Login",
             "email": "E-mail",
-            "password": "Password"
+            "password": "Password",
+            "repeatpassword": "Repeat password"
         },
         "buttons": {
             "login": "Login",
@@ -65,6 +66,9 @@
                 "title": "Can't find this product",
                 "button": "Return to catalog"
             }
+        },
+        "auth": {
+            "mismatchpass": "Passwords doesn't match"
         }
     },
 
