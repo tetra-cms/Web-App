@@ -2,8 +2,8 @@
 import GPSIcon from '~/assets/svg/gps.svg';
 import PhoneIcon from '~/assets/svg/phone.svg';
 import { formatPhoneNumber } from '~/helpers/phoneFormat';
-import { IContactData } from '~/types/ContactData';
-import { IFormatData } from '~/types/FormatData';
+import type { IContactData } from '~/types/ContactData';
+import type { IFormatData } from '~/types/FormatData';
 
 const props = defineProps({
     currentCity: String,
