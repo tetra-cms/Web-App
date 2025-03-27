@@ -12,7 +12,7 @@ const props = defineProps<IProductCard>();
                 </div>
             
                 <p class="text-[14pt] font-bold">{{ props.name }}</p>
-                <p class="text-[10pt]">{{ props.description.substring(0, 50) + "..." }}</p>
+                <p class="text-[10pt]">{{ props.description.substring(0, 50) + (props.description.length < 50 ? "" : "...") }}</p>
             </NuxtLink>
 
             <div class="flex flex-row justify-end font-black text-[16pt]">

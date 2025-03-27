@@ -4,6 +4,7 @@ import { CompanyData } from '~/content/header/HeaderData';
 
 import { AuthFormFields } from '~/content/auth/AuthFormFields';
 import type { AuthSubmitData, AuthResponse } from '~/content/auth/AuthFormFields';
+import { useUserStore } from '~/store/user';
 
 const errorMessage : Ref<string> = ref("");
 async function authUser(userData: AuthSubmitData) {
@@ -25,6 +26,9 @@ async function authUser(userData: AuthSubmitData) {
         const accessToken = useCookie("access_token");
         accessToken.value = response.access_token;
         navigateTo("/");
+
+        const user = useUserStore();
+        user.storeUserInfo(response.access_token);
     }
 }
 </script>

@@ -24,8 +24,11 @@
     },
 
     "auth": {
+        "mobile": {
+            "message": "For the access to the menu you have authorize first"
+        },
         "title": {
-            "login": "Auhtorization",
+            "login": "Authorization",
             "register": "Registration"
         },
         "message": {

@@ -68,8 +68,6 @@ useDetectOutsideClick(userMenu, () => {
 
                     <UserMenu
                         v-if="userMenuShow"
-                        nickname="Test"
-                        email="test@test123.ru"
                         :menu-items="UserMenuItems"/>
                 </div>
             </div>
