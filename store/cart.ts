@@ -29,6 +29,10 @@ export const useCartStore = defineStore('cart', async () => {
 
     return {
         cartItems,
-        summary
+        summary,
+        addItem,
+        removeItem,
+        increaseQuantity,
+        decreaseQuantity
     }
 });
