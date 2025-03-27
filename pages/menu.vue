@@ -1,12 +1,23 @@
 <script lang="ts" setup>
 import { UserMenuItems } from '~/content/usermenu/UserMenuItems';
+
+import AccountIcon from '~/assets/svg/account.svg';
 </script>
 
 <template>
     <MobileOnly>
         <div 
-            class="p-[20px] bg-secondary-secondary"
+            class="h-full flex flex-col justify-center p-[20px]"
             v-if="!useCheckUserAuth()">
+            <div class="w-full flex justify-center">
+                <AccountIcon class="w-[128px] mb-[20px]" />
+            </div>
+
+            <p 
+                class="font-medium mb-[20px] text-center">
+                {{ $t("auth.mobile.message") }}
+            </p>
+
             <RouterLink 
                 to="/auth">
                 <p class="w-full py-[10px] text-center font-bold text-[12px] bg-primary-primary hover:bg-primary-secondary transition-all duration-300 rounded-[5px] text-secondary-primary">
