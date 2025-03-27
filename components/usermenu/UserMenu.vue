@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import PersonIcon from '~/assets/svg/person.svg';
 import type IUserMenuItem from '~/types/usermenu/UserMenuItem';
-
 import DoorIcon from '~/assets/svg/door.svg';
 
+import { useUserStore } from '~/store/user';
+
 const props = defineProps<{
-    nickname: string,
-    email: string,
     menuItems: Array<IUserMenuItem>
 }>();
 
-function clearSession()
+const userStore = useUserStore();
+if (!userStore.$state.userProfile)
 {
-    const accessToken = useCookie("access_token");
-    accessToken.value = null;
-    navigateTo("/");
-
-    location.reload();
+    await userStore.storeUserInfo(String(useCookie("access_token").value));
 }
+const userInfo = storeToRefs(userStore);
 </script>
 
 <template>
@@ -25,8 +22,8 @@ function clearSession()
         <div class="flex flex-row items-center bg-secondary-light p-[5px] rounded-[10px]">
             <PersonIcon class="[&>*]:fill-secondary-wrapper-dark [&>*]:w-[20px] [&>*]:h-[24px]"/>
             <div>
-                <p class="font-bold">{{ props.nickname }}</p>
-                <p class="text-secondary-wrapper-light">{{ props.email }}</p>
+                <p class="font-bold">{{ userInfo.userProfile.value.username.substring(0, 10) + (userInfo.userProfile.value.username.length < 10 ? "" : "...") }}</p>
+                <p class="text-secondary-wrapper-light">{{ userInfo.userProfile.value.email.substring(0, 10) + (userInfo.userProfile.value.email.length < 10 ? "" : "...") }}</p>
             </div>
         </div>
 
@@ -43,7 +40,7 @@ function clearSession()
             <li class="flex flex-row items-center hover:[&>*]:fill-primary-primary">
                 <NuxtLink 
                 class="flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary tomato-secondary tomato-primary" 
-                @click="clearSession"
+                @click="useClearSession()"
                 to="/">
                     <DoorIcon class="mr-[5px] w-[20px] h-[20px]" />
                     <p class="font-medium transition-all transition-250">{{ $t("usermenu.logout") }}</p>

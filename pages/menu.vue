@@ -2,6 +2,7 @@
 import { UserMenuItems } from '~/content/usermenu/UserMenuItems';
 
 import AccountIcon from '~/assets/svg/account.svg';
+import DoorIcon from '~/assets/svg/door.svg';
 </script>
 
 <template>
@@ -29,7 +30,7 @@ import AccountIcon from '~/assets/svg/account.svg';
         <div 
             class="bg-secondary-secondary" 
             v-else>
-            
+            <ProfileInfo/>
         </div>
 
         <ul v-if="useCheckUserAuth()">
@@ -39,6 +40,16 @@ import AccountIcon from '~/assets/svg/account.svg';
                 :to="item.route">
                     <component class="mr-[10px] w-[22px] h-[22px]" :is="item.icon"></component>
                     <p :class="'font-bold transition-all transition-250 ' + (item.color ? 'text-' + item.color + '' : '')">{{ item.label }}</p>
+                </NuxtLink>
+            </li>
+
+            <li 
+            @click="useClearSession()"
+            class="flex flex-row mx-[10px] border-secondary-wrapper-light border-b-[1px] py-[15px] items-center hover:[&>*]:fill-primary-primary">
+                <NuxtLink 
+                class="flex flex-row items-center transition-all transition-250 hover:[&>*]:fill-tomato-primary hover:[&>*]:text-primary-primary">
+                    <DoorIcon class="mr-[10px] w-[22px] h-[22px]" />
+                    <p class="text-tomato-primary font-bold transition-all transition-250">{{ $t("usermenu.logout") }}</p>
                 </NuxtLink>
             </li>
         </ul>
