@@ -13,14 +13,10 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
 
 <template>
     <DesktopOnly>
-        <ContactHeader 
-            :contact-general="String(ContactGeneral)" 
-            :contact-list="ContactsList" 
-            :current-city="String(CurrentCity)"/>
+        <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
+            :current-city="String(CurrentCity)" />
 
-        <Header 
-            :title="String(CompanyData.title)"
-            :subtitle="String(CompanyData.subtitle)"></Header>
+        <Header :title="String(CompanyData.title)" :subtitle="String(CompanyData.subtitle)"></Header>
 
         <div class="w-full flex flex-col justify-between">
             <div class="flex flex-row justify-between px-[60px] mb-[20px]">
@@ -30,7 +26,7 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
             </div>
         </div>
     </DesktopOnly>
-    
+
     <DesktopOnly>
         <div class="flex flex-row">
             <table>
@@ -48,16 +44,16 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
                 </thead>
 
                 <tbody>
-                    <tr
-                    class="border-secondary-secondary border-b-[2px]"
-                    v-for="cartItem in cartItems">
+                    <tr class="border-secondary-secondary border-b-[2px]" v-for="cartItem in cartItems">
                         <th>
                             <div class="flex flex-row items-center">
                                 <img class="w-[64px]" :src="cartItem.productInfo.imageUrl">
                                 <p class="font-normal">{{ cartItem.productInfo.name }}</p>
                             </div>
                         </th>
-                        <th><CartButton :id="Number(cartItem.productInfo.id)"/></th>
+                        <th>
+                            <CartButton :id="Number(cartItem.productInfo.id)" />
+                        </th>
                         <th>{{ cartItem.productInfo.price.toLocaleString() }} ₽</th>
                         <th>
 
@@ -66,61 +62,75 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
                 </tbody>
             </table>
 
-            <div 
-                class="w-[200px] py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
+            <div class="w-[200px] py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
 
                 <div class="my-[15px]">
                     <div class="flex flex-row justify-between">
                         <p>{{ $t("order.block.summary") }}:</p>
                         <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
                     </div>
-                    
+
                     <p class="text-secondary-wrapper-light">
-                        {{ cartItems.length }} 
+                        {{ cartItems.length }}
                         {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
                     </p>
                 </div>
-                
-                <Button
-                    :label="$t('buttons.placeorder')"
-                    attributes="w-full py-[10px]"
-                    />
+
+                <Button :label="$t('buttons.placeorder')" attributes="w-full py-[10px]" />
             </div>
         </div>
 
     </DesktopOnly>
 
     <MobileOnly>
-        <div>
+        <div v-if="cartItems.length">
             <div class="flex flex-start flex-row items-center">
                 <h1 class="text-[24px] font-bold">{{ $t('headers.cart') }}</h1>
                 <p class="text-secondary-wrapper-light ml-[10px]">
-                    {{ cartItems.length }} 
+                    {{ cartItems.length }}
                     {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
                 </p>
             </div>
-            
+
 
             <ul>
-                <li
-                class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] flex-row bg-secondary-secondary"
-                v-for="cartItem in cartItems">
+                <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] flex-row bg-secondary-secondary"
+                    v-for="cartItem in cartItems">
                     <div class="flex flex-row">
                         <div>
                             <img class="w-[96px]" :src="cartItem.productInfo.imageUrl">
                         </div>
-                        
+
                         <div class="flex flex-col">
                             <p class="text-[14pt]">{{ cartItem.productInfo.name }}</p>
 
                             <p>{{ cartItem.productInfo.price.toLocaleString() }} ₽</p>
                         </div>
                     </div>
-                    
 
-                    <OrderAction :amount="cartItems.length" :summary="cart.summary"/>
+                    <div>
+                        <CartButton :id="cartItem.productInfo.id"/>
+                    </div>
                 </li>
             </ul>
+
+            <OrderAction :amount="cartItems.length" :summary="cart.summary" />
+
+            <div class="mx-[5px]">
+                <div class="flex flex-row justify-between">
+                    <p>{{ $t("order.block.summary") }}:</p>
+                    <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
+                </div>
+
+                <p class="text-secondary-wrapper-light">
+                    {{ cartItems.length }}
+                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="w-full h-full">
+            
         </div>
     </MobileOnly>
 </template>
