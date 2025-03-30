@@ -56,7 +56,8 @@
 
     "buttons": {
         "incart": "В корзину",
-        "backincatalog": "К каталогу"
+        "backincatalog": "К каталогу",
+        "placeorder": "Оформить заказ"
     },
 
     "usermenu": {
@@ -75,8 +76,18 @@
         }
     },
 
+    "order": {
+        "block": {
+            "summary": "Итого"
+        }
+    },
+
     "labels": {
         "itn": "ИНН",
-        "psnsp": "ОГРН"
+        "psnsp": "ОГРН",
+        "item": {
+            "singular": "товар",
+            "plural": "товаров"
+        }
     }
 }

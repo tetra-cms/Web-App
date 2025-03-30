@@ -56,7 +56,8 @@
 
     "buttons": {
         "incart": "In cart",
-        "backincatalog": "Back in catalog"
+        "backincatalog": "Back in catalog",
+        "placeorder": "Place an order"
     },
 
     "usermenu": {
@@ -75,8 +76,18 @@
         }
     },
 
+    "order": {
+        "block": {
+            "summary": "In total"
+        }
+    },
+
     "labels": {
         "itn": "ITN",
-        "psnsp": "PSNSP"
+        "psnsp": "PSNSP",
+        "item": {
+            "singular": "item",
+            "plural": "items"
+        }
     }
 }

@@ -71,9 +71,11 @@ export const useCartStore = defineStore('cart', () => {
     const summary = computed(() => {
         let summary: number = 0;
 
-        cartItems.value.forEach((item) => {
+        cartItems.value.map((item) => {
             summary += item.productInfo.price * item.quantity;
         });
+
+        return summary;
     });
 
     return {
