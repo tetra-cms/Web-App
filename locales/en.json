@@ -86,6 +86,9 @@
         },
         "auth": {
             "mismatchpass": "Passwords doesn't match"
+        },
+        "cart": {
+            "noitems": "Empty cart"
         }
     },
 

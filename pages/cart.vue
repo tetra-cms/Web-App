@@ -3,8 +3,9 @@ import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contacthead
 import { CompanyData } from '~/content/header/HeaderData';
 
 import { pluralizeWord } from '~/utils/PluralizeWord';
-
 import { useCartStore } from '~/store/cart';
+
+import CartIcon from "~/assets/svg/cart.svg";
 
 const cart = useCartStore();
 const { cartItems } = storeToRefs(cart);
@@ -129,8 +130,11 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
             </div>
         </div>
 
-        <div class="w-full h-full">
-            
+        <div 
+        v-else 
+        class="w-full h-full flex flex-col justify-center items-center">
+            <CartIcon/>
+            <p>{{ $t('errors.cart.noitems') }}</p>
         </div>
     </MobileOnly>
 </template>
