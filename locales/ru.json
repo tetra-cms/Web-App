@@ -54,6 +54,19 @@
         "all": "Все товары"
     },
 
+    "headers": {
+        "cart": "Корзина"
+    },
+
+    "tables": {
+        "cart": {
+            "name": "Наименование",
+            "amount": "Количество",
+            "price": "Цена"
+        },
+        "selectall": "Выбрать всё"
+    },
+
     "buttons": {
         "incart": "В корзину",
         "backincatalog": "К каталогу",
