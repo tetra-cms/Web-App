@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
 import { CompanyData } from '~/content/header/HeaderData';
+
+import { useCartStore } from '~/store/cart';
+
+const { cartItems } = storeToRefs(useCartStore());
+cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart") || '[]');
 </script>
 
 <template>
@@ -15,7 +20,20 @@ import { CompanyData } from '~/content/header/HeaderData';
             :subtitle="String(CompanyData.subtitle)"></Header>
     </DesktopOnly>
     
-    <div>
-        <p class="text-center">WORK IN PROGRESS</p>
-    </div>
+    <DesktopOnly>
+        <div>
+            <ul>
+                <li
+                    v-for="cartItem in cartItems">
+                    <p>{{ cartItem.productInfo.name }}</p>
+                </li>
+            </ul>
+        </div>
+    </DesktopOnly>
+
+    <MobileOnly>
+        <div>
+
+        </div>
+    </MobileOnly>
 </template>
