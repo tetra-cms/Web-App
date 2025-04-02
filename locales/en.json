@@ -62,7 +62,8 @@
         "cart": {
             "name": "Name",
             "amount": "Amount",
-            "price": "Price"
+            "price": "Price",
+            "clear": "Clear cart"
         },
         "selectall": "Select all"
     },

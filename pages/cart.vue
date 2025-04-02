@@ -29,58 +29,63 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
     </DesktopOnly>
 
     <DesktopOnly>
-        <div class="flex flex-row">
-            <table>
-                <thead>
-                    <tr class="bg-secondary-secondary">
-                        <th>{{ $t('tables.cart.name') }}</th>
-                        <th>{{ $t('tables.cart.amount') }}</th>
-                        <th>{{ $t('tables.cart.price') }}</th>
-                        <th>
-                            <button>
-                                {{ $t('tables.selectall') }}
-                            </button>
-                        </th>
-                    </tr>
-                </thead>
+        <div class="w-full flex justify-center">
+            <div class="max-w-[1200px] m-auto flex flex-col">
+                <div class="w-full flex flex-row">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-secondary-secondary">
+                                <th>{{ $t('tables.cart.name') }}</th>
+                                <th>{{ $t('tables.cart.amount') }}</th>
+                                <th>{{ $t('tables.cart.price') }}</th>
+                                <th class="w-[40px]">
+                                    <button>
+                                        {{ $t('tables.cart.clear') }}
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
 
-                <tbody>
-                    <tr class="border-secondary-secondary border-b-[2px]" v-for="cartItem in cartItems">
-                        <th>
-                            <div class="flex flex-row items-center">
-                                <img class="w-[64px]" :src="cartItem.productInfo.imageUrl">
-                                <p class="font-normal">{{ cartItem.productInfo.name }}</p>
+                        <tbody>
+                            <tr class="border-secondary-secondary border-b-[2px]" v-for="cartItem in cartItems">
+                                <th>
+                                    <div class="flex flex-row items-center">
+                                        <img class="w-[64px]" :src="cartItem.productInfo.imageUrl">
+                                        <p class="font-normal">{{ cartItem.productInfo.name }}</p>
+                                    </div>
+                                </th>
+                                <th>
+                                    <CartButton :id="Number(cartItem.productInfo.id)" />
+                                </th>
+                                <th>{{ cartItem.productInfo.price.toLocaleString() }} ₽</th>
+                                <th>
+                                    <button @click="">
+
+                                    </button>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="w-[200px] ml-[20px] py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
+
+                        <div class="my-[15px]">
+                            <div class="flex flex-row justify-between">
+                                <p>{{ $t("order.block.summary") }}:</p>
+                                <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
                             </div>
-                        </th>
-                        <th>
-                            <CartButton :id="Number(cartItem.productInfo.id)" />
-                        </th>
-                        <th>{{ cartItem.productInfo.price.toLocaleString() }} ₽</th>
-                        <th>
 
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
+                            <p class="text-secondary-wrapper-light">
+                                {{ cartItems.length }}
+                                {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
+                            </p>
+                        </div>
 
-            <div class="w-[200px] py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
-
-                <div class="my-[15px]">
-                    <div class="flex flex-row justify-between">
-                        <p>{{ $t("order.block.summary") }}:</p>
-                        <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
+                        <Button :label="$t('buttons.placeorder')" attributes="w-full py-[10px]" />
                     </div>
-
-                    <p class="text-secondary-wrapper-light">
-                        {{ cartItems.length }}
-                        {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
-                    </p>
                 </div>
-
-                <Button :label="$t('buttons.placeorder')" attributes="w-full py-[10px]" />
             </div>
         </div>
-
     </DesktopOnly>
 
     <MobileOnly>
