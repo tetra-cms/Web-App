@@ -55,7 +55,8 @@
     },
 
     "headers": {
-        "cart": "Cart"
+        "cart": "Cart",
+        "mightlike": "You might like"
     },
 
     "tables": {

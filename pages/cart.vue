@@ -113,6 +113,8 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
                 class="mt-[20px] flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[10px] rounded-[30px] bg-primary-primary"
                 to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
             </div>
+
+            <h1 class="font-druk mt-[20px] text-[24px] text-center font-bold">{{ $t('headers.mightlike') }}</h1>
         </div>
     </DesktopOnly>
 
