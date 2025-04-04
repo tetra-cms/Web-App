@@ -63,7 +63,11 @@
             "name": "Name",
             "amount": "Amount",
             "price": "Price",
-            "clear": "Clear cart"
+            "clear": "Clear cart",
+            "emptycart": {
+                "title": "Cart is empty",
+                "subtitle": "For the first you have to choose something from catalog"
+            }
         },
         "selectall": "Select all"
     },
