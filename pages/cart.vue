@@ -6,6 +6,7 @@ import { pluralizeWord } from '~/utils/PluralizeWord';
 import { useCartStore } from '~/store/cart';
 
 import CartIcon from "~/assets/svg/cart.svg";
+import TrashIcon from "~/assets/svg/trashbox.svg";
 
 const cart = useCartStore();
 const { cartItems } = storeToRefs(cart);
@@ -29,61 +30,75 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
     </DesktopOnly>
 
     <DesktopOnly>
-        <div class="w-full flex justify-center">
-            <div class="max-w-[1200px] m-auto flex flex-col">
-                <div class="w-full flex flex-row">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-secondary-secondary">
-                                <th>{{ $t('tables.cart.name') }}</th>
-                                <th>{{ $t('tables.cart.amount') }}</th>
-                                <th>{{ $t('tables.cart.price') }}</th>
-                                <th class="w-[40px]">
-                                    <button>
-                                        {{ $t('tables.cart.clear') }}
-                                    </button>
-                                </th>
-                            </tr>
-                        </thead>
+        <div class="w-full flex flex-col px-[70px] justify-center">
+            <button class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
+                <div class="w-[24px] h-[24px] mr-[10px] flex justify-center bg-[red] rounded-[5px]">
+                    <TrashIcon />
+                </div>
 
-                        <tbody>
-                            <tr class="border-secondary-secondary border-b-[2px]" v-for="cartItem in cartItems">
-                                <th>
-                                    <div class="flex flex-row items-center">
-                                        <img class="w-[64px]" :src="cartItem.productInfo.imageUrl">
-                                        <p class="font-normal">{{ cartItem.productInfo.name }}</p>
-                                    </div>
-                                </th>
-                                <th>
-                                    <CartButton :id="Number(cartItem.productInfo.id)" />
-                                </th>
-                                <th>{{ cartItem.productInfo.price.toLocaleString() }} ₽</th>
-                                <th>
-                                    <button @click="">
+                <p class="text-[red]">{{ $t('tables.cart.clear') }}</p>
+            </button>
 
-                                    </button>
-                                </th>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="w-full flex flex-row">
+                <table class="w-full text-center">
+                    <thead>
+                        <tr class="rounded-[30px] bg-secondary-secondary">
+                            <th>{{ $t('tables.cart.name') }}</th>
+                            <th>{{ $t('tables.cart.amount') }}</th>
+                            <th>{{ $t('tables.cart.price') }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                    <div class="w-[200px] ml-[20px] py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
+                    <tbody>
+                        <tr class="w-full py-[15px] border-secondary-secondary border-b-[2px]"
+                            v-for="cartItem in cartItems">
+                            <td class="py-[15px]">
+                                <div class="flex flex-row items-center">
+                                    <img class="w-[64px] mr-[5px]" :src="cartItem.productInfo.imageUrl">
+                                    <p class="font-normal">{{ cartItem.productInfo.name }}</p>
+                                </div>
+                            </td>
 
+                            <td>
+                                <CartButton :id="Number(cartItem.productInfo.id)" />
+                            </td>
+
+                            <td class="font-bold">{{ cartItem.productInfo.price.toLocaleString() }} ₽</td>
+
+                            <td>
+                                <button @click="">
+
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="flex flex-col w-[230px] ml-[20px]">
+                    <div class="w-full py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
                         <div class="my-[15px]">
                             <div class="flex flex-row justify-between">
                                 <p>{{ $t("order.block.summary") }}:</p>
                                 <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
                             </div>
 
-                            <p class="text-secondary-wrapper-light">
+                            <p v-if="cartItems.length" class="text-secondary-wrapper-light">
                                 {{ cartItems.length }}
-                                {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
+                                {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length)
+                                }}
                             </p>
                         </div>
 
                         <Button :label="$t('buttons.placeorder')" attributes="w-full py-[10px]" />
                     </div>
+
+                    <div class="mt-[10px] bg-secondary-secondary">
+
+                    </div>
                 </div>
+
             </div>
         </div>
     </DesktopOnly>
@@ -115,7 +130,7 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
                     </div>
 
                     <div>
-                        <CartButton :id="cartItem.productInfo.id"/>
+                        <CartButton :id="cartItem.productInfo.id" />
                     </div>
                 </li>
             </ul>
@@ -135,10 +150,8 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
             </div>
         </div>
 
-        <div 
-        v-else 
-        class="w-full h-full flex flex-col justify-center items-center">
-            <CartIcon/>
+        <div v-else class="w-full h-full flex flex-col justify-center items-center">
+            <CartIcon />
             <p>{{ $t('errors.cart.noitems') }}</p>
         </div>
     </MobileOnly>
