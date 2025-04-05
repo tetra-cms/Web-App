@@ -10,9 +10,15 @@ const props = defineProps<{
 }>();
 
 const userStore = useUserStore();
-if (!userStore.$state.userProfile)
+const accessToken = useCookie("access_token");
+if (accessToken.value && !userStore.$state.userProfile)
 {
-    await userStore.storeUserInfo(String(useCookie("access_token").value));
+    try {
+        await userStore.storeUserInfo(String(accessToken.value));
+    } catch {
+        useClearSession();
+    }
+    
 }
 const userInfo = storeToRefs(userStore);
 </script>

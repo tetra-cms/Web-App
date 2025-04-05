@@ -7,10 +7,44 @@ import { useCartStore } from '~/store/cart';
 
 import CartIcon from "~/assets/svg/cart.svg";
 import TrashIcon from "~/assets/svg/trashbox.svg";
+import type { ApiProductItem } from '~/types/api/ApiProductItem';
+import type { IProductCard } from '~/types/productcard/ProductCard';
 
 const cart = useCartStore();
 const { cartItems } = storeToRefs(cart);
 cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart") || '[]');
+
+async function getProductList(category?: number)
+{
+  let productListResponse : Array<ApiProductItem> = [];
+
+  let queryParams : { category?: number } = {};
+  queryParams.category = category;
+
+  productListResponse = await $fetch('/product/list', {
+    baseURL: useRuntimeConfig().public.baseURL,
+    method: 'GET',
+    query: queryParams
+  });
+
+  let productResponse: Array<IProductCard> = [];
+  productListResponse.forEach((product) => {
+    productResponse.push(
+    {
+      id: String(product.id),
+      image: product.imageUrl,
+      description: product.description,
+      name: product.name,
+      price: product.price
+    });
+  });
+  
+  return productResponse;
+}
+
+const productItems: Ref<Array<IProductCard>> = ref([]);
+productItems.value = await getProductList();
+productItems.value = shuffleArray(productItems.value).slice(0, 6);
 </script>
 
 <template>
@@ -115,6 +149,12 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
             </div>
 
             <h1 class="font-druk mt-[20px] text-[24px] text-center font-bold">{{ $t('headers.mightlike') }}</h1>
+
+            <div class="flex flex-col items-center justify-center">
+                <div>
+                    <ProductList :items="productItems" />
+                </div>
+            </div>
         </div>
     </DesktopOnly>
 
@@ -165,9 +205,14 @@ cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart")
             </div>
         </div>
 
-        <div v-else class="w-full h-full flex flex-col justify-center items-center">
-            <CartIcon />
-            <p>{{ $t('errors.cart.noitems') }}</p>
+        <div v-else class="w-full h-full flex flex-col justify-center text-center items-center">
+            <CartIcon class="[&>*]:fill-primary-primary w-[96px] h-[96px]" />
+            <p class="font-bold text-[24pt]">{{ $t('errors.cart.noitems') }}</p>
+            <p class="text-[16pt]">{{ $t('tables.cart.emptycart.subtitle') }}</p>
+
+            <RouterLink
+                class="mt-[20px] flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[10px] rounded-[30px] bg-primary-primary"
+                to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
         </div>
     </MobileOnly>
 </template>
