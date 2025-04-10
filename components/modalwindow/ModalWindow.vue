@@ -18,7 +18,7 @@ function handleClickOutside()
     class="w-full h-full top-[0] left-[0] fixed z-[99999]">
         <DesktopOnly>
             <div class="w-full h-full bg-[#000000AA] flex justify-center items-center">
-                <div class="absolute bg-secondary-primary rounded-lg flex flex-col p-[10px]">
+                <div class="absolute bg-secondary-primary rounded-lg flex flex-col p-[20px]">
                     <component :is="props.content"></component>
                 </div>
             </div>
