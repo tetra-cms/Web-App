@@ -108,6 +108,12 @@ function correctPageInput()
             </button>
 
             <button
+            class="text-secondary-wrapper-light"
+            v-else>
+                Предыдущая
+            </button>
+
+            <button
             class="w-[32px] h-[32px] m-[8px] bg-secondary-light border-[1px] rounded-md"
             @click="nagivateToPage(currentPage - 1)"
             v-if="currentPage != 1">
@@ -134,6 +140,12 @@ function correctPageInput()
             <button
             v-if="currentPage + 1 <= maxPages"
             @click="increasePage">
+                Следующая
+            </button>
+
+            <button
+            class="text-secondary-wrapper-light"
+            v-else>
                 Следующая
             </button>
         </div>
