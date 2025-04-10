@@ -116,25 +116,28 @@ productItems.value = productItems.value.filter(item => {
                         <img class="w-full object-contain" :src="'/' + productInfo.imageUrl">
                     </div>
 
-                    <div class="mb-[25px]">
-                        <h2 class="text-[32px] font-bold">{{ productInfo.name }}</h2>
-                        <div class="flex flex-row [&>*]:fill-secondary-wrapper-light text-secondary-wrapper-light">
-                            <component :is="useSVGIcon(String(productInfo.categoryInfo?.iconUrl))"></component>
-                            <p class="mx-[5px]">{{ productInfo.categoryInfo?.name }}</p>
-                        </div>
-                    </div>
-
                     <div class="px-[10px]">
-                        <div class="bg-secondary-secondary p-[10px] w-full rounded-[5px]">
-                            {{ $t("common.product.price") }}: <b>{{ productInfo.price }} ₽</b>
+                        <div class="mb-[25px]">
+                            <h2 class="text-[32px] font-bold">{{ productInfo.name }}</h2>
+                            <div class="flex flex-row [&>*]:fill-secondary-wrapper-light text-secondary-wrapper-light">
+                                <component :is="useSVGIcon(String(productInfo.categoryInfo?.iconUrl))"></component>
+                                <p class="mx-[5px]">{{ productInfo.categoryInfo?.name }}</p>
+                            </div>
+                        </div>
+
+                        <div class="px-[10px]">
+                            <div class="bg-secondary-secondary p-[10px] w-full rounded-[5px]">
+                                {{ $t("common.product.price") }}: <b>{{ productInfo.price }} ₽</b>
+                            </div>
+                        </div>
+
+
+                        <div class="mt-[30px]">
+                            <p class="uppercase font-black mb-[10px] text-[24px]">{{ $t("common.product.description") }}</p>
+                            <p>{{ productInfo.description }}</p>
                         </div>
                     </div>
-
-
-                    <div class="mt-[30px]">
-                        <p class="uppercase font-black mb-[10px] text-[24px]">{{ $t("common.product.description") }}</p>
-                        <p>{{ productInfo.description }}</p>
-                    </div>
+                    
                 </div>
 
                 <CartAction :product-id="productInfo.id" :product-price="productInfo.price" />

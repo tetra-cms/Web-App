@@ -76,7 +76,9 @@
     "buttons": {
         "incart": "В корзину",
         "backincatalog": "К каталогу",
-        "placeorder": "Оформить заказ"
+        "placeorder": "Оформить заказ",
+        "clear": "Очистить",
+        "cancel": "Отмена"
     },
 
     "usermenu": {
@@ -110,6 +112,13 @@
         "item": {
             "singular": "товар",
             "plural": "товаров"
+        }
+    },
+
+    "modal": {
+        "closewindow": {
+            "title": "Вы уверены что хотите очистить корзину?",
+            "subtitle": "Все товары из корзины будут очищены"
         }
     }
 }

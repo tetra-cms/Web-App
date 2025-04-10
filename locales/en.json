@@ -76,7 +76,9 @@
     "buttons": {
         "incart": "In cart",
         "backincatalog": "Back in catalog",
-        "placeorder": "Place an order"
+        "placeorder": "Place an order",
+        "clear": "Clear",
+        "cancel": "Cancel"
     },
 
     "usermenu": {
@@ -110,6 +112,13 @@
         "item": {
             "singular": "item",
             "plural": "items"
+        }
+    },
+
+    "modal": {
+        "closewindow": {
+            "title": "Are you sure you want to clear the cart?",
+            "subtitle": "All items will be removed from cart"
         }
     }
 }

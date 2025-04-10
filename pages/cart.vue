@@ -2,6 +2,8 @@
 import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
 import { CompanyData } from '~/content/header/HeaderData';
 
+import { ClearCartWindow } from '#components';
+
 import { pluralizeWord } from '~/utils/PluralizeWord';
 import { useCartStore } from '~/store/cart';
 
@@ -45,6 +47,12 @@ async function getProductList(category?: number)
 const productItems: Ref<Array<IProductCard>> = ref([]);
 productItems.value = await getProductList();
 productItems.value = shuffleArray(productItems.value).slice(0, 6);
+
+const showModalClear: Ref<boolean> = ref(false);
+function showClearModal()
+{
+    showModalClear.value = !showModalClear.value;   
+}
 </script>
 
 <template>
@@ -65,7 +73,9 @@ productItems.value = shuffleArray(productItems.value).slice(0, 6);
 
 
             <div class="w-full flex flex-col px-[70px] justify-center">
-                <button class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
+                <button 
+                @click="showClearModal"
+                class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
                     <div class="w-[24px] h-[24px] mr-[10px] flex justify-center bg-[red] rounded-[5px]">
                         <TrashIcon />
                     </div>
@@ -168,9 +178,18 @@ productItems.value = shuffleArray(productItems.value).slice(0, 6);
                 </p>
             </div>
 
+            <button 
+                @click="showClearModal"
+                class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
+                    <div class="w-[24px] h-[24px] mr-[10px] flex justify-center bg-[red] rounded-[5px]">
+                        <TrashIcon />
+                    </div>
+
+                    <p class="text-[red]">{{ $t('tables.cart.clear') }}</p>
+            </button>
 
             <ul>
-                <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] flex-row bg-secondary-secondary"
+                <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] bg-secondary-secondary"
                     v-for="cartItem in cartItems">
                     <div class="flex flex-row">
                         <div>
@@ -215,4 +234,8 @@ productItems.value = shuffleArray(productItems.value).slice(0, 6);
                 to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
         </div>
     </MobileOnly>
+
+    <ModalWindow 
+    :content="ClearCartWindow"
+    v-show="showModalClear"/>
 </template>
