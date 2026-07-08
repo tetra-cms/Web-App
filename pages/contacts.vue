@@ -4,8 +4,6 @@ import { CompanyData } from '~/content/header/HeaderData';
 
 import { ContactItem } from '~/content/contacts/ContactItem';
 
-import ArrowUpRight from '~/assets/svg/arrow-up-right.svg';
-
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
