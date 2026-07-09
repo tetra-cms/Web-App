@@ -1,102 +1,107 @@
 <script setup lang="ts">
-import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
-import { CompanyData } from '~/content/header/HeaderData';
-import ContactHeader from '~/components/contactheader/ContactHeader.vue';
-import ItemsList from '~/components/itemslist/ItemsList.vue';
-import InputWithReset from '~/components/inputs/inputwithreset/InputWithReset.vue';
-import type { IProductCard } from '~/types/productcard/ProductCard';
-import type { IItemListItem } from '~/types/ItemListItem';
+import { ContactGeneral, ContactsList, CurrentCity } from "~/content/contactheader/ContactHeaderData";
+import { CompanyData } from "~/content/header/HeaderData";
+
+import ContactHeader from "~/components/contactheader/ContactHeader.vue";
+import ItemsList from "~/components/itemslist/ItemsList.vue";
+import InputWithReset from "~/components/inputs/inputwithreset/InputWithReset.vue";
+
 import { i18n } from "~/plugins/i18n";
-import type { ApiCategoryItem } from '~/types/api/ApiCategoryItem';
-import type { ApiProductItem } from '~/types/api/ApiProductItem';
+
+import { useCategories } from "~/composables/api/useCategories";
+import { useProducts } from "~/composables/api/useProducts";
+
+import type { IItemListItem } from "~/types/ItemListItem";
+import type { IProductCard } from "~/types/productcard/ProductCard";
 
 const { t } = i18n.global;
 
-const catResponse: Array<ApiCategoryItem> = await $fetch('/category/list', {
-  baseURL: useRuntimeConfig().public.baseURL,
-  method: 'GET',
-});
-
-let categoryResponse: Array<IItemListItem> = [];
-categoryResponse.push({
-    name: t("category.all"),
-    icon: "categories-squares",
-    label: t("category.all"),
-    route: ""
-});
-catResponse.forEach((category) => {
-  categoryResponse.push(
-    {
-      name: category.name,
-      icon: category.iconUrl,
-      label: category.name,
-      route: "?category=" + category.id
-    });
-});
-const categoryItems: Ref<Array<IItemListItem>> = ref(categoryResponse);
-
-
-async function getProductList(category?: number)
-{
-  let productListResponse : Array<ApiProductItem> = [];
-
-  let queryParams : { category?: number } = {};
-  queryParams.category = category;
-
-  productListResponse = await $fetch('/product/list', {
-    baseURL: useRuntimeConfig().public.baseURL,
-    method: 'GET',
-    query: queryParams
-  });
-
-  let productResponse: Array<IProductCard> = [];
-  productListResponse.forEach((product) => {
-    productResponse.push(
-    {
-      id: String(product.id),
-      image: product.imageUrl,
-      description: product.description,
-      name: product.name,
-      price: product.price
-    });
-  });
-  
-  return productResponse;
-}
+const categoriesApi = useCategories();
+const productsApi = useProducts();
 
 const route = useRoute();
-const productItems: Ref<Array<IProductCard>> = ref([]);
 
-const sortByCategory = route.query.category;
-productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
+const categoryItems = ref<IItemListItem[]>([]);
+const productItems = ref<IProductCard[]>([]);
+const listOfProducts = ref<IProductCard[]>([]);
 
-watch(route, async (newRoute) => {
-  const sortByCategory = newRoute.query.category;
-  productItems.value = await getProductList(sortByCategory ? Number(sortByCategory) : undefined);
-  reRenderProductList();
-});
+const renderProductList = ref(true);
 
-async function reRenderProductList() {
-  renderProductList.value = false;
-  await nextTick();
-  renderProductList.value = true;
-}
+const loadCategories = async () => {
+    const categories = await categoriesApi.getAll();
 
-const renderProductList : Ref<boolean> = ref(true);
-const listOfProducts : Ref<Array<IProductCard>> = ref(productItems);
-async function sortChange(sort: string)
-{
-    const sortedProducts = productItems.value.sort(function(a, b) {
-      return b.price - a.price;
-    });
-    listOfProducts.value = sortedProducts;
+    categoryItems.value = [
+        {
+            name: t("category.all"),
+            icon: "categories-squares",
+            label: t("category.all"),
+            route: "",
+        },
+        ...categories.map(category => ({
+            name: category.name,
+            icon: category.iconUrl,
+            label: category.title,
+            route: `?category=${category.id}`,
+        })),
+    ];
+};
 
-    if (sort == "desc") {
-      listOfProducts.value = sortedProducts.reverse();
+const loadProducts = async (categoryId?: number) => {
+    const products = await productsApi.getAll(categoryId);
+
+    productItems.value = products.map(product => ({
+        id: String(product.id),
+        image: product.imageUrl,
+        description: product.description,
+        name: product.name,
+        price: product.price,
+    }));
+
+    listOfProducts.value = [...productItems.value];
+};
+
+const reRenderProductList = async () => {
+    renderProductList.value = false;
+
+    await nextTick();
+
+    renderProductList.value = true;
+};
+
+const sortChange = async (sort: string) => {
+    const sorted = [...productItems.value].sort(
+        (a, b) => a.price - b.price
+    );
+
+    if (sort === "desc") {
+        sorted.reverse();
     }
 
-    reRenderProductList();
-}
+    listOfProducts.value = sorted;
+
+    await reRenderProductList();
+};
+
+await loadCategories();
+
+await loadProducts(
+    route.query.category
+        ? Number(route.query.category)
+        : undefined
+);
+
+watch(
+    () => route.query.category,
+    async category => {
+        await loadProducts(
+            category
+                ? Number(category)
+                : undefined
+        );
+
+        await reRenderProductList();
+    }
+);
 </script>
 
 <template>

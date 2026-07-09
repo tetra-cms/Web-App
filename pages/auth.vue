@@ -1,36 +1,46 @@
 <script setup lang="ts">
-import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
-import { CompanyData } from '~/content/header/HeaderData';
+import { ref } from "vue";
+import { navigateTo } from "#app";
 
-import { AuthFormFields } from '~/content/auth/AuthFormFields';
-import type { AuthSubmitData, AuthResponse } from '~/content/auth/AuthFormFields';
-import { useUserStore } from '~/store/user';
+import {
+    AuthFormFields,
+    type AuthSubmitData,
+    type AuthResponse,
+} from "~/content/auth/AuthFormFields";
 
-const errorMessage : Ref<string> = ref("");
-async function authUser(userData: AuthSubmitData) {
-    const response: AuthResponse = await $fetch('/auth/login', {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: 'POST',
-        body: userData,
-        onResponse: function(event) {
-            if (!event.response.ok
-            || event.error) {
-                errorMessage.value = event.response._data.message;
-                return;
-            }
-        }
-    });
+import { useApi } from "~/composables/useApi";
+import { useUserStore } from "~/stores/user";
+import { CompanyData } from "~/content/header/HeaderData";
+import { ContactGeneral, ContactsList, CurrentCity } from "~/content/contactheader/ContactHeaderData";
 
-    if (response.access_token)
-    {
-        const accessToken = useCookie("access_token");
-        accessToken.value = response.access_token;
-        navigateTo("/");
+const api = useApi();
+const userStore = useUserStore();
 
-        const user = useUserStore();
-        user.storeUserInfo(response.access_token);
+const errorMessage = ref("");
+const loading = ref(false);
+
+const authUser = async (userData: AuthSubmitData) => {
+    errorMessage.value = "";
+    loading.value = true;
+
+    try {
+        const response = await api<AuthResponse>("/auth/login", {
+            method: "POST",
+            body: userData,
+        });
+
+        await userStore.login(response);
+
+        await navigateTo("/");
+    } catch (error: any) {
+        errorMessage.value =
+            error?.data?.error ??
+            error?.data?.message ??
+            "errors.auth.invalidCredentials";
+    } finally {
+        loading.value = false;
     }
-}
+};
 </script>
 
 <template>

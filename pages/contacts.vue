@@ -83,10 +83,10 @@ onBeforeUnmount(() => {
 
                     <div class="mt-[30px]">
                         <RouterLink to="/">
-                            <p
+                            <div
                             class="flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[5px] rounded-[5px] bg-primary-primary">
                                 <p class="text-[10pt]">{{ $t("buttons.backincatalog") }}</p>
-                            </p>
+                            </div>
                         </RouterLink>
                     </div>
                 </div>

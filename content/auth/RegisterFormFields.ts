@@ -44,5 +44,5 @@ export interface RegisterSubmitData {
 }
 
 export interface RegisterResponse {
-    createdAt?: string
+    message: string;
 }

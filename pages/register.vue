@@ -1,40 +1,55 @@
 <script setup lang="ts">
-import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
-import { CompanyData } from '~/content/header/HeaderData';
+import { ref } from "vue";
+import { navigateTo } from "#app";
 
-import { RegisterFormFields } from '~/content/auth/RegisterFormFields';
-import type { RegisterSubmitData, RegisterResponse } from '~/content/auth/RegisterFormFields';
+import {
+    RegisterFormFields,
+    type RegisterSubmitData,
+    type RegisterResponse,
+} from "~/content/auth/RegisterFormFields";
+
+import { ContactGeneral, ContactsList, CurrentCity } from "~/content/contactheader/ContactHeaderData";
+import { CompanyData } from "~/content/header/HeaderData";
+
+import { useApi } from "~/composables/useApi";
 
 useRedirectUnauthorized();
 
-const errorMessage : Ref<string> = ref("");
-async function registerUser(userData: RegisterSubmitData) {
-    let response: RegisterResponse = {};
+const api = useApi();
 
-    if (userData.repeatpassword == userData.password)
-    {   
-        response = await $fetch('/auth/register', {
-            baseURL: useRuntimeConfig().public.baseURL,
-            method: 'POST',
-            body: userData,
-            onResponse: function(event) {
-                if (!event.response.ok
-                || event.error) {
-                    errorMessage.value = event.response._data.message;
-                    return;
-                }
-            }
+const errorMessage = ref("");
+const loading = ref(false);
+
+const registerUser = async (userData: RegisterSubmitData) => {
+    errorMessage.value = "";
+
+    if (userData.password !== userData.repeatpassword) {
+        errorMessage.value = "errors.auth.mismatchpass";
+        return;
+    }
+
+    loading.value = true;
+
+    try {
+        await api<RegisterResponse>("/auth/register", {
+            method: "POST",
+            body: {
+                username: userData.username,
+                email: userData.email,
+                password: userData.password,
+            },
         });
-    } else {
-        errorMessage.value = 'errors.auth.mismatchpass';
-    }
-    
 
-    if (response.createdAt)
-    {
-        navigateTo("/auth");
+        await navigateTo("/auth");
+    } catch (error: any) {
+        errorMessage.value =
+            error?.data?.error ??
+            error?.data?.message ??
+            "errors.auth.registerFailed";
+    } finally {
+        loading.value = false;
     }
-}
+};
 </script>
 
 <template>

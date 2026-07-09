@@ -3,5 +3,5 @@
  * @returns User status - authorized or not
  */
 export default function useCheckUserAuth() {
-    return useCookie("access_token").value ? true : false;
+    return localStorage.getItem("user_credentials") ? true : false;
 }
