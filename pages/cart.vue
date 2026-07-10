@@ -1,58 +1,72 @@
 <script lang="ts" setup>
-import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
-import { CompanyData } from '~/content/header/HeaderData';
+import { storeToRefs } from "pinia";
 
-import { ClearCartWindow } from '#components';
-
-import { pluralizeWord } from '~/utils/PluralizeWord';
-import { useCartStore } from '~/store/cart';
-
-import CartIcon from "~/assets/svg/cart.svg";
-import TrashIcon from "~/assets/svg/trashbox.svg";
-import type { ApiProductItem } from '~/types/api/ApiProductItem';
-import type { IProductCard } from '~/types/productcard/ProductCard';
+import { useProducts } from "~/composables/api/useProducts";
+import type { IProductCard } from "~/types/productcard/ProductCard";
+import { ContactGeneral, ContactsList, CurrentCity } from "~/content/contactheader/ContactHeaderData";
+import { CompanyData } from "~/content/header/HeaderData";
+import { ClearCartWindow } from "#components";
+import { useCartStore } from "~/stores/cart";
+import type { ApiProductItem } from "~/types/api/ApiProductItem";
 
 const cart = useCartStore();
+const productsApi = useProducts();
+
 const { cartItems } = storeToRefs(cart);
-cartItems.value = !import.meta.client || JSON.parse(localStorage.getItem("cart") || '[]');
 
-async function getProductList(category?: number)
-{
-  let productListResponse : Array<ApiProductItem> = [];
+const productItems = ref<IProductCard[]>([]);
 
-  let queryParams : { category?: number } = {};
-  queryParams.category = category;
+const showModalClear = ref(false);
 
-  productListResponse = await $fetch('/product/list', {
-    baseURL: useRuntimeConfig().public.baseURL,
-    method: 'GET',
-    query: queryParams
-  });
+const cartProducts = ref<ApiProductItem[]>([]);
 
-  let productResponse: Array<IProductCard> = [];
-  productListResponse.forEach((product) => {
-    productResponse.push(
-    {
-      id: String(product.id),
-      image: product.imageUrl,
-      description: product.description,
-      name: product.name,
-      price: product.price
-    });
-  });
-  
-  return productResponse;
-}
+onMounted(async () => {
+    cart.loadCart();
 
-const productItems: Ref<Array<IProductCard>> = ref([]);
-productItems.value = await getProductList();
-productItems.value = shuffleArray(productItems.value).slice(0, 6);
+    const products = await productsApi.getAll();
 
-const showModalClear: Ref<boolean> = ref(false);
-function showClearModal()
-{
-    showModalClear.value = !showModalClear.value;   
-}
+    productItems.value = shuffleArray(
+        products.map(product => ({
+            id: String(product.id),
+            image: product.imageUrl,
+            description: product.description,
+            name: product.name,
+            price: product.price,
+        }))
+    ).slice(0, 6);
+
+    cartProducts.value = await Promise.all(
+        cart.cartItems.map(item =>
+            productsApi.getById(item.productId)
+        )
+    );
+});
+
+const cartView = computed(() =>
+    cart.cartItems.map(item => ({
+        ...item,
+        product: cartProducts.value.find(
+            p => p.id === item.productId
+        ),
+    }))
+);
+
+const totalPrice = computed(() => {
+    return cartView.value.reduce((sum, item) => {
+        if (!item.product) return sum;
+
+        return (
+            sum +
+            item.product.price *
+            item.quantity *
+            item.product.supplyQuantum
+        );
+    }, 0);
+});
+
+const openClearModal = () => {
+    showModalClear.value = !showModalClear;
+};
 </script>
 
 <template>
@@ -74,7 +88,7 @@ function showClearModal()
 
             <div class="w-full flex flex-col px-[70px] justify-center">
                 <button 
-                @click="showClearModal"
+                @click="openClearModal"
                 class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
                     <div class="w-[24px] h-[24px] mr-[10px] flex justify-center bg-[red] rounded-[5px]">
                         <TrashIcon />
@@ -95,28 +109,49 @@ function showClearModal()
                         </thead>
 
                         <tbody>
-                            <tr class="w-full py-[15px] border-secondary-secondary border-b-[2px]"
-                                v-for="cartItem in cartItems">
-                                <td class="py-[15px]">
-                                    <div class="flex flex-row items-center">
-                                        <img class="w-[64px] mr-[5px]" :src="cartItem.productInfo.imageUrl">
-                                        <p class="font-normal">{{ cartItem.productInfo.name }}</p>
-                                    </div>
-                                </td>
+                          <tr
+                              v-for="item in cartView"
+                              :key="item.productId"
+                              class="w-full py-[15px] border-secondary-secondary border-b-[2px]"
+                          >
+                              <td class="py-[15px]">
+                                  <div
+                                      v-if="item.product"
+                                      class="flex flex-row items-center"
+                                  >
+                                      <img
+                                          class="w-[64px] mr-[5px]"
+                                          :src="item.product.imageUrl"
+                                      />
 
-                                <td>
-                                    <CartButton :id="Number(cartItem.productInfo.id)" />
-                                </td>
+                                      <p class="font-normal">
+                                          {{ item.product.name }}
+                                      </p>
+                                  </div>
+                              </td>
 
-                                <td class="font-bold">{{ cartItem.productInfo.price.toLocaleString() }} ₽</td>
+                              <td>
+                                  <CartButton
+                                      :id="item.productId"
+                                  />
+                              </td>
 
-                                <td>
-                                    <button @click="">
+                              <td
+                                  v-if="item.product"
+                                  class="font-bold"
+                              >
+                                  {{ item.product.price.toLocaleString() }} ₽
+                              </td>
 
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                              <td>
+                                  <button
+                                      @click="cart.remove(item.productId)"
+                                  >
+                                      <TrashIcon />
+                                  </button>
+                              </td>
+                          </tr>
+                      </tbody>
                     </table>
 
 
@@ -125,7 +160,7 @@ function showClearModal()
                             <div class="my-[15px]">
                                 <div class="flex flex-row justify-between">
                                     <p>{{ $t("order.block.summary") }}:</p>
-                                    <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
+                                    <p class="font-bold">{{ totalPrice.toLocaleString() }} ₽</p>
                                 </div>
 
                                 <p v-if="cartItems.length" class="text-secondary-wrapper-light">
@@ -150,7 +185,7 @@ function showClearModal()
         <div v-else>
             <div class="w-full flex flex-col text-center items-center">
                 <CartIcon class="[&>*]:fill-primary-primary w-[128px] h-[128px]"/>
-                <p class="text-primary-primary uppercase font-bold text-[16pt]">{{ $t("tables.cart.emptycart.title") }}</p>
+                <p class="text-primary-primary uppercase font-black text-[16pt]">{{ $t("tables.cart.emptycart.title") }}</p>
                 <p class="text-[14pt]">{{ $t("tables.cart.emptycart.subtitle") }}</p>
 
                 <RouterLink
@@ -179,7 +214,7 @@ function showClearModal()
             </div>
 
             <button 
-                @click="showClearModal"
+                @click="openClearModal"
                 class="flex flex-row items-center font-normal text-[12pt] mb-[15px]">
                     <div class="w-[24px] h-[24px] mr-[10px] flex justify-center bg-[red] rounded-[5px]">
                         <TrashIcon />

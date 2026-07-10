@@ -6,6 +6,7 @@ export interface ApiProductItem {
     name: string,
     description: string,
     price: number,
+    supplyQuantum: number,
     categoryId: number,
     categoryInfo?: ApiCategoryItem
 }

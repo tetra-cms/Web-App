@@ -24,11 +24,15 @@ if (import.meta.client && userStore.credentials && !user.value) {
     }
 }
 
+const { isAdminPanelAvailable } = usePermissions();
+
 const logout = async () => {
     try {
         if (userStore.credentials) {
             await userStore.logout();
         }
+        
+        await navigateTo("/auth");
     } catch {
         
     }
@@ -69,6 +73,22 @@ const logout = async () => {
         </div>
 
         <ul class="my-[10px]">
+            <li
+                v-if="isAdminPanelAvailable"
+                class="flex flex-row items-center hover:[&>*]:fill-primary-primary"
+            >
+                <NuxtLink
+                    to="/admin/"
+                    class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary"
+                >
+                    <WrenchIcon class="mr-[5px] w-[20px] h-[20px]" />
+
+                    <p class="font-medium transition-all duration-200">
+                        {{ $t("usermenu.admin_panel") }}
+                    </p>
+                </NuxtLink>
+            </li>
+
             <li
                 v-for="item in props.menuItems"
                 :key="item.route"
