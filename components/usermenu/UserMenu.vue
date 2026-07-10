@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 
 import PersonIcon from "~/assets/svg/person.svg";
 import DoorIcon from "~/assets/svg/door.svg";
+import WrenchIcon from '~/assets/svg/wrench.svg';
 
 import type IUserMenuItem from "~/types/usermenu/UserMenuItem";
 
