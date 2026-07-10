@@ -12,6 +12,9 @@ function getDeviceInfo() {
     }
 }
 
+const userStore = useUserStore();
+userStore.loadCredentials();
+
 provide("deviceType", getDeviceInfo());
 
 useHead({

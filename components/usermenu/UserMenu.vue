@@ -24,7 +24,8 @@ if (import.meta.client && userStore.credentials && !user.value) {
     }
 }
 
-const { isAdminPanelAvailable } = usePermissions();
+const { hasRole } = usePermissions();
+const isAdminPanelAvailable = hasRole("employee", "admin");
 
 const logout = async () => {
     try {
@@ -117,12 +118,12 @@ const logout = async () => {
             <li class="flex flex-row items-center hover:[&>*]:fill-primary-primary">
                 <button
                     type="button"
-                    class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary"
+                    class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary text-[red] hover:[&>*]:text-primary-primary"
                     @click="logout"
                 >
                     <DoorIcon class="mr-[5px] w-[20px] h-[20px]" />
 
-                    <p class="font-medium transition-all duration-200">
+                    <p class="font-medium transition-all duration-200 text-[red]">
                         {{ $t("usermenu.logout") }}
                     </p>
                 </button>

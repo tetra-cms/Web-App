@@ -7,14 +7,13 @@ export const usePermissions = () => {
 
     const { user } = storeToRefs(userStore);
 
-    const isAdminPanelAvailable = computed(() => {
-        return (
-            user.value?.role.toLowerCase() === "employee" ||
-            user.value?.role.toLowerCase() === "admin"
-        );
-    });
+    const hasRole = (...roles: string[]) => {
+        return computed(() => {
+            return !!user.value && roles.includes(user.value.role.toLocaleLowerCase());
+        });
+    };
 
     return {
-        isAdminPanelAvailable,
+        hasRole,
     };
 };

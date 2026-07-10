@@ -5,8 +5,7 @@ const props = defineProps<{
         required: false,
         type: number
     },
-    link: {
-        required: false,
+    link?: {
         type: string
     }
 }>();
