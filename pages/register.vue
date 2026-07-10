@@ -13,8 +13,6 @@ import { CompanyData } from "~/content/header/HeaderData";
 
 import { useApi } from "~/composables/useApi";
 
-useRedirectUnauthorized();
-
 const api = useApi();
 
 const errorMessage = ref("");
