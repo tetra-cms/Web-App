@@ -8,9 +8,9 @@ export const useProducts = () => {
 
     const getAll = (categoryId?: number) =>
         api<ApiProductItem[]>("/products", {
-            query: categoryId
-                ? { categoryId }
-                : undefined,
+            query: {
+                category_id: categoryId ?? undefined
+            }
         });
 
     const getById = (id: number) =>

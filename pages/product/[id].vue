@@ -1,52 +1,68 @@
 <script lang="ts" setup>
-import { ContactGeneral, ContactsList, CurrentCity } from '~/content/contactheader/ContactHeaderData';
-import { CompanyData } from '~/content/header/HeaderData';
-import type { ApiProductItem } from '~/types/api/ApiProductItem';
+import {
+    ContactGeneral,
+    ContactsList,
+    CurrentCity,
+} from "~/content/contactheader/ContactHeaderData";
+
+import { CompanyData } from "~/content/header/HeaderData";
+
 import ErrorGeoIcon from "~/assets/svg/errorgeo.svg";
-import type { IProductCard } from '~/types/productcard/ProductCard';
 
-async function getProductList(category: number)
-{
-  let productListResponse : Array<ApiProductItem> = [];
+import { useProducts } from "~/composables/api/useProducts";
 
-  let queryParams : { category?: number } = {};
-  queryParams.category = category;
-
-  productListResponse = await $fetch('/product/list', {
-    baseURL: useRuntimeConfig().public.baseURL,
-    method: 'GET',
-    query: queryParams
-  });
-
-  let productResponse: Array<IProductCard> = [];
-  productListResponse.forEach((product) => {
-    productResponse.push(
-    {
-      id: String(product.id),
-      image: product.imageUrl,
-      description: product.description,
-      name: product.name,
-      price: product.price
-    });
-  });
-  
-  return productResponse;
-}
+import type { ApiProductItem } from "~/types/api/ApiProductItem";
+import type { IProductCard } from "~/types/productcard/ProductCard";
 
 const route = useRoute();
-const response: ApiProductItem  = await $fetch('/product/' + route.params.id, {
-    baseURL: useRuntimeConfig().public.baseURL,
-    method: 'GET'
-});
-const productInfo: Ref<ApiProductItem> = ref(response);
+const productsApi = useProducts();
 
-const productItems: Ref<Array<IProductCard>> = ref([]);
-productItems.value = await getProductList(response.categoryId);
+const productInfo = ref<ApiProductItem | null>(null);
+const productItems = ref<IProductCard[]>();
 
-productItems.value = productItems.value.filter(item => {
-  return item.id != String(response.id);
-})
+const loadProduct = async () => {
+    try {
+        productInfo.value = await productsApi.getById(
+            Number(route.params.id)
+        );
+    } catch {
+        productInfo.value = null;
+    }
+};
 
+const loadSimilarProducts = async () => {
+
+    if (!productInfo.value) {
+        productItems.value = [];
+        return;
+    }
+
+    const products = await productsApi.getAll({
+        categoryId: Number(productInfo.value.categoryId),
+    });
+
+    productItems.value = products
+        .filter(product => product.id !== productInfo.value!.id)
+        .slice(0, 6)
+        .map(product => ({
+            id: String(product.id),
+            image: product.imageUrl,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+        }));
+};
+
+await loadProduct();
+await loadSimilarProducts();
+
+watch(
+    () => route.params.id,
+    async () => {
+        await loadProduct();
+        await loadSimilarProducts();
+    }
+);
 </script>
 
 <template>

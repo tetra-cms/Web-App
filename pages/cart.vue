@@ -228,7 +228,7 @@ const openClearModal = () => {
                     v-for="cartItem in cartItems">
                     <div class="flex flex-row">
                         <div>
-                            <img class="w-[96px]" :src="cartItem.productInfo.imageUrl">
+                            <img class="w-[96px]" :src="'/api/product/images/' + cartItem.productId">
                         </div>
 
                         <div class="flex flex-col">
