@@ -5,12 +5,14 @@ import { useProducts } from "~/composables/api/useProducts";
 import type { IProductCard } from "~/types/productcard/ProductCard";
 import { ContactGeneral, ContactsList, CurrentCity } from "~/content/contactheader/ContactHeaderData";
 import { CompanyData } from "~/content/header/HeaderData";
-import { ClearCartWindow } from "#components";
 import { useCartStore } from "~/stores/cart";
 import type { ApiProductItem } from "~/types/api/ApiProductItem";
 
 import TrashIcon from '~/assets/svg/trashbox.svg';
 import CartIcon from '~/assets/svg/cart.svg';
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const cart = useCartStore();
 const productsApi = useProducts();
@@ -66,12 +68,67 @@ const totalPrice = computed(() => {
   }, 0);
 });
 
+function clearCart()
+{
+  cart.clear();
+  showModalClear.value = false;
+}
+
 const openClearModal = () => {
-    showModalClear.value = !showModalClear;
+  showModalClear.value = !showModalClear.value;
 };
 </script>
 
 <template>
+    <ModalWindow :title="t('modal.clearwindow.clear_cart')" v-model="showModalClear">
+        <div class="flex flex-col gap-[20px] my-[10px]">
+          <div>
+            <p>
+              {{ t('modal.clearwindow.hint1') }}
+            </p>
+
+            <p>
+              {{ t('modal.clearwindow.hint2') }}
+            </p>
+          </div>
+        </div>
+
+        <DesktopOnly>
+          <div class="flex flex-row mt-[10px] justify-between">
+              <button
+                  class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
+                  @click.prevent="clearCart"
+              >
+                  {{ $t("common.actions.remove") }}
+              </button>
+
+              <button
+                  @click.prevent="showModalClear = false"
+              >
+                  {{ $t("common.actions.cancel") }}
+              </button>
+          </div>
+        </DesktopOnly>
+
+        <MobileOnly>
+          <div class="flex flex-col mt-[10px] justify-between">
+              <button
+                  class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
+                  @click.prevent="clearCart"
+              >
+                  {{ $t("common.actions.remove") }}
+              </button>
+
+              <button
+                  class="px-[15px] py-[10px]"
+                  @click.prevent="showModalClear = false"
+              >
+                  {{ $t("common.actions.cancel") }}
+              </button>
+          </div>
+        </MobileOnly>
+    </ModalWindow>
+
     <DesktopOnly>
         <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
             :current-city="String(CurrentCity)" />
@@ -86,7 +143,6 @@ const openClearModal = () => {
                     <div></div>
                 </div>
             </div>
-
 
             <div class="w-full flex flex-col px-[70px] justify-center">
                 <button 
@@ -157,7 +213,7 @@ const openClearModal = () => {
                     </table>
 
 
-                    <div class="flex flex-col w-[230px] ml-[20px]">
+                    <div class="flex flex-col w-[320px] ml-[20px]">
                         <div class="w-full py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
                             <div class="my-[15px]">
                                 <div class="flex flex-row justify-between">
@@ -271,8 +327,4 @@ const openClearModal = () => {
                 to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
         </div>
     </MobileOnly>
-
-    <ModalWindow 
-    :content="ClearCartWindow"
-    v-show="showModalClear"/>
 </template>
