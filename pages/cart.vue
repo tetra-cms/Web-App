@@ -9,6 +9,9 @@ import { ClearCartWindow } from "#components";
 import { useCartStore } from "~/stores/cart";
 import type { ApiProductItem } from "~/types/api/ApiProductItem";
 
+import TrashIcon from '~/assets/svg/trashbox.svg';
+import CartIcon from '~/assets/svg/cart.svg';
+
 const cart = useCartStore();
 const productsApi = useProducts();
 
@@ -17,7 +20,6 @@ const { cartItems } = storeToRefs(cart);
 const productItems = ref<IProductCard[]>([]);
 
 const showModalClear = ref(false);
-
 const cartProducts = ref<ApiProductItem[]>([]);
 
 onMounted(async () => {
@@ -52,16 +54,16 @@ const cartView = computed(() =>
 );
 
 const totalPrice = computed(() => {
-    return cartView.value.reduce((sum, item) => {
-        if (!item.product) return sum;
+  return cartView.value.reduce((sum, item) => {
+    if (!item.product) return sum;
 
-        return (
-            sum +
-            item.product.price *
-            item.quantity *
-            item.product.supplyQuantum
-        );
-    }, 0);
+    return (
+      sum +
+      item.product.price *
+      item.quantity *
+      (item.product.supply_quantum ?? 1)
+    );
+  }, 0);
 });
 
 const openClearModal = () => {
@@ -225,31 +227,31 @@ const openClearModal = () => {
 
             <ul>
                 <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] bg-secondary-secondary"
-                    v-for="cartItem in cartItems">
+                    v-for="cartItem in cartView">
                     <div class="flex flex-row">
                         <div>
                             <img class="w-[96px]" :src="'/api/product/images/' + cartItem.productId">
                         </div>
 
                         <div class="flex flex-col">
-                            <p class="text-[14pt]">{{ cartItem.productInfo.name }}</p>
+                            <p class="text-[14pt]">{{ cartItem.product?.name }}</p>
 
-                            <p>{{ cartItem.productInfo.price.toLocaleString() }} ₽</p>
+                            <p>{{ cartItem.product?.price.toLocaleString() }} ₽</p>
                         </div>
                     </div>
 
                     <div>
-                        <CartButton :id="cartItem.productInfo.id" />
+                        <CartButton :id="cartItem.product?.id" />
                     </div>
                 </li>
             </ul>
 
-            <OrderAction :amount="cartItems.length" :summary="cart.summary" />
+            <OrderAction :amount="cartItems.length" :summary="totalPrice" />
 
             <div class="mx-[5px]">
                 <div class="flex flex-row justify-between">
                     <p>{{ $t("order.block.summary") }}:</p>
-                    <p class="font-bold">{{ cart.summary.toLocaleString() }} ₽</p>
+                    <p class="font-bold">{{ totalPrice.toLocaleString() }} ₽</p>
                 </div>
 
                 <p class="text-secondary-wrapper-light">

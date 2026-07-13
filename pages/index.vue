@@ -179,7 +179,7 @@ watch(search, value => {
     <div class="my-[10px] flex justify-center">
       <InputWithReset
         v-model="search"
-        placeholder="Поиск"
+        :placeholder="t('common.search') + '...'"
         />
     </div>
 

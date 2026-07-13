@@ -5,6 +5,7 @@ import { UserMenuItems } from "~/content/usermenu/UserMenuItems";
 
 import AccountIcon from "~/assets/svg/account.svg";
 import DoorIcon from "~/assets/svg/door.svg";
+import WrenchIcon from '~/assets/svg/wrench.svg';
 
 import { useUserStore } from "~/stores/user";
 
@@ -58,6 +59,28 @@ const logout = async () => {
             </div>
 
             <ul>
+                <li
+                    class="flex flex-row mx-[10px] border-secondary-wrapper-light border-b py-[15px] items-center cursor-pointer hover:[&>*]:fill-tomato-primary"
+                >
+                  <NuxtLink
+                    to="/admin/"
+                    class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary"
+                  >
+                    <button
+                        type="button"
+                        class="flex flex-row items-center w-full text-left"
+                    >
+                      <WrenchIcon class="mr-[10px] w-[24px] h-[24px] [&>*]:fill-primary-primary"/>
+
+                      <p
+                          class="text-primary-primary font-bold transition-all duration-200"
+                      >
+                          {{ $t("usermenu.admin_panel") }}
+                      </p>
+                    </button>
+                  </NuxtLink>
+                </li>
+
                 <li
                     v-for="item in UserMenuItems"
                     :key="item.route"
