@@ -4,11 +4,13 @@ const props = defineProps<{
     icon?: string
 }>();
 
-const inputValue = ref("");
+const model = defineModel<string>({
+    default: "",
+});
 
 function clearInput()
 {
-    inputValue.value = "";
+    model.value = "";
 }
 </script>
 
@@ -20,14 +22,14 @@ function clearInput()
         </div>
 
         <input 
+            v-model="model"
             :class="'py-[10px] bg-secondary-light border-none ' + (props.icon ? 'rounded-r-xl pr-[30px]' : 'rounded-xl px-[10px]')"
-            v-model="inputValue"
             :placeholder="props.placeholder">
 
         <button 
             class="h-full flex flex-column items-center p-[5px] text-primary-primary"
             @click="clearInput"
-            v-if="inputValue.length > 0">
+            v-if="model.length > 0">
 
             Отмена
 

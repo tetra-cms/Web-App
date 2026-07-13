@@ -46,12 +46,18 @@ const loadCategories = async () => {
     ];
 };
 
-const loadProducts = async (categoryId?: number) => {
-    const products = await productsApi.getAll(categoryId);
+const search = ref("");
+let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const loadProducts = async (
+  categoryId?: number, 
+  searchText?: string
+) => {
+    const products = await productsApi.getAll(categoryId, searchText);
 
     productItems.value = products.map(product => ({
         id: String(product.id),
-        image: product.imageUrl,
+        image: "api/products/image/" + product.id,
         description: product.description,
         name: product.name,
         price: product.price,
@@ -87,7 +93,8 @@ await loadCategories();
 await loadProducts(
     route.query.category
         ? Number(route.query.category)
-        : undefined
+        : undefined,
+    search.value
 );
 
 watch(
@@ -96,12 +103,29 @@ watch(
         await loadProducts(
             category
                 ? Number(category)
-                : undefined
+                : undefined,
+            search.value
         );
 
         await reRenderProductList();
     }
 );
+
+watch(search, value => {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
+
+    searchTimeout = setTimeout(async () => {
+        await loadProducts(
+            route.query.category
+                ? Number(route.query.category)
+                : undefined,
+            value
+        );
+        await reRenderProductList();
+    }, 300);
+});
 </script>
 
 <template>
@@ -118,6 +142,11 @@ watch(
     <div class="w-full flex flex-col justify-between">
         <div class="flex flex-row justify-between px-[60px] mb-[20px]">
           <h1 class="font-druk text-[24px] font-bold">Наша продукция</h1>
+
+          <input
+            v-model="search"
+            class="w-[40%] py-[5px] border-secondary-wrapper-light border-[1px] rounded-[5px]"
+            :placeholder="t('common.search') + '...'">
 
           <SortList @sort-change="sortChange"/>
         </div>
@@ -149,6 +178,7 @@ watch(
 
     <div class="my-[10px] flex justify-center">
       <InputWithReset
+        v-model="search"
         placeholder="Поиск"
         />
     </div>
@@ -157,8 +187,8 @@ watch(
     <ItemsList :items="categoryItems"/>
 
     <ProductList
-    v-if="productItems.length"
-    :items="productItems"/>
+      v-if="productItems.length"
+      :items="listOfProducts"/>
 
     <div class="w-full" v-else>
       <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>

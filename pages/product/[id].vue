@@ -46,7 +46,7 @@ const loadSimilarProducts = async () => {
         .slice(0, 6)
         .map(product => ({
             id: String(product.id),
-            image: product.imageUrl,
+            image: String("/api/product/image/" + product.id),
             name: product.name,
             description: product.description,
             price: product.price,
