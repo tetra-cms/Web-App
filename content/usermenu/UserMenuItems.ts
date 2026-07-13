@@ -7,11 +7,6 @@ import PackagingIcon from '~/assets/svg/packaging.svg';
 
 export let UserMenuItems : Array<IUserMenuItem> = [
     {
-        icon: PersonalIcon,
-        label: "Личный кабинет",
-        route: "/cabinet"
-    } as IUserMenuItem,
-    {
         icon: PackagingIcon,
         label: "Мои заказы",
         route: "/orders"
