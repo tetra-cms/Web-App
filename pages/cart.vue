@@ -17,6 +17,8 @@ import DeliveryIcon from '~/assets/svg/delivery.svg';
 
 import CashIcon from '~/assets/svg/cash.svg';
 import NonCashIcon from '~/assets/svg/noncash.svg';
+import type IFormElement from "~/types/form/FormField";
+import { FieldType } from "~/types/form/FormField";
 
 const { t } = useI18n();
 
@@ -87,9 +89,48 @@ const openClearModal = () => {
   showModalClear.value = !showModalClear.value;
 };
 
+const showModalOrder = ref(false);
 function orderAction()
 {
-  console.log("ORDERING")
+  showModalOrder.value = !showModalOrder.value;
+}
+
+const OrderFormFields : Array<IFormElement> = [
+    {
+        name: "fcs",
+        placeholder: t("modal.order.fields.fcs"),
+        type: FieldType.Input
+    } as IFormElement,
+    {
+        name: "phone",
+        placeholder: t("modal.order.fields.phone"),
+        type: FieldType.Input
+    } as IFormElement,
+    {
+        name: "city",
+        placeholder: t("modal.order.fields.city"),
+        type: FieldType.Input
+    } as IFormElement,
+    {
+        name: "address",
+        placeholder: t("modal.order.fields.address"),
+        type: FieldType.Input
+    } as IFormElement,
+    {
+        name: "commentary",
+        placeholder: t("modal.order.fields.commentary"),
+        type: FieldType.TextArea
+    } as IFormElement,
+    {
+        name: "submit",
+        placeholder: t("modal.order.submit_button"),
+        type: FieldType.Button
+    } as IFormElement,
+]
+
+function submitOrder()
+{
+
 }
 </script>
 
@@ -142,6 +183,18 @@ function orderAction()
           </div>
         </MobileOnly>
     </ModalWindow>
+
+    <DesktopOnly>
+      <ModalWindow 
+        :title="t('modal.order.title')"
+        class="w-[50%]"
+        v-model="showModalOrder">
+          <CustomForm
+            class=""
+            @submitinfo="submitOrder"
+            :fields="OrderFormFields"/>
+      </ModalWindow>
+    </DesktopOnly>
 
     <DesktopOnly>
         <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
@@ -329,12 +382,12 @@ function orderAction()
     </DesktopOnly>
 
     <MobileOnly>
-        <div v-if="cartItems.length">
+        <div v-if="cart.amount">
             <div class="flex flex-start flex-row items-center">
                 <h1 class="text-[24px] font-bold">{{ $t('headers.cart') }}</h1>
                 <p class="text-secondary-wrapper-light ml-[10px]">
-                    {{ cartItems.length }}
-                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
+                    {{ cart.amount }}
+                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount) }}
                 </p>
             </div>
 
@@ -369,7 +422,7 @@ function orderAction()
                 </li>
             </ul>
 
-            <OrderAction :amount="cartItems.length" :summary="totalPrice" />
+            <OrderAction :amount="cart.amount" :summary="totalPrice" />
 
             <div class="mx-[5px]">
                 <div class="flex flex-row justify-between">
@@ -378,8 +431,8 @@ function orderAction()
                 </div>
 
                 <p class="text-secondary-wrapper-light">
-                    {{ cartItems.length }}
-                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length) }}
+                    {{ cart.amount }}
+                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount) }}
                 </p>
             </div>
         </div>

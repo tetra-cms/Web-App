@@ -37,7 +37,7 @@ useEscKey(() => {
         >
             <div
                 v-if="isOpen"
-                class="fixed m-auto z-40 inset-x-0 inset-y-0 max-w-max max-h-max p-[40px] rounded-lg border-[1px] bg-secondary-primary border-secondary-light">
+                class="fixed m-auto z-40 inset-x-0 inset-y-0 max-w-[600px] max-h-max p-[40px] rounded-lg border-[1px] bg-secondary-primary border-secondary-light">
                 <div class="w-full flex justify-between items-center">
                     <p class="text-lg font-bold">{{ title }}</p>
                     <button
