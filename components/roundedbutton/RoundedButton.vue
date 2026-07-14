@@ -1,13 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
     icon: string,
-    splashAmount: {
-        required: false,
-        type: number
-    },
-    link?: {
-        type: string
-    }
+    splashAmount?: number,
+    link?: string
 }>();
 </script>
 

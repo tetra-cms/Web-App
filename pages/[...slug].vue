@@ -19,6 +19,10 @@ try {
 
     pageContent.value = response.content;
 } catch {
+    throw createError({
+        statusCode: 404,
+        fatal: true
+    });
     pageContent.value = "";
 }
 </script>

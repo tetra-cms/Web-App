@@ -1,6 +1,5 @@
 import type IUserMenuItem from "~/types/usermenu/UserMenuItem";
 
-import PersonalIcon from '~/assets/svg/personal.svg';
 import GearIcon from '~/assets/svg/gear.svg';
 import CartIcon from '~/assets/svg/cart.svg';
 import PackagingIcon from '~/assets/svg/packaging.svg';
