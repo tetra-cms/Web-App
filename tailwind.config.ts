@@ -12,7 +12,7 @@ module.exports = {
                     'light': '#EFEFEF',
                     'wrapper': {
                         'dark': '#000000',
-                        'light': '#959595'
+                        'light': '#DCDCDC'
                     }
                 },
                 'tomato': {

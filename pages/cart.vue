@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
 
 import { useProducts } from "~/composables/api/useProducts";
 import type { IProductCard } from "~/types/productcard/ProductCard";
@@ -10,7 +11,12 @@ import type { ApiProductItem } from "~/types/api/ApiProductItem";
 
 import TrashIcon from '~/assets/svg/trashbox.svg';
 import CartIcon from '~/assets/svg/cart.svg';
-import { useI18n } from "vue-i18n";
+
+import WarehouseIcon from '~/assets/svg/warehouse.svg';
+import DeliveryIcon from '~/assets/svg/delivery.svg';
+
+import CashIcon from '~/assets/svg/cash.svg';
+import NonCashIcon from '~/assets/svg/noncash.svg';
 
 const { t } = useI18n();
 
@@ -23,6 +29,9 @@ const productItems = ref<IProductCard[]>([]);
 
 const showModalClear = ref(false);
 const cartProducts = ref<ApiProductItem[]>([]);
+
+const orderType = ref("pickup");
+const payType = ref("cash");
 
 onMounted(async () => {
     cart.loadCart();
@@ -77,6 +86,11 @@ function clearCart()
 const openClearModal = () => {
   showModalClear.value = !showModalClear.value;
 };
+
+function orderAction()
+{
+  console.log("ORDERING")
+}
 </script>
 
 <template>
@@ -135,7 +149,7 @@ const openClearModal = () => {
 
         <Header :title="String(CompanyData.title)" :subtitle="String(CompanyData.subtitle)"></Header>
 
-        <div v-if="cartItems.length">
+        <div v-if="cart.amount">
             <div class="w-full flex flex-col justify-between">
                 <div class="flex flex-row justify-between px-[60px] mb-[20px]">
                     <h1 class="font-druk text-[24px] font-bold">{{ $t('headers.cart') }}</h1>
@@ -214,28 +228,81 @@ const openClearModal = () => {
 
 
                     <div class="flex flex-col w-[320px] ml-[20px]">
-                        <div class="w-full py-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
+                        <div class="w-full pt-[10px] pb-[40px] bg-secondary-secondary px-[15px] rounded-[10px]">
                             <div class="my-[15px]">
+                                <div class="flex flex-col gap-[10px] mb-[15px]">
+                                  <Radio v-model="orderType" value="pickup">
+                                    <div :class="'flex flex-row gap-[10px] items-center '">
+                                      <WarehouseIcon class="w-[24px] h-[24px]"/>
+                                      <div class="flex flex-col"> 
+                                        <p class="text-[16px]">
+                                          {{ t('order.types.pickup') }}
+                                        </p>
+
+                                        <p class="text-[12px] text-secondary-wrapper-dark">
+                                          г.Тольятти, ул. Ларина 149
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </Radio>
+
+                                  <Radio v-model="orderType" value="delivery">
+                                    <div class="flex flex-row gap-[10px] items-center">
+                                      <DeliveryIcon class="w-[24px] h-[24px]"/>
+                                      <div class="flex flex-col"> 
+                                        <p class="text-[16px]">
+                                          {{ t('order.types.delivery') }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </Radio>
+                                </div>
+                              
                                 <div class="flex flex-row justify-between">
                                     <p>{{ $t("order.block.summary") }}:</p>
                                     <p class="font-bold">{{ totalPrice.toLocaleString() }} ₽</p>
                                 </div>
 
-                                <p v-if="cartItems.length" class="text-secondary-wrapper-light">
-                                    {{ cartItems.length }}
-                                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cartItems.length)
+                                <p v-if="cart.amount" class="text-secondary-wrapper-light">
+                                    {{ cart.amount }}
+                                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount)
                                     }}
                                 </p>
                             </div>
 
-                            <Button :label="$t('buttons.placeorder')" attributes="w-full py-[10px]" />
+                            <Button 
+                              :label="$t('buttons.placeorder')" 
+                              attributes="w-full py-[10px]" 
+                              @click.prevent="orderAction"/>
                         </div>
 
-                        <div class="mt-[10px] bg-secondary-secondary">
+                        <div 
+                          class="mt-[10px] bg-secondary-secondary px-[15px] py-[10px]">
+                            <div class="flex flex-col gap-[10px] mb-[15px]">
+                              <Radio v-model="payType" value="cash">
+                                <div :class="'flex flex-row gap-[10px] items-center '">
+                                  <CashIcon class="w-[24px] h-[24px]"/>
+                                  <div class="flex flex-col"> 
+                                    <p class="text-[16px]">
+                                      {{ t('order.types.pay.cash') }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </Radio>
 
+                              <Radio v-model="payType" value="noncash">
+                                <div class="flex flex-row gap-[10px] items-center">
+                                  <NonCashIcon class="w-[24px] h-[24px]"/>
+                                  <div class="flex flex-col"> 
+                                    <p class="text-[16px]">
+                                      {{ t('order.types.pay.noncash') }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </Radio>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
