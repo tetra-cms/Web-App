@@ -20,14 +20,11 @@ export default defineNuxtConfig({
   css: [
     "~/layouts/inter/inter.css",
     "~/layouts/druk/style.css",
-  ],
-  plugins: [
-    { src: '~/plugins/yamaps', mode: 'client' },
+    'maplibre-gl/dist/maplibre-gl.css'
   ],
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'http://localhost/api',
-      yaApiKey: process.env.API_YA_MAPS_KEY || ''
+      baseURL: process.env.BASE_URL || 'http://localhost/api'
     },
   },
   devtools: { enabled: true },

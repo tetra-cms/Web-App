@@ -15,14 +15,15 @@
     "@pinia/nuxt": "^0.11.3",
     "@vite-pwa/nuxt": "0.10.6",
     "i18n": "0.15.1",
+    "maplibre-gl": "^5.24.0",
     "nuxt": "^3.16.1",
     "nuxt-svgo": "4.0.15",
     "nuxt-svgo-loader": "0.4.1",
+    "ol": "^10.9.0",
     "pinia": "^3.0.4",
     "typescript": "^5.8.2",
     "vue": "latest",
-    "vue-router": "latest",
-    "vue-yandex-maps": "^2.1.7"
+    "vue-router": "latest"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {

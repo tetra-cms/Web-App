@@ -4,14 +4,6 @@ import { CompanyData } from '~/content/header/HeaderData';
 
 import { ContactItem } from '~/content/contacts/ContactItem';
 
-import {
-    YandexMap,
-    YandexMapDefaultSchemeLayer,
-    YandexMapListener,
-} from 'vue-yandex-maps'
-
-import type { YMap } from '@yandex/ymaps3-types';
-
 const hasAutoRotate = ref(true);
 const mapAzimuth = ref(0);
 const mapTilt = ref((40 * Math.PI) / 180);
@@ -94,25 +86,12 @@ onBeforeUnmount(() => {
 
             <div class="ml-[30px]">
                 <ClientOnly>
-                    <yandex-map
-                        v-model="map"
-                        height="100%"
-                        :settings="{
-                            location: {
-                                center: [
-                                    Number(ContactItem.coords?.lat), 
-                                    Number(ContactItem.coords?.lon)
-                                ],
-                                zoom: 16,
-                            },
-                            camera: { azimuth: mapAzimuth, tilt: mapTilt, duration: hasAutoRotate ? 0 : 250 },
-                            showScaleInCopyrights: false,
-                            behaviors: [],
-                        }"
-                        width="600px">
-                            <yandex-map-default-scheme-layer/>
-                            <yandex-map-listener :settings="{ onActionStart: () => { return } }"/>
-                    </yandex-map>
+                    <div class="w-[600px] h-[600px]">
+                      <OpenStreetMap
+                        :lon="Number(ContactItem.coords?.lat)"
+                        :lat="Number(ContactItem.coords?.lon)"
+                      />
+                    </div>
                 </ClientOnly>
             </div>
         </div>
