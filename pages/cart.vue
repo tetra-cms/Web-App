@@ -25,7 +25,7 @@ const { t } = useI18n();
 const cart = useCartStore();
 const productsApi = useProducts();
 
-const { cartItems } = storeToRefs(cart);
+const user = useUserStore();
 
 const productItems = ref<IProductCard[]>([]);
 
@@ -90,31 +90,52 @@ const openClearModal = () => {
 };
 
 const showModalOrder = ref(false);
-function orderAction()
+async function orderAction()
 {
-  showModalOrder.value = !showModalOrder.value;
+  if (user.isAuthenticated)
+  {
+    showModalOrder.value = !showModalOrder.value;
+  } else {
+    await navigateTo('/auth')
+  }
 }
 
 const OrderFormFields : Array<IFormElement> = [
     {
+        name: "delivery_type",
+        placeholder: t("modal.order.fields.delivery_type"),
+        default: orderType.value,
+        type: FieldType.Hidden,
+    } as IFormElement,
+    {
+        name: "payment_type",
+        placeholder: t("modal.order.fields.delivery_type"),
+        default: payType.value,
+        type: FieldType.Hidden,
+    } as IFormElement,
+    {
         name: "fcs",
         placeholder: t("modal.order.fields.fcs"),
-        type: FieldType.Input
+        type: FieldType.Input,
+        required: true
     } as IFormElement,
     {
         name: "phone",
         placeholder: t("modal.order.fields.phone"),
-        type: FieldType.Input
+        type: FieldType.Input,
+        required: true
     } as IFormElement,
     {
         name: "city",
         placeholder: t("modal.order.fields.city"),
-        type: FieldType.Input
+        type: FieldType.Input,
+        required: true
     } as IFormElement,
     {
         name: "address",
         placeholder: t("modal.order.fields.address"),
-        type: FieldType.Input
+        type: FieldType.Input,
+        required: true
     } as IFormElement,
     {
         name: "commentary",

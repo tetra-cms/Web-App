@@ -68,20 +68,20 @@ const registerUser = async (userData: RegisterSubmitData) => {
             @submitinfo="registerUser"
             :fields="RegisterFormFields">
             <template #terms-label>
-              <p class="text-xs">Я принимаю 
+              <p class="text-sm">Я принимаю 
                 <RouterLink
                     to="/legal/terms"
                     class="text-primary-primary">
-                    условия использования
+                    условиями использования
                 </RouterLink>
               </p>
             </template>
             <template #privacy-label>
-              <p class="text-xs">Выражаю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных в
+              <p class="text-sm">Я выражаю своё согласие с
                 <RouterLink
                     to="/legal/privacy"
                     class="text-primary-primary">
-                    согласие на обработку персональных данных
+                   согласием на обработку персональных данных
                 </RouterLink>
               </p>
             </template>

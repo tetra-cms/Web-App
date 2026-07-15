@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import CrossIcon from '~/assets/svg/cross.svg';
+
 const props = defineProps<{
     title: string
 }>();
@@ -43,8 +45,7 @@ useEscKey(() => {
                     <button
                         @click="isOpen = !isOpen"
                         class="px-[7px] rounded-md">
-                        <IconCross 
-                            class="w-[12px] h-[12px] [&>*]:fill-light-secondary-light dark:[&>*]:fill-light-secondary-primary"/>
+                        X
                     </button>
                 </div>
 
@@ -87,8 +88,7 @@ useEscKey(() => {
                     <button
                         @click="isOpen = !isOpen"
                         class="px-[7px] rounded-md">
-                        <IconCross 
-                            class="w-[12px] h-[12px] [&>*]:fill-light-secondary-light dark:[&>*]:fill-light-secondary-primary"/>
+                        X
                     </button>
                 </div>
 

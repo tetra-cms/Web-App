@@ -19,6 +19,7 @@ export default interface IFormElement {
     default?: string;
     listItems?: Array<IFormElementListItem>;
     route?: string;
+    required?: boolean;
     
     checked?: boolean;
 }

@@ -62,8 +62,9 @@ const deviceType = inject('deviceType');
                     :name="field.name"
                     class="w-full px-[10px] py-[5px] border-secondary-wrapper-light border-[1px] rounded-[5px]"
                     :type="getFieldType(field.type)" 
-                    :placeholder="!props.textLabels ? field.placeholder : ''"
-                    :value="field.default ?? ''">
+                    :placeholder="!props.textLabels ? field.placeholder + (field.required ? '*' : '') : ''"
+                    :value="field.default ?? ''"
+                    :required="field.required">
 
                 <label
                   v-if="field.type == FieldType.Checkbox"
