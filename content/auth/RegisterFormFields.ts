@@ -30,10 +30,20 @@ export const RegisterFormFields : Array<IFormElement> = [
         type: FieldType.Button
     } as IFormElement,
     {
+        name: "terms",
+        placeholder: t("auth.message.login"),
+        type: FieldType.Checkbox,
+    } as IFormElement,
+    {
+        name: "privacy",
+        placeholder: t("auth.message.login"),
+        type: FieldType.Checkbox,
+    } as IFormElement,
+    {
         placeholder: t("auth.message.login"),
         type: FieldType.Link,
         route: "/auth"
-    } as IFormElement
+    } as IFormElement,
 ];
 
 export interface RegisterSubmitData {
