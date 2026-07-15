@@ -19,6 +19,9 @@ import CashIcon from '~/assets/svg/cash.svg';
 import NonCashIcon from '~/assets/svg/noncash.svg';
 import type IFormElement from "~/types/form/FormField";
 import { FieldType } from "~/types/form/FormField";
+import { useOrdersApi } from "~/composables/api/useOrdersApi";
+import { useClients } from "~/composables/api/useClients";
+import type ApiClient from "~/types/api/ApiClient";
 
 const { t } = useI18n();
 
@@ -100,58 +103,101 @@ async function orderAction()
   }
 }
 
-const OrderFormFields : Array<IFormElement> = [
-    {
-        name: "delivery_type",
-        placeholder: t("modal.order.fields.delivery_type"),
-        default: orderType.value,
-        type: FieldType.Hidden,
-    } as IFormElement,
-    {
-        name: "payment_type",
-        placeholder: t("modal.order.fields.delivery_type"),
-        default: payType.value,
-        type: FieldType.Hidden,
-    } as IFormElement,
-    {
-        name: "fcs",
-        placeholder: t("modal.order.fields.fcs"),
-        type: FieldType.Input,
-        required: true
-    } as IFormElement,
-    {
-        name: "phone",
-        placeholder: t("modal.order.fields.phone"),
-        type: FieldType.Input,
-        required: true
-    } as IFormElement,
-    {
-        name: "city",
-        placeholder: t("modal.order.fields.city"),
-        type: FieldType.Input,
-        required: true
-    } as IFormElement,
-    {
-        name: "address",
-        placeholder: t("modal.order.fields.address"),
-        type: FieldType.Input,
-        required: true
-    } as IFormElement,
-    {
-        name: "commentary",
-        placeholder: t("modal.order.fields.commentary"),
-        type: FieldType.TextArea
-    } as IFormElement,
-    {
-        name: "submit",
-        placeholder: t("modal.order.submit_button"),
-        type: FieldType.Button
-    } as IFormElement,
-]
 
-function submitOrder()
-{
+const clientsApi = useClients();
 
+const clients = ref<ApiClient[]>([]);
+clients.value = await clientsApi.getAll();
+
+const selectedClientId = ref<number>();
+
+const OrderFormFields = computed<Array<IFormElement>>(() => {
+
+    const fields: IFormElement[] = [
+        {
+            name: "delivery_type",
+            placeholder: t("modal.order.fields.delivery_type"),
+            default: orderType.value,
+            type: FieldType.Hidden,
+        },
+        {
+            name: "payment_type",
+            placeholder: t("modal.order.fields.payment_type"),
+            default: payType.value,
+            type: FieldType.Hidden,
+        },
+    ];
+
+    if (clients.value.length === 0) {
+        fields.push(
+            {
+                name: "fcs",
+                placeholder: t("modal.order.fields.fcs"),
+                type: FieldType.Input,
+                required: true,
+            },
+            {
+                name: "phone",
+                placeholder: t("modal.order.fields.phone"),
+                type: FieldType.Input,
+                required: true,
+            },
+            {
+                name: "city",
+                placeholder: t("modal.order.fields.city"),
+                type: FieldType.Input,
+                required: true,
+            },
+            {
+                name: "address",
+                placeholder: t("modal.order.fields.address"),
+                type: FieldType.Input,
+                required: true,
+            },
+        );
+    }
+
+    fields.push(
+        {
+            name: "comment",
+            placeholder: t("modal.order.fields.commentary"),
+            type: FieldType.TextArea,
+        },
+        {
+            name: "submit",
+            placeholder: t("modal.order.submit_button"),
+            type: FieldType.Button,
+        },
+    );
+
+    return fields;
+});
+
+const orderApi = useOrdersApi();
+async function submitOrder(data: any) {
+    let clientId = selectedClientId.value;
+
+    if (!clientId) {
+        const client = await clientsApi.create({
+            fcs: data.fcs,
+            phone: data.phone,
+            city: data.city,
+            address: data.address,
+        });
+
+        clientId = client.id;
+    }
+
+    await orderApi.create({
+        client_id: clientId,
+        comment: data.comment,
+        positions: cart.cartItems.map((cartItem) => {
+          return {
+            product_id: cartItem.productId,
+            quantity: cartItem.quantity
+          }
+        }),
+    });
 }
 </script>
 
@@ -206,16 +252,45 @@ function submitOrder()
     </ModalWindow>
 
     <DesktopOnly>
+      <ModalWindow
+        :title="t('modal.order.title')"
+        class="w-[50%]"
+        v-model="showModalOrder"
+      >
+        <ClientList
+            v-if="clients.length"
+            v-model="selectedClientId"
+            :clients="clients"
+            class="mb-5"
+        />
+        <CustomForm
+            class=""
+            :fields="OrderFormFields"
+            @submitinfo="submitOrder"
+        />
+      </ModalWindow>
+    </DesktopOnly>
+
+    <MobileOnly>
       <ModalWindow 
         :title="t('modal.order.title')"
         class="w-[50%]"
         v-model="showModalOrder">
+          <ClientList
+              v-if="clients.length"
+              v-model="selectedClientId"
+              :clients="clients"
+              class="mb-5"
+          />
           <CustomForm
-            class=""
-            @submitinfo="submitOrder"
-            :fields="OrderFormFields"/>
+              class=""
+              :fields="OrderFormFields"
+              @submitinfo="submitOrder"
+          />
       </ModalWindow>
-    </DesktopOnly>
+
+    </MobileOnly>
+    
 
     <DesktopOnly>
         <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
@@ -443,7 +518,7 @@ function submitOrder()
                 </li>
             </ul>
 
-            <OrderAction :amount="cart.amount" :summary="totalPrice" />
+            <OrderAction @click="orderAction" :amount="cart.amount" :summary="totalPrice" />
 
             <div class="mx-[5px]">
                 <div class="flex flex-row justify-between">
