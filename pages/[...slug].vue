@@ -23,7 +23,6 @@ try {
         statusCode: 404,
         fatal: true
     });
-    pageContent.value = "";
 }
 </script>
 
