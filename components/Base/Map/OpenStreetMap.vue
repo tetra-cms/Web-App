@@ -78,7 +78,7 @@ onMounted(() => {
     controls: [],
 
     interactions: defaultInteractions({
-      pinchRotate: false,      // запретить вращение
+      pinchRotate: false,
       altShiftDragRotate: false
     })
   })
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="mapElement"
-    class="w-full h-full rounded-[40px] overflow-hidden"
+    :class="'w-full h-full overflow-hidden ' + $attrs.class"
   />
 </template>
 
