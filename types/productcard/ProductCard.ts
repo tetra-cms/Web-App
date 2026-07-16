@@ -4,4 +4,5 @@ export interface IProductCard {
     name: string,
     description: string,
     price: number
+    supply_quantum?: number
 };

@@ -70,7 +70,7 @@ const registerUser = async (userData: RegisterSubmitData) => {
             <template #terms-label>
               <p class="text-sm">Я принимаю 
                 <RouterLink
-                    to="/legal/terms"
+                    to="/terms"
                     class="text-primary-primary">
                     условиями использования
                 </RouterLink>
@@ -79,7 +79,7 @@ const registerUser = async (userData: RegisterSubmitData) => {
             <template #privacy-label>
               <p class="text-sm">Я выражаю своё согласие с
                 <RouterLink
-                    to="/legal/privacy"
+                    to="/privacy"
                     class="text-primary-primary">
                    согласием на обработку персональных данных
                 </RouterLink>

@@ -94,7 +94,8 @@ function correctPageInput()
                     :image="'/' + product.image" 
                     :name="product.name" 
                     :description="product.description" 
-                    :price="product.price" />
+                    :price="product.price"
+                    :supply_quantum="product.supply_quantum" />
             </li>
         </ul>
 

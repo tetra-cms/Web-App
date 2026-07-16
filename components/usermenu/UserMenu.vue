@@ -79,8 +79,8 @@ const logout = async () => {
                 v-if="isAdminPanelAvailable"
                 class="flex flex-row items-center hover:[&>*]:fill-primary-primary"
             >
-                <NuxtLink
-                    to="/admin/"
+                <a
+                    href="/admin/"
                     class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary"
                 >
                     <WrenchIcon class="mr-[5px] w-[20px] h-[20px]" />
@@ -88,7 +88,7 @@ const logout = async () => {
                     <p class="font-medium transition-all duration-200">
                         {{ $t("usermenu.admin_panel") }}
                     </p>
-                </NuxtLink>
+                  </a>
             </li>
 
             <li

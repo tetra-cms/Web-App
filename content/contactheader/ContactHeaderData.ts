@@ -1,6 +1,6 @@
 import type ContactData from "../../types/ContactData";
 
-export let CurrentCity : String = "Тольятти";
+export let CurrentCity : String = "Тольятти, ул. Ларина 149";
 
 export let ContactGeneral : String = "als-2008@mail.ru";
 export let ContactsList : Array<ContactData> = [

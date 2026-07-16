@@ -18,7 +18,7 @@ const route = useRoute();
 const productsApi = useProducts();
 
 const productInfo = ref<ApiProductItem | null>(null);
-const productItems = ref<IProductCard[]>();
+const productItems = ref<IProductCard[]>([]);
 
 const loadProduct = async () => {
     try {
@@ -37,10 +37,7 @@ const loadSimilarProducts = async () => {
         return;
     }
 
-    const products = await productsApi.getAll({
-        categoryId: Number(productInfo.value.categoryId),
-    });
-
+    const products = await productsApi.getAll(Number(productInfo.value.category.id));
     productItems.value = products
         .filter(product => product.id !== productInfo.value!.id)
         .slice(0, 6)
@@ -50,6 +47,7 @@ const loadSimilarProducts = async () => {
             name: product.name,
             description: product.description,
             price: product.price,
+            supply_quantum: product.supply_quantum
         }));
 };
 
@@ -87,6 +85,9 @@ watch(
                             <div class="flex flex-col h-full justify-center items-start w-full">
                                 <div class="mb-[20px]">
                                     <h2 class="font-bold text-[32px]">{{ productInfo.name }}</h2>
+                                    <p v-if="(productInfo.supply_quantum ?? 1) >= 2">
+                                      {{ $t("common.product.supply_quantum") }}: <b>{{ productInfo.supply_quantum }}</b>
+                                    </p>
                                     <div class="flex flex-row [&>*]:fill-secondary-wrapper-light text-secondary-wrapper-light">
                                         <component :is="useSVGIcon(String(productInfo.categoryInfo?.iconUrl))"></component>
                                         <p class="mx-[5px]">{{ productInfo.categoryInfo?.name }}</p>
@@ -95,7 +96,7 @@ watch(
 
                                 <CartButton 
                                     :id="Number(productInfo.id)"
-                                    :price="productInfo.price"
+                                    :price="productInfo.price * (productInfo.supply_quantum ?? 1)"
                                     attributes="w-full py-[10px]"/>
                             </div>
                         </div>
@@ -141,9 +142,15 @@ watch(
                             </div>
                         </div>
 
-                        <div class="px-[10px]">
+                        <div class="flex flex-col gap-[10px] px-[10px]">
                             <div class="bg-secondary-secondary p-[10px] w-full rounded-[5px]">
                                 {{ $t("common.product.price") }}: <b>{{ productInfo.price }} ₽</b>
+                            </div>
+
+                            <div 
+                              v-if="(productInfo.supply_quantum ?? 1) >= 2" 
+                              class="bg-secondary-secondary p-[10px] w-full rounded-[5px]">
+                                {{ $t("common.product.supply_quantum") }}: <b>{{ productInfo.supply_quantum }}</b>
                             </div>
                         </div>
 
@@ -156,7 +163,7 @@ watch(
                     
                 </div>
 
-                <CartAction :product-id="productInfo.id" :product-price="productInfo.price" />
+                <CartAction :product-id="productInfo.id" :product-price="productInfo.price * (productInfo.supply_quantum ?? 1)" />
             </div>
 
             <div 

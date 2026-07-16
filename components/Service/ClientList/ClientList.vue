@@ -30,7 +30,7 @@ const model = defineModel<number>();
             </p>
 
             <p class="text-sm opacity-80">
-                {{ client.address }}
+                {{ client.address + " (" + client.city + ")" }}
             </p>
         </li>
     </ul>

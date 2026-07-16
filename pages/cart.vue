@@ -38,26 +38,33 @@ const cartProducts = ref<ApiProductItem[]>([]);
 const orderType = ref("pickup");
 const payType = ref("cash");
 
+const isLoading = ref(true);
+
 onMounted(async () => {
-    cart.loadCart();
+    try {
+        cart.loadCart();
 
-    const products = await productsApi.getAll();
+        const products = await productsApi.getAll();
 
-    productItems.value = shuffleArray(
-        products.map(product => ({
-            id: String(product.id),
-            image: product.imageUrl,
-            description: product.description,
-            name: product.name,
-            price: product.price,
-        }))
-    ).slice(0, 6);
+        productItems.value = shuffleArray(
+            products.map(product => ({
+                id: String(product.id),
+                image: product.imageUrl,
+                description: product.description,
+                name: product.name,
+                price: product.price,
+                supply_quantum: product.supply_quantum
+            }))
+        ).slice(0, 6);
 
-    cartProducts.value = await Promise.all(
-        cart.cartItems.map(item =>
-            productsApi.getById(item.productId)
-        )
-    );
+        cartProducts.value = await Promise.all(
+            cart.cartItems.map(item =>
+                productsApi.getById(item.productId)
+            )
+        );
+    } finally {
+        isLoading.value = false;
+    }
 });
 
 const cartView = computed(() =>
@@ -103,12 +110,15 @@ async function orderAction()
   }
 }
 
-
 const clientsApi = useClients();
-
 const clients = ref<ApiClient[]>([]);
-clients.value = await clientsApi.getAll();
 
+if (user.isAuthenticated)
+{
+  clients.value = await clientsApi.getAll();
+}
+
+const newClientCreationFlag = ref<boolean>(false);
 const selectedClientId = ref<number>();
 
 const OrderFormFields = computed<Array<IFormElement>>(() => {
@@ -128,7 +138,7 @@ const OrderFormFields = computed<Array<IFormElement>>(() => {
         },
     ];
 
-    if (clients.value.length === 0) {
+    if (clients.value.length === 0 || newClientCreationFlag.value) {
         fields.push(
             {
                 name: "fcs",
@@ -177,7 +187,7 @@ const orderApi = useOrdersApi();
 async function submitOrder(data: any) {
     let clientId = selectedClientId.value;
 
-    if (!clientId) {
+    if (!clientId || newClientCreationFlag.value) {
         const client = await clientsApi.create({
             fcs: data.fcs,
             phone: data.phone,
@@ -191,6 +201,8 @@ async function submitOrder(data: any) {
     await orderApi.create({
         client_id: clientId,
         comment: data.comment,
+        delivery_type: orderType.value.toUpperCase(),
+        payment_type: payType.value.toUpperCase(),
         positions: cart.cartItems.map((cartItem) => {
           return {
             product_id: cartItem.productId,
@@ -198,11 +210,26 @@ async function submitOrder(data: any) {
           }
         }),
     });
+
+    cart.clear();
+}
+
+function changeView()
+{
+  newClientCreationFlag.value = !newClientCreationFlag.value;
 }
 </script>
 
 <template>
-    <ModalWindow :title="t('modal.clearwindow.clear_cart')" v-model="showModalClear">
+    <div
+        v-if="isLoading"
+        class="flex items-center justify-center min-h-[60vh]"
+    >
+        {{ $t("common.loading") }}
+    </div>
+
+    <template v-else>
+      <ModalWindow :title="t('modal.clearwindow.clear_cart')" v-model="showModalClear">
         <div class="flex flex-col gap-[20px] my-[10px]">
           <div>
             <p>
@@ -251,45 +278,34 @@ async function submitOrder(data: any) {
         </MobileOnly>
     </ModalWindow>
 
-    <DesktopOnly>
-      <ModalWindow
-        :title="t('modal.order.title')"
-        class="w-[50%]"
-        v-model="showModalOrder"
-      >
-        <ClientList
-            v-if="clients.length"
-            v-model="selectedClientId"
-            :clients="clients"
-            class="mb-5"
-        />
-        <CustomForm
-            class=""
-            :fields="OrderFormFields"
-            @submitinfo="submitOrder"
-        />
-      </ModalWindow>
-    </DesktopOnly>
+    <ModalWindow
+      :title="t('modal.order.title')"
+      class="w-[50%]"
+      v-model="showModalOrder"
+    >
+      <button
+          class="py-[10px] text-primary-primary"
+          @click.prevent="changeView">
+          {{ newClientCreationFlag ? t('client.change_button') : t('client.create_button') }}
+      </button>
 
-    <MobileOnly>
-      <ModalWindow 
-        :title="t('modal.order.title')"
-        class="w-[50%]"
-        v-model="showModalOrder">
-          <ClientList
-              v-if="clients.length"
-              v-model="selectedClientId"
-              :clients="clients"
-              class="mb-5"
-          />
-          <CustomForm
-              class=""
-              :fields="OrderFormFields"
-              @submitinfo="submitOrder"
-          />
-      </ModalWindow>
+      <ClientList
+          v-if="clients.length && !newClientCreationFlag"
+          v-model="selectedClientId"
+          :clients="clients"
+          class="mb-5"
+      />
 
-    </MobileOnly>
+      <MobileOnly>
+        
+      </MobileOnly>
+
+      <CustomForm
+          class=""
+          :fields="OrderFormFields"
+          @submitinfo="submitOrder"
+      />
+    </ModalWindow>
     
 
     <DesktopOnly>
@@ -361,7 +377,7 @@ async function submitOrder(data: any) {
                                   v-if="item.product"
                                   class="font-bold"
                               >
-                                  {{ item.product.price.toLocaleString() }} ₽
+                                  {{ (item.product.price * (item.product.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
                               </td>
 
                               <td>
@@ -409,7 +425,7 @@ async function submitOrder(data: any) {
                               
                                 <div class="flex flex-row justify-between">
                                     <p>{{ $t("order.block.summary") }}:</p>
-                                    <p class="font-bold">{{ totalPrice.toLocaleString() }} ₽</p>
+                                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU') }} ₽</p>
                                 </div>
 
                                 <p v-if="cart.amount" class="text-secondary-wrapper-light">
@@ -426,7 +442,7 @@ async function submitOrder(data: any) {
                         </div>
 
                         <div 
-                          class="mt-[10px] bg-secondary-secondary px-[15px] py-[10px]">
+                          class="mt-[10px] bg-secondary-secondary rounded-[10px] px-[15px] py-[10px]">
                             <div class="flex flex-col gap-[10px] mb-[15px]">
                               <Radio v-model="payType" value="cash">
                                 <div :class="'flex flex-row gap-[10px] items-center '">
@@ -508,7 +524,7 @@ async function submitOrder(data: any) {
                         <div class="flex flex-col">
                             <p class="text-[14pt]">{{ cartItem.product?.name }}</p>
 
-                            <p>{{ cartItem.product?.price.toLocaleString() }} ₽</p>
+                            <p>{{ (Number(cartItem.product?.price) * (cartItem.product?.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽</p>
                         </div>
                     </div>
 
@@ -523,7 +539,7 @@ async function submitOrder(data: any) {
             <div class="mx-[5px]">
                 <div class="flex flex-row justify-between">
                     <p>{{ $t("order.block.summary") }}:</p>
-                    <p class="font-bold">{{ totalPrice.toLocaleString() }} ₽</p>
+                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU') }} ₽</p>
                 </div>
 
                 <p class="text-secondary-wrapper-light">
@@ -543,4 +559,5 @@ async function submitOrder(data: any) {
                 to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
         </div>
     </MobileOnly>
+    </template>
 </template>

@@ -62,6 +62,7 @@ const loadProducts = async (
         description: product.description,
         name: product.name,
         price: product.price,
+        supply_quantum: product.supply_quantum
     }));
 
     listOfProducts.value = [...productItems.value];
