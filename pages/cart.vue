@@ -187,7 +187,7 @@ const orderApi = useOrdersApi();
 async function submitOrder(data: any) {
     let clientId = selectedClientId.value;
 
-    if (!clientId || newClientCreationFlag.value) {
+    if ((!clientId || newClientCreationFlag.value) && !clients.value.length) {
         const client = await clientsApi.create({
             fcs: data.fcs,
             phone: data.phone,
@@ -229,7 +229,9 @@ function changeView()
     </div>
 
     <template v-else>
-      <ModalWindow :title="t('modal.clearwindow.clear_cart')" v-model="showModalClear">
+      <ModalWindow 
+        :title="t('modal.clearwindow.clear_cart')"
+        v-model="showModalClear">
         <div class="flex flex-col gap-[20px] my-[10px]">
           <div>
             <p>
@@ -293,7 +295,7 @@ function changeView()
           v-if="clients.length && !newClientCreationFlag"
           v-model="selectedClientId"
           :clients="clients"
-          class="mb-5"
+          class="mb-5 overflow-y-auto"
       />
 
       <MobileOnly>
@@ -512,6 +514,60 @@ function changeView()
 
                     <p class="text-[red]">{{ $t('tables.cart.clear') }}</p>
             </button>
+
+            <div class="w-full flex flex-row justify-between py-[10px]">
+              <div class="flex flex-col">
+                <Radio v-model="orderType" value="pickup">
+                  <div :class="'flex flex-row gap-[10px] items-center '">
+                    <WarehouseIcon class="w-[24px] h-[24px]"/>
+                    <div class="flex flex-col"> 
+                      <p class="text-[16px]">
+                        {{ t('order.types.pickup') }}
+                      </p>
+
+                      <p class="text-[12px] text-secondary-wrapper-dark">
+                        г.Тольятти, ул. Ларина 149
+                      </p>
+                    </div>
+                  </div>
+                </Radio>
+
+                <Radio v-model="orderType" value="delivery">
+                  <div class="flex flex-row gap-[10px] items-center">
+                    <DeliveryIcon class="w-[24px] h-[24px]"/>
+                    <div class="flex flex-col"> 
+                      <p class="text-[16px]">
+                        {{ t('order.types.delivery') }}
+                      </p>
+                    </div>
+                  </div>
+                </Radio>
+              </div>
+
+              <div class="flex flex-col gap-[10px] justify-between">
+                <Radio v-model="payType" value="cash">
+                  <div :class="'flex flex-row gap-[10px] items-center '">
+                    <CashIcon class="w-[24px] h-[24px]"/>
+                    <div class="flex flex-col"> 
+                      <p class="text-[16px]">
+                        {{ t('order.types.pay.cash') }}
+                      </p>
+                    </div>
+                  </div>
+                </Radio>
+
+                <Radio v-model="payType" value="noncash">
+                  <div class="flex flex-row gap-[10px] items-center">
+                    <NonCashIcon class="w-[24px] h-[24px]"/>
+                    <div class="flex flex-col"> 
+                      <p class="text-[16px]">
+                        {{ t('order.types.pay.noncash') }}
+                      </p>
+                    </div>
+                  </div>
+                </Radio>
+              </div>
+            </div>
 
             <ul>
                 <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] bg-secondary-secondary"

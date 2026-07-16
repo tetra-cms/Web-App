@@ -2,5 +2,5 @@ export interface ApiCategoryItem {
     id: number,
     name: string,
     title: string,
-    iconUrl: string
+    icon_url: string
 }

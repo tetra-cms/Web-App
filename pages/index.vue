@@ -40,7 +40,7 @@ const loadCategories = async () => {
         },
         ...categories.map(category => ({
             name: category.name,
-            icon: category.iconUrl,
+            icon: category.icon_url,
             label: category.title,
             route: `?category=${category.id}`,
         })),
