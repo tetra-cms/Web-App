@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 
 import { useProducts } from "~/composables/api/useProducts";
@@ -457,7 +456,7 @@ function changeView()
                                 </div>
                               </Radio>
 
-                              <Radio v-model="payType" value="noncash">
+                              <Radio v-model="payType" value="non_cash">
                                 <div class="flex flex-row gap-[10px] items-center">
                                   <NonCashIcon class="w-[24px] h-[24px]"/>
                                   <div class="flex flex-col"> 

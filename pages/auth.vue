@@ -19,6 +19,11 @@ const userStore = useUserStore();
 const errorMessage = ref("");
 const loading = ref(false);
 
+if (userStore.isAuthenticated)
+{
+  await navigateTo('/')
+}
+
 const authUser = async (userData: AuthSubmitData) => {
     errorMessage.value = "";
     loading.value = true;
