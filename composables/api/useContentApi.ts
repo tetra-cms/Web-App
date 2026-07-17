@@ -13,6 +13,6 @@ export const useContentApi = () => {
             api<ApiContent>(`/content/id/${id}`),
 
         getByRoute: (route: string) =>
-            api<ApiContent>(`/content/${encodeURIComponent(route)}`),
+            api<ApiContent>(`/content/${route}`),
     };
 };

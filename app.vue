@@ -32,8 +32,6 @@ useHead({
 </script>
 
 <template>
-    <NuxtPwaManifest/>
-
     <div v-if="getDeviceInfo() == UserDeviceTypes.Desktop">
         <Desktop/>
     </div>

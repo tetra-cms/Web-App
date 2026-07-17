@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  ssr: true,
+  ssr: false,
   app: {
     head: {
       charset: 'utf-8',
@@ -20,7 +20,6 @@ export default defineNuxtConfig({
   css: [
     "~/layouts/inter/inter.css",
     "~/layouts/druk/style.css",
-    'maplibre-gl/dist/maplibre-gl.css'
   ],
   runtimeConfig: {
     public: {
@@ -35,7 +34,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-svgo-loader',
     'nuxt-svgo',
-    '@vite-pwa/nuxt',
     '@pinia/nuxt',
   ],
   svgo: {
