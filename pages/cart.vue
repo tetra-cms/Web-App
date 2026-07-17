@@ -119,6 +119,10 @@ watchEffect(async () => {
   }
 });
 
+watch(showModalOrder, function() {
+  orderSuccess.value = false;
+})
+
 const newClientCreationFlag = ref<boolean>(false);
 const selectedClientId = ref<number>();
 
