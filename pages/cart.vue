@@ -182,35 +182,40 @@ const OrderFormFields = computed<Array<IFormElement>>(() => {
     return fields;
 });
 
+const orderSuccess = ref(false);
+
 const orderApi = useOrdersApi();
 async function submitOrder(data: any) {
+  try {
     let clientId = selectedClientId.value;
 
     if ((!clientId || newClientCreationFlag.value) && !clients.value.length) {
-        const client = await clientsApi.create({
-            fcs: data.fcs,
-            phone: data.phone,
-            city: data.city,
-            address: data.address,
-        });
+      const client = await clientsApi.create({
+        fcs: data.fcs,
+        phone: data.phone,
+        city: data.city,
+        address: data.address,
+      });
 
-        clientId = client.id;
+      clientId = client.id;
     }
 
     await orderApi.create({
-        client_id: clientId,
-        comment: data.comment,
-        delivery_type: orderType.value.toUpperCase(),
-        payment_type: payType.value.toUpperCase(),
-        positions: cart.cartItems.map((cartItem) => {
-          return {
-            product_id: cartItem.productId,
-            quantity: cartItem.quantity
-          }
-        }),
+      client_id: clientId,
+      comment: data.comment,
+      delivery_type: orderType.value.toUpperCase(),
+      payment_type: payType.value.toUpperCase(),
+      positions: cart.cartItems.map((cartItem) => ({
+        product_id: cartItem.productId,
+        quantity: cartItem.quantity,
+      })),
     });
 
     cart.clear();
+    orderSuccess.value = true;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function changeView()
@@ -220,6 +225,14 @@ function changeView()
 </script>
 
 <template>
+    <DesktopOnly>
+      <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
+            :current-city="String(CurrentCity)" />
+
+        <Header :title="String(CompanyData.title)" :subtitle="String(CompanyData.subtitle)"></Header>
+    </DesktopOnly>
+
+
     <div
         v-if="isLoading"
         class="flex items-center justify-center min-h-[60vh]"
@@ -284,37 +297,54 @@ function changeView()
       class="w-[50%]"
       v-model="showModalOrder"
     >
-      <button
+      <template v-if="!orderSuccess">
+        <button
           class="py-[10px] text-primary-primary"
-          @click.prevent="changeView">
-          {{ newClientCreationFlag ? t('client.change_button') : t('client.create_button') }}
-      </button>
+          @click.prevent="changeView"
+        >
+          {{ newClientCreationFlag
+              ? t('client.change_button')
+              : t('client.create_button') }}
+        </button>
 
-      <ClientList
+        <ClientList
           v-if="clients.length && !newClientCreationFlag"
           v-model="selectedClientId"
           :clients="clients"
           class="mb-5 overflow-y-auto"
-      />
+        />
 
-      <MobileOnly>
-        
-      </MobileOnly>
-
-      <CustomForm
+        <CustomForm
           class=""
           :fields="OrderFormFields"
           @submitinfo="submitOrder"
-      />
+        />
+      </template>
+
+      <template v-else>
+        <div class="flex flex-col items-center justify-center py-10">
+          <div class="text-6xl text-green-500">
+            ✓
+          </div>
+
+          <p class="mt-4 text-xl font-semibold">
+            Заказ успешно отправлен!
+          </p>
+
+          <MobileOnly>
+            <button
+                class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
+                @click.prevent="showModalOrder = false"
+            >
+                {{ $t("common.actions.close") }}
+            </button>
+          </MobileOnly>
+        </div>
+      </template>
     </ModalWindow>
     
 
     <DesktopOnly>
-        <ContactHeader :contact-general="String(ContactGeneral)" :contact-list="ContactsList"
-            :current-city="String(CurrentCity)" />
-
-        <Header :title="String(CompanyData.title)" :subtitle="String(CompanyData.subtitle)"></Header>
-
         <div v-if="cart.amount">
             <div class="w-full flex flex-col justify-between">
                 <div class="flex flex-row justify-between px-[60px] mb-[20px]">
@@ -578,7 +608,7 @@ function changeView()
                     v-for="cartItem in cartView">
                     <div class="flex flex-row">
                         <div>
-                            <img class="w-[96px]" :src="'/api/product/images/' + cartItem.productId">
+                            <img class="w-[96px]" :src="'/api/products/image/' + cartItem.productId">
                         </div>
 
                         <div class="flex flex-col">
