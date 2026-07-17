@@ -112,7 +112,7 @@ async function orderAction()
 const clientsApi = useClients();
 const clients = ref<ApiClient[]>([]);
 
-if (user.isAuthenticated)
+if (user.user && user.isAuthenticated)
 {
   clients.value = await clientsApi.getAll();
 }
@@ -336,29 +336,38 @@ function changeView()
                 </button>
 
                 <div class="w-full flex flex-row">
-                    <table class="w-full text-center">
-                        <thead>
-                            <tr class="rounded-[30px] bg-secondary-secondary">
-                                <th>{{ $t('tables.cart.name') }}</th>
-                                <th>{{ $t('tables.cart.amount') }}</th>
-                                <th>{{ $t('tables.cart.price') }}</th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                    <table class="w-full table-fixed border-collapse">
+                      <thead>
+                          <tr class="bg-secondary-secondary">
+                              <th class="w-[50%] px-4 py-3 text-left rounded-l-[30px]">
+                                  {{ $t('tables.cart.name') }}
+                              </th>
 
-                        <tbody>
+                              <th class="w-[20%] px-4 py-3 text-center">
+                                  {{ $t('tables.cart.amount') }}
+                              </th>
+
+                              <th class="w-[20%] px-4 py-3 text-center">
+                                  {{ $t('tables.cart.price') }}
+                              </th>
+
+                              <th class="w-[10%] px-4 py-3 rounded-r-[30px]"></th>
+                          </tr>
+                      </thead>
+
+                      <tbody>
                           <tr
                               v-for="item in cartView"
                               :key="item.productId"
-                              class="w-full py-[15px] border-secondary-secondary border-b-[2px]"
+                              class="border-b-2 border-secondary-secondary"
                           >
-                              <td class="py-[15px]">
+                              <td class="px-4 py-4">
                                   <div
                                       v-if="item.product"
-                                      class="flex flex-row items-center"
+                                      class="flex items-center gap-3"
                                   >
                                       <img
-                                          class="w-[64px] mr-[5px]"
+                                          class="w-16 h-16 object-cover shrink-0"
                                           :src="item.product.imageUrl"
                                       />
 
@@ -368,29 +377,25 @@ function changeView()
                                   </div>
                               </td>
 
-                              <td>
-                                  <CartButton
-                                      :id="item.productId"
-                                  />
+                              <td class="px-4 py-4 text-center">
+                                  <CartButton :id="item.productId" />
                               </td>
 
                               <td
                                   v-if="item.product"
-                                  class="font-bold"
+                                  class="px-4 py-4 text-center font-bold whitespace-nowrap"
                               >
                                   {{ (item.product.price * (item.product.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
                               </td>
 
-                              <td>
-                                  <button
-                                      @click="cart.remove(item.productId)"
-                                  >
+                              <td class="px-4 py-4 text-center">
+                                  <button @click="cart.remove(item.productId)">
                                       <TrashIcon />
                                   </button>
                               </td>
                           </tr>
                       </tbody>
-                    </table>
+                  </table>
 
 
                     <div class="flex flex-col w-[320px] ml-[20px]">

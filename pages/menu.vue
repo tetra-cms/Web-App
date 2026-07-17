@@ -62,8 +62,8 @@ const logout = async () => {
                 <li
                     class="flex flex-row mx-[10px] border-secondary-wrapper-light border-b py-[15px] items-center cursor-pointer hover:[&>*]:fill-tomato-primary"
                 >
-                  <NuxtLink
-                    to="/admin/"
+                  <a
+                    href="/admin/"
                     class="flex flex-row items-center transition-all duration-200 hover:[&>*]:fill-primary-primary hover:[&>*]:text-primary-primary"
                   >
                     <button
@@ -78,7 +78,7 @@ const logout = async () => {
                           {{ $t("usermenu.admin_panel") }}
                       </p>
                     </button>
-                  </NuxtLink>
+                  </a>
                 </li>
 
                 <li

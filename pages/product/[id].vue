@@ -78,8 +78,8 @@ watch(
                 <div class="w-full flex justify-center">
                     <div class="flex flex-col max-w-[1200px]">
                         <div class="w-full flex flex-row">
-                            <div>
-                                <img class="w-[450px] max-w-[450px]" :src="'/' + productInfo.imageUrl">
+                            <div class="m-[20px]">
+                                <img class="w-[350px] max-w-[350px]" :src="'/' + productInfo.imageUrl">
                             </div>
 
                             <div class="flex flex-col h-full justify-center items-start w-full">

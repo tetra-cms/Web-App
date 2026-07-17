@@ -64,7 +64,7 @@ const logout = async () => {
                     }}
                 </p>
 
-                <p class="text-secondary-wrapper-light">
+                <p>
                     {{
                         user.email.length > 10
                             ? user.email.substring(0, 10) + "..."
