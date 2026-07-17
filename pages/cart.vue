@@ -48,7 +48,7 @@ onMounted(async () => {
         productItems.value = shuffleArray(
             products.map(product => ({
                 id: String(product.id),
-                image: product.imageUrl,
+                image: 'api/products/image/' + String(product.id),
                 description: product.description,
                 name: product.name,
                 price: product.price,
@@ -112,10 +112,12 @@ async function orderAction()
 const clientsApi = useClients();
 const clients = ref<ApiClient[]>([]);
 
-if (user.user && user.isAuthenticated)
-{
-  clients.value = await clientsApi.getAll();
-}
+
+watchEffect(async () => {
+  if (user.credentials) {
+    clients.value = await clientsApi.getAll();
+  }
+});
 
 const newClientCreationFlag = ref<boolean>(false);
 const selectedClientId = ref<number>();
