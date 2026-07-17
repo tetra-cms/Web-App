@@ -168,7 +168,7 @@ watch(search, value => {
                 </div>
                 
                 <NuxtLink
-                  to="/legal/">
+                  to="/legal">
                   {{ t('legal.title') }}
                 </NuxtLink>
               </div>
