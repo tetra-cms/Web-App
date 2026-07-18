@@ -118,9 +118,11 @@ async function submitClient(clientInfo) {
           :current-city="String(CurrentCity)"/>
   </DesktopOnly>
 
-  <Header 
-    :title="String(CompanyData.title)"
-    :subtitle="String(CompanyData.subtitle)"></Header>
+  <div class="my-[10px]">
+    <Header 
+      :title="String(CompanyData.title)"
+      :subtitle="String(CompanyData.subtitle)"/>
+  </div>
 
   <ModalWindow
     :title="t('modal.client.title')"
@@ -141,7 +143,7 @@ async function submitClient(clientInfo) {
     </button>
   </ModalWindow>
 
-  <main class="flex flex-col justify-center items-center w-full">
+  <main class="flex flex-col justify-center items-center w-full px-[15px]">
     <div class="w-full md:w-1/2 md:max-w-full bg-secondary-secondary p-5 rounded-[10px]">
       <p>{{ t('user.email') }}</p>
       <b>{{ user.user?.email }}</b>

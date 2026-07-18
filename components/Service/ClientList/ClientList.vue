@@ -9,7 +9,8 @@ const model = defineModel<number>();
 </script>
 
 <template>
-    <ul class="flex flex-col gap-2">
+    <ul 
+      :class="'flex flex-col gap-2 overflow-y-auto ' + $attrs.class">
         <li
             v-for="client in props.clients"
             :key="client.id"

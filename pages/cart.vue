@@ -21,6 +21,7 @@ import { FieldType } from "~/types/form/FormField";
 import { useOrdersApi } from "~/composables/api/useOrdersApi";
 import { useClients } from "~/composables/api/useClients";
 import type ApiClient from "~/types/api/ApiClient";
+import Desktop from "~/components/views/Desktop.vue";
 
 const { t } = useI18n();
 
@@ -313,12 +314,24 @@ function changeView()
               : t('client.create_button') }}
         </button>
 
-        <ClientList
-          v-if="clients.length && !newClientCreationFlag"
-          v-model="selectedClientId"
-          :clients="clients"
-          class="mb-5 overflow-y-auto"
-        />
+        <MobileOnly>
+          <ClientList
+            v-if="clients.length && !newClientCreationFlag"
+            v-model="selectedClientId"
+            :clients="clients"
+            class="mb-5 overflow-y-auto max-h-[200px]"
+          />
+        </MobileOnly>
+
+        <DesktopOnly>
+          <ClientList
+            v-if="clients.length && !newClientCreationFlag"
+            v-model="selectedClientId"
+            :clients="clients"
+            class="mb-5 overflow-y-auto max-h-[600px]"
+          />
+        </DesktopOnly>
+        
 
         <CustomForm
           class=""
