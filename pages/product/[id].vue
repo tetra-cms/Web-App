@@ -128,7 +128,7 @@ watch(
 
         <MobileOnly>
             <div v-if="productInfo">
-                <div class="w-full">
+                <div class="w-full pb-[100px]">
                     <div class="m-[60px]">
                         <img class="w-full object-contain" :src="'/' + productInfo.imageUrl">
                     </div>
