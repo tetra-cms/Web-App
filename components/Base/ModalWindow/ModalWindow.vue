@@ -25,7 +25,7 @@ useEscKey(() => {
             <div 
                 v-if="isOpen"
                 @click="isOpen = !isOpen"
-                class="w-full fixed h-[100vh] backdrop-blur-md bg-dark-secondary-primary/70 top-0 left-0 flex items-center justify-center">
+                class="w-full fixed h-[100vh] backdrop-blur-md bg-dark-secondary-primary/70 top-0 left-0 flex items-center justify-center z-[99999]">
             </div>
         </transition>
 
@@ -39,7 +39,7 @@ useEscKey(() => {
         >
             <div
                 v-if="isOpen"
-                class="fixed m-auto z-40 inset-x-0 inset-y-0 max-w-[600px] max-h-max p-[40px] rounded-lg border-[1px] bg-secondary-primary border-secondary-light">
+                class="fixed m-auto z-40 inset-x-0 inset-y-0 max-w-[600px] z-[999999] max-h-max p-[40px] rounded-lg border-[1px] bg-secondary-primary border-secondary-light">
                 <div class="w-full flex justify-between items-center">
                     <p class="text-lg font-bold">{{ title }}</p>
                     <button
@@ -68,7 +68,7 @@ useEscKey(() => {
             <div 
                 v-if="isOpen"
                 @click="isOpen = !isOpen"
-                class="w-full fixed h-[100vh] backdrop-blur-md bg-dark-secondary-primary/70 top-0 left-0 flex items-center justify-center">
+                class="w-full fixed h-[100vh] backdrop-blur-md bg-dark-secondary-primary/70 top-0 left-0 z-[99999] flex items-center justify-center">
             </div>
         </transition>
 
@@ -82,7 +82,7 @@ useEscKey(() => {
         >
             <div
                 v-if="isOpen"
-                class="fixed z-40 w-full p-[30px] max-h-max left-0 right-0 bottom-0 rounded-t-3xl bg-secondary-primary">
+                class="fixed z-40 w-full p-[30px] z-[999999] max-h-max left-0 right-0 bottom-0 rounded-t-3xl bg-secondary-primary">
                 <div class="w-full flex justify-between items-center">
                     <p class="text-lg font-bold">{{ title }}</p>
                     <button
