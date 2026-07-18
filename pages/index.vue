@@ -163,11 +163,12 @@ watch(search, value => {
               <div
                 class="flex flex-col gap-[10px] mt-auto">
                 <div>
-                  <p>{{ String(ContactItem.companyName) }}</p>
-                  <p>{{ $t("labels.itn") }}: {{ ContactItem.itn }}</p>
+                  <p class="text-[12pt] font-bold">{{ String(ContactItem.companyName) }}</p>
+                  <p class="text-[10pt]">{{ $t("labels.itn") }}: <b>{{ ContactItem.itn }}</b></p>
                 </div>
                 
                 <NuxtLink
+                  class="text-[10pt]"
                   to="/legal">
                   {{ t('legal.title') }}
                 </NuxtLink>
