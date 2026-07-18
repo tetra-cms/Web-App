@@ -536,7 +536,7 @@ function changeView()
     </DesktopOnly>
 
     <MobileOnly>
-        <div v-if="cart.amount">
+        <div v-if="cart.amount" class="pb-[100px]">
             <div class="flex flex-start flex-row items-center">
                 <h1 class="text-[24px] font-bold">{{ $t('headers.cart') }}</h1>
                 <p class="text-secondary-wrapper-light ml-[10px]">
@@ -613,12 +613,12 @@ function changeView()
                 <li class="flex flex-col mx-[5px] my-[10px] p-[10px] rounded-[10px] bg-secondary-secondary"
                     v-for="cartItem in cartView">
                     <div class="flex flex-row">
-                        <div>
-                            <img class="w-[96px]" :src="'/api/products/image/' + cartItem.productId">
+                        <div class="p-[10px]">
+                            <img class="w-[80px]" :src="'/api/products/image/' + cartItem.productId">
                         </div>
 
                         <div class="flex flex-col">
-                            <p class="text-[14pt]">{{ cartItem.product?.name }}</p>
+                            <p class="text-[14pt] font-bold">{{ cartItem.product?.name }}</p>
 
                             <p>{{ (Number(cartItem.product?.price) * (cartItem.product?.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽</p>
                         </div>
