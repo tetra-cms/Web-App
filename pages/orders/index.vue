@@ -51,7 +51,7 @@ watch(selectedOrderId, async (id) => {
                     v-else
                     class="py-16 text-center text-secondary-wrapper-light"
                 >
-                    {{ $t("orders.empty") }}
+                    {{ $t("order.empty") }}
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@ watch(selectedOrderId, async (id) => {
                 v-else
                 class="py-10 text-center text-secondary-wrapper-light"
             >
-                {{ $t("orders.empty") }}
+                {{ $t("order.empty") }}
             </div>
         </div>
       </div>
