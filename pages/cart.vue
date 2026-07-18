@@ -434,7 +434,7 @@ function changeView()
                                   v-if="item.product"
                                   class="px-4 py-4 text-center font-bold whitespace-nowrap"
                               >
-                                  {{ (item.product.price * (item.product.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
+                                  {{ (item.product.price * (item.product.supply_quantum ?? 1)).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽
                               </td>
 
                               <td class="px-4 py-4 text-center">
@@ -480,7 +480,7 @@ function changeView()
                               
                                 <div class="flex flex-row justify-between">
                                     <p>{{ $t("order.block.summary") }}:</p>
-                                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU') }} ₽</p>
+                                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽</p>
                                 </div>
 
                                 <p v-if="cart.amount" class="text-secondary-wrapper-light">
@@ -633,7 +633,7 @@ function changeView()
                         <div class="flex flex-col">
                             <p class="text-[14pt] font-bold">{{ cartItem.product?.name }}</p>
 
-                            <p>{{ (Number(cartItem.product?.price) * (cartItem.product?.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽</p>
+                            <p>{{ (Number(cartItem.product?.price) * (cartItem.product?.supply_quantum ?? 1)).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽</p>
                         </div>
                     </div>
 
@@ -648,7 +648,7 @@ function changeView()
             <div class="mx-[5px]">
                 <div class="flex flex-row justify-between">
                     <p>{{ $t("order.block.summary") }}:</p>
-                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU') }} ₽</p>
+                    <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽</p>
                 </div>
 
                 <p class="text-secondary-wrapper-light">

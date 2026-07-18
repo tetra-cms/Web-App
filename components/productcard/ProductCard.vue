@@ -18,7 +18,7 @@ const props = defineProps<IProductCard>();
             <div class="flex flex-row justify-end">
                 <div class="flex flex-col">
                   <p class="font-black text-[16pt]">
-                    {{ (props.price * (props.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
+                    {{ (props.price * (props.supply_quantum ?? 1)).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽
                   </p>
 
                   <p 
@@ -49,7 +49,7 @@ const props = defineProps<IProductCard>();
 
                 <div class="w-full flex flex-col justify-end">
                     <p class="font-black text-primary-primary text-[14pt]">
-                      {{ (props.price * (props.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
+                      {{ (props.price * (props.supply_quantum ?? 1)).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽
                     </p>
 
                     <p 

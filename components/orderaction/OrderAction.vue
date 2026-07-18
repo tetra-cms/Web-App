@@ -14,7 +14,7 @@ const props = defineProps<{
                     {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), props.amount) }}
                 </p>
                 <p>{{ $t("buttons.placeorder") }}</p>
-                <p class="font-normal">{{ props.summary.toLocaleString() }} ₽</p>
+                <p class="font-normal">{{ props.summary.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽</p>
         </button>
     </div>
 </template>
