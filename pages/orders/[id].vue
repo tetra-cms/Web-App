@@ -72,17 +72,17 @@ const formatDate = (value: string) =>
                       <div class="space-y-3">
 
                           <div>
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.status.status") }}
                               </p>
 
-                              <p class="font-semibold">
+                              <p class="font-medium">
                                   {{ statusMap[order.status] }}
                               </p>
                           </div>
 
                           <div>
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.created") }}
                               </p>
 
@@ -92,7 +92,7 @@ const formatDate = (value: string) =>
                           </div>
 
                           <div>
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.client") }}
                               </p>
 
@@ -103,7 +103,7 @@ const formatDate = (value: string) =>
                           </div>
 
                           <div>
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.delivery") }}
                               </p>
 
@@ -111,7 +111,7 @@ const formatDate = (value: string) =>
                           </div>
 
                           <div>
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.payment") }}
                               </p>
 
@@ -119,7 +119,7 @@ const formatDate = (value: string) =>
                           </div>
 
                           <div v-if="order.comment">
-                              <p class="text-secondary-wrapper-light">
+                              <p class="font-bold text-secondary-wrapper-light">
                                   {{ $t("order.comment") }}
                               </p>
 
@@ -162,7 +162,7 @@ const formatDate = (value: string) =>
                                   <p
                                       class="text-secondary-wrapper-light text-sm mt-1"
                                   >
-                                      {{ position.product.description.substring(0, 30) + "..." }}
+                                      {{ position.product.description.substring(0, 20) + (position.product.description.length < 20 ? "" : "...") }}
                                   </p>
 
                               </div>
@@ -227,17 +227,17 @@ const formatDate = (value: string) =>
               <div class="space-y-4">
 
                   <div>
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.status.status") }}
                       </p>
 
-                      <p class="font-semibold">
+                      <p class="font-medium">
                           {{ statusMap[order.status] }}
                       </p>
                   </div>
 
                   <div>
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.created") }}
                       </p>
 
@@ -247,7 +247,7 @@ const formatDate = (value: string) =>
                   </div>
 
                   <div>
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.client") }}
                       </p>
 
@@ -258,7 +258,7 @@ const formatDate = (value: string) =>
                   </div>
 
                   <div>
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.delivery") }}
                       </p>
 
@@ -268,7 +268,7 @@ const formatDate = (value: string) =>
                   </div>
 
                   <div>
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.payment") }}
                       </p>
 
@@ -278,7 +278,7 @@ const formatDate = (value: string) =>
                   </div>
 
                   <div v-if="order.comment">
-                      <p class="text-sm">
+                      <p class="font-bold text-sm">
                           {{ $t("order.comment") }}
                       </p>
 
@@ -319,7 +319,7 @@ const formatDate = (value: string) =>
                       <p
                           class="text-sm text-secondary-wrapper-light mt-1 line-clamp-3"
                       >
-                          {{ position.product.description }}
+                          {{ position.product.description.substring(0, 20) + (position.product.description.length < 20 ? "" : "...") }}
                       </p>
 
                   </div>

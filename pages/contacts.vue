@@ -44,7 +44,7 @@ import { ContactItem } from '~/content/contacts/ContactItem';
 
                       <RouterLink 
                         class="text-primary-primary"  
-                        to="/legal/">
+                        to="/legal">
                         {{ $t("legal.title") }}
                       </RouterLink>
 
@@ -77,23 +77,29 @@ import { ContactItem } from '~/content/contacts/ContactItem';
     <MobileOnly>
         <div class="flex flex-col pb-[100px]">
           <h1
-              class="text-[48px] font-bold">
+              class="text-[32px] font-bold">
               {{ $t("header.contacts") }}
           </h1>
 
           <div class="px-[10px] flex flex-col">
-              <a class="my-[10px]" :href="'tel:+' + ContactItem.phone?.replace(/[^0-9]/g, '')"><b>{{ ContactItem.phone }}</b></a>
-              <a class="my-[10px]" :href="'mailto:' + ContactItem.email"><b>{{ ContactItem.email }}</b></a>
+              <a :href="'tel:+' + ContactItem.phone?.replace(/[^0-9]/g, '')"><b>{{ ContactItem.phone }}</b></a>
+              <a :href="'mailto:' + ContactItem.email"><b>{{ ContactItem.email }}</b></a>
 
               <div class="flex flex-col mt-[20px]">
-                  <p>{{ ContactItem.companyName }}</p>
-                  <p>{{ $t("labels.itn") }}: {{ ContactItem.itn }}</p>
-                  <p>{{ $t("labels.psnsp") }}: {{ ContactItem.psnsp }}</p>
+                  <p><b>{{ ContactItem.companyName }}</b></p>
+                  <p>{{ $t("labels.itn") }}: <b>{{ ContactItem.itn }}</b></p>
+                  <p>{{ $t("labels.psnsp") }}: <b>{{ ContactItem.psnsp }}</b></p>
 
-                  <p class="mt-[30px]">{{ ContactItem.companyAddress }}</p>
+                  <p class="mt-[20px]">{{ ContactItem.companyAddress }}</p>
+
+                  <RouterLink 
+                    class="text-primary-primary"  
+                    to="/legal">
+                    {{ $t("legal.title") }}
+                  </RouterLink>
               </div>
 
-              <div class="mt-[30px] mb-[10px]">
+              <div class="mt-[20px] mb-[10px]">
                   <RouterLink to="/">
                       <div
                       class="flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[5px] rounded-[5px] bg-primary-primary">

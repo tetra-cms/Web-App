@@ -58,10 +58,13 @@ watch(selectedOrderId, async (id) => {
     </DesktopOnly>
 
     <MobileOnly>
-        <Header
+      <div class="pb-[100px]">
+        <div class="mt-[20px]">
+          <Header
             :title="String(CompanyData.title)"
             :subtitle="String(CompanyData.subtitle)"
-        />
+          />
+        </div>
 
         <div class="px-4 py-6">
             <h1 class="mb-4 text-2xl font-bold">
@@ -81,5 +84,6 @@ watch(selectedOrderId, async (id) => {
                 {{ $t("orders.empty") }}
             </div>
         </div>
+      </div>
     </MobileOnly>
 </template>

@@ -201,7 +201,7 @@ watch(search, value => {
           />
       </div>
 
-      <p class="font-bold">{{ t('common.category') }}</p>
+      <p class="text-[20pt] font-bold">{{ t('common.category') }}</p>
       <ItemsList :items="categoryItems"/>
 
       <ProductList
