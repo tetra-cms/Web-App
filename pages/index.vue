@@ -143,7 +143,7 @@ watch(search, value => {
             :subtitle="String(CompanyData.subtitle)"></Header>
 
         <div class="flex flex-row justify-between px-[60px] mb-[20px]">
-          <h1 class="font-druk text-[24px] font-bold">Наша продукция</h1>
+          <h1 class="font-druk text-[24px] font-bold">{{ t('product.title') }}</h1>
 
           <input
             v-model="search"
@@ -156,7 +156,7 @@ watch(search, value => {
         <div class="flex flex-1 flex-row">
             <div class="flex flex-col px-[20px] mr-[20px]">
               <div>
-                <h2 class="text-secondary-wrapper-light font-bold">Категории</h2>
+                <h2 class="text-secondary-wrapper-light font-bold">{{ t('common.category') }}</h2>
                 <ItemsList :items="categoryItems"/>
               </div>
               
@@ -187,29 +187,30 @@ watch(search, value => {
   </DesktopOnly>
 
   <MobileOnly>
-    <div class="my-[30px]">
-      <Header 
-        :title="String(CompanyData.title)"
-        :subtitle="String(CompanyData.subtitle)"></Header>
+    <div class="pb-[100px]">
+      <div class="my-[30px]">
+        <Header 
+          :title="String(CompanyData.title)"
+          :subtitle="String(CompanyData.subtitle)"></Header>
+      </div>
+
+      <div class="my-[10px] flex justify-center">
+        <InputWithReset
+          v-model="search"
+          :placeholder="t('common.search') + '...'"
+          />
+      </div>
+
+      <p class="font-bold">{{ t('common.category') }}</p>
+      <ItemsList :items="categoryItems"/>
+
+      <ProductList
+        v-if="productItems.length"
+        :items="listOfProducts"/>
+
+      <div class="w-full" v-else>
+        <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>
+      </div>
     </div>
-
-    <div class="my-[10px] flex justify-center">
-      <InputWithReset
-        v-model="search"
-        :placeholder="t('common.search') + '...'"
-        />
-    </div>
-
-    <p class="font-bold">Категории</p>
-    <ItemsList :items="categoryItems"/>
-
-    <ProductList
-      v-if="productItems.length"
-      :items="listOfProducts"/>
-
-    <div class="w-full" v-else>
-      <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>
-    </div>
-
   </MobileOnly>
 </template>
