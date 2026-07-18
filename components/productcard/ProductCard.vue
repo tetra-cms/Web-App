@@ -5,14 +5,14 @@ const props = defineProps<IProductCard>();
 
 <template>
     <DesktopOnly>
-        <div class="flex flex-col justify-between w-[190px] h-[290px] p-[15px] border-secondary-secondary border-[3px] rounded-[10px]">
+        <div class="flex flex-col justify-between w-[190px] h-[300px] min-h-[300px] p-[15px] border-secondary-secondary border-[3px] rounded-[10px]">
             <NuxtLink :to="'/product/' + props.id">
                 <div class="w-full flex justify-center">
-                    <img class="max-h-[85px]" v-if="props.image" :src="props.image">
+                    <img class="max-h-[90px]" v-if="props.image" :src="props.image">
                 </div>
             
-                <p class="text-[14pt] font-bold">{{ props.name }}</p>
-                <p class="text-[10pt]">{{ props.description.substring(0, 50) + (props.description.length < 50 ? "" : "...") }}</p>
+                <p class="text-[12pt] font-bold">{{ props.name }}</p>
+                <p class="text-[8pt]">{{ props.description.substring(0, 20) + (props.description.length < 20 ? "" : "...") }}</p>
             </NuxtLink>
 
             <div class="flex flex-row justify-end">
@@ -36,16 +36,19 @@ const props = defineProps<IProductCard>();
 
     <MobileOnly>
         <div class="flex flex-col justify-between w-[180px] h-[250px] border-secondary-secondary border-[3px] p-[15px] rounded-[10px]">
-            <NuxtLink :to="'/product/' + props.id">
-                <div class="w-full flex justify-center">
-                    <img class="max-h-[85px]" v-if="props.image" :src="props.image">
-                </div>
-            
-                <p class="text-[14pt] font-bold">{{ props.name }}</p>
-                <p class="text-[10pt]">{{ props.description.substring(0, 50) + "..." }}</p>
-
+            <NuxtLink
+              class="flex flex-col justify-between h-full"
+              :to="'/product/' + props.id">
                 <div>
-                    <p class="font-black text-primary-primary text-[16pt]">
+                  <div class="w-full flex justify-center">
+                      <img class="max-h-[85px]" v-if="props.image" :src="props.image">
+                  </div>
+              
+                  <p class="text-[10pt] font-bold">{{ props.name.length >= 40 ? props.name.substring(0, 40) + "..." : props.name }}</p>
+                </div>
+
+                <div class="w-full flex flex-col justify-end">
+                    <p class="font-black text-primary-primary text-[14pt]">
                       {{ (props.price * (props.supply_quantum ?? 1)).toLocaleString('ru-RU') }} ₽
                     </p>
 

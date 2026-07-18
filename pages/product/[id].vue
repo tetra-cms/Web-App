@@ -89,7 +89,7 @@ watch(
                                       {{ $t("common.product.supply_quantum") }}: <b>{{ productInfo.supply_quantum }}</b>
                                     </p>
                                     <div class="flex flex-row [&>*]:fill-secondary-wrapper-light text-secondary-wrapper-light">
-                                        <component :is="useSVGIcon(String(productInfo.categoryInfo?.iconUrl))"></component>
+                                        <component :is="useSVGIcon(String(productInfo.categoryInfo?.icon_url))"></component>
                                         <p class="mx-[5px]">{{ productInfo.categoryInfo?.name }}</p>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@ watch(
                         <div class="mb-[25px]">
                             <h2 class="text-[32px] font-bold">{{ productInfo.name }}</h2>
                             <div class="flex flex-row [&>*]:fill-secondary-wrapper-light text-secondary-wrapper-light">
-                                <component :is="useSVGIcon(String(productInfo.categoryInfo?.iconUrl))"></component>
+                                <component :is="useSVGIcon(String(productInfo.categoryInfo?.icon_url))"></component>
                                 <p class="mx-[5px]">{{ productInfo.categoryInfo?.name }}</p>
                             </div>
                         </div>
