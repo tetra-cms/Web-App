@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  ssr: false,
+  ssr: process.env.BASE_SSR ?? true,
   app: {
     head: {
       charset: 'utf-8',
