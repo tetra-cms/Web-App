@@ -22,58 +22,70 @@ const productsApi = useProducts();
 
 const route = useRoute();
 
-const categoryItems = ref<IItemListItem[]>([]);
+const categoryItems = ref<IItemListItem[]>([
+  {
+    name: t("category.all"),
+    icon: "categories-squares",
+    label: t("category.all"),
+    route: "",
+  }
+]);
 const productItems = ref<IProductCard[]>([]);
 const listOfProducts = ref<IProductCard[]>([]);
 
-const renderProductList = ref(true);
-
+const loadingCategories = ref(true);
 const loadCategories = async () => {
-    const categories = await categoriesApi.getAll();
+    loadingCategories.value = true;
 
-    categoryItems.value = [
-        {
-            name: t("category.all"),
-            icon: "categories-squares",
-            label: t("category.all"),
-            route: "",
-        },
-        ...categories.map(category => ({
-            name: category.name,
-            icon: category.icon_url,
-            label: category.title,
-            route: `?category=${category.id}`,
-        })),
-    ];
+    try {
+        const categories = await categoriesApi.getAll();
+        categoryItems.value = [
+            {
+                name: t("category.all"),
+                icon: "categories-squares",
+                label: t("category.all"),
+                route: "",
+            },
+            ...categories.map(category => ({
+                name: category.name,
+                icon: category.icon_url,
+                label: category.title,
+                route: `?category=${category.id}`,
+            })),
+        ];
+    }
+    finally {
+        loadingCategories.value = false;
+    }
 };
 
 const search = ref("");
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
+const loadingProducts = ref(true);
 const loadProducts = async (
-  categoryId?: number, 
-  searchText?: string
+    categoryId?: number,
+    searchText?: string
 ) => {
-    const products = await productsApi.getAll(categoryId, searchText);
+    loadingProducts.value = true;
 
-    productItems.value = products.map(product => ({
-        id: String(product.id),
-        image: "api/products/image/" + product.id,
-        description: product.description,
-        name: product.name,
-        price: product.price,
-        supply_quantum: product.supply_quantum
-    }));
+    try {
+        const products = await productsApi.getAll(categoryId, searchText);
 
-    listOfProducts.value = [...productItems.value];
-};
+        productItems.value = products.map(product => ({
+            id: String(product.id),
+            image: "api/products/image/" + product.id,
+            description: product.description,
+            name: product.name,
+            price: product.price,
+            supply_quantum: product.supply_quantum
+        }));
 
-const reRenderProductList = async () => {
-    renderProductList.value = false;
-
-    await nextTick();
-
-    renderProductList.value = true;
+        listOfProducts.value = [...productItems.value];
+    }
+    finally {
+        loadingProducts.value = false;
+    }
 };
 
 const sortChange = async (sort: string) => {
@@ -86,18 +98,18 @@ const sortChange = async (sort: string) => {
     }
 
     listOfProducts.value = sorted;
-
-    await reRenderProductList();
 };
 
-await loadCategories();
+onMounted(async () => {
+    await loadCategories();
 
-await loadProducts(
-    route.query.category
-        ? Number(route.query.category)
-        : undefined,
-    search.value
-);
+    await loadProducts(
+        route.query.category
+            ? Number(route.query.category)
+            : undefined,
+        search.value
+    );
+});
 
 watch(
     () => route.query.category,
@@ -108,8 +120,6 @@ watch(
                 : undefined,
             search.value
         );
-
-        await reRenderProductList();
     }
 );
 
@@ -125,7 +135,6 @@ watch(search, value => {
                 : undefined,
             value
         );
-        await reRenderProductList();
     }, 300);
 });
 </script>
@@ -157,14 +166,26 @@ watch(search, value => {
             <div class="flex flex-col px-[20px] mr-[20px]">
               <div>
                 <h2 class="text-secondary-wrapper-light font-bold">{{ t('common.category') }}</h2>
-                <ItemsList :items="categoryItems"/>
+
+                <div 
+                  v-if="loadingCategories"
+                  class="flex flex-col gap-[5px]">
+                    <SkeletonAnimation
+                      v-for="i in 3"
+                      :width="'w-[200px]'"
+                      :height="'h-[32px]'"/>
+                </div>
+
+                <ItemsList 
+                  v-else
+                  :items="categoryItems"/>
               </div>
               
               <div
                 class="flex flex-col gap-[10px] mt-auto">
                 <div>
                   <p class="text-[12pt] font-bold">{{ String(ContactItem.companyName) }}</p>
-                  <p class="text-[10pt]">{{ $t("labels.itn") }}: <b>{{ ContactItem.itn }}</b></p>
+                  <p class="text-[10pt]">{{ t("labels.itn") }}: <b>{{ ContactItem.itn }}</b></p>
                 </div>
                 
                 <NuxtLink
@@ -175,14 +196,34 @@ watch(search, value => {
               </div>
             </div>
             
-            <ProductList 
-              :maxElementsPerPage="12"
-              v-if="renderProductList && productItems.length"
-              :items="listOfProducts"/>
 
-            <div class="w-full" v-else>
-              <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>
+            <ul 
+              class="flex w-full flex-wrap h-full"
+              v-if="loadingProducts">
+                <li
+                  v-for="i in 3"
+                  :key="i"
+                  class="my-[10px] mx-[2px]"
+                >
+                  <SkeletonAnimation
+                    :width="'w-[190px]'"
+                    :height="'h-[300px]'"/>
+                </li>
+            </ul>
+            
+            <ProductList
+                v-else-if="productItems.length"
+                :maxElementsPerPage="12"
+                :items="listOfProducts" />
+
+            <div
+                v-else
+                class="w-full">
+                <p class="text-center">
+                    {{ t("common.catalog.error.noitems") }}
+                </p>
             </div>
+
         </div>
     </div>
   </DesktopOnly>
@@ -203,14 +244,44 @@ watch(search, value => {
       </div>
 
       <p class="text-[20pt] font-bold">{{ t('common.category') }}</p>
-      <ItemsList :items="categoryItems"/>
+
+      <ul 
+        class="flex w-full items-list justify-center flex-row gap-[5px] overflow-x-auto pl-[250px]"
+        v-if="loadingCategories">
+          <li
+            class="w-[45px] h-[45px]"
+            v-for="i in 3">
+            <SkeletonAnimation
+              :width="'w-full'"
+              :height="'h-full'"/>
+          </li>
+      </ul>
+
+      <ItemsList 
+        v-else
+        :items="categoryItems"/>
+
+      <ul 
+        class="flex w-full flex-wrap h-full"
+        v-if="loadingProducts">
+          <li
+            v-for="i in 3"
+            :key="i"
+            class="my-[10px] mx-[2px]"
+          >
+            <SkeletonAnimation
+              :width="'w-[180px]'"
+              :height="'h-[250px]'"/>
+          </li>
+      </ul>
 
       <ProductList
-        v-if="productItems.length"
+        v-else-if="productItems.length"
         :items="listOfProducts"/>
 
-      <div class="w-full" v-else>
-        <p class="text-center">{{ $t("common.catalog.error.noitems") }}</p>
+      <div class="w-full" 
+        v-else>
+        <p class="text-center">{{ t("common.catalog.error.noitems") }}</p>
       </div>
     </div>
   </MobileOnly>

@@ -100,53 +100,53 @@ function correctPageInput()
         </ul>
 
         <div 
-        class="flex flex-row justify-center"
-        v-if="props.items.length > Number(props.maxElementsPerPage)">
+          class="flex flex-row justify-center"
+          v-if="props.items.length > Number(props.maxElementsPerPage)">
             <button
-            v-if="currentPage != 1"
-            @click="decreasePage">
+              v-if="currentPage != 1"
+              @click="decreasePage">
                 Предыдущая
             </button>
 
             <button
-            class="text-secondary-wrapper-light"
-            v-else>
+              class="text-secondary-wrapper-light"
+              v-else>
                 Предыдущая
             </button>
 
             <button
-            class="w-[32px] h-[32px] m-[8px] bg-secondary-light border-[1px] rounded-md"
-            @click="nagivateToPage(currentPage - 1)"
-            v-if="currentPage != 1">
+              class="w-[32px] h-[32px] m-[8px] bg-secondary-light border-[1px] rounded-md"
+              @click="nagivateToPage(currentPage - 1)"
+              v-if="currentPage != 1">
                 {{ currentPage - 1 }}
             </button>
 
             <input
-            class="w-[32px] h-[32px] m-[8px] text-center bg-primary-primary rounded-md"
-            v-if="maxPages != 1"
-            type="number" 
-            min="1"
-            :max="maxPages" 
-            @input="correctPageInput"
-            v-model="currentPage"
-            :placeholder="String(currentPage)">
+              class="w-[32px] h-[32px] m-[8px] text-center bg-primary-primary rounded-md"
+              v-if="maxPages != 1"
+              type="number" 
+              min="1"
+              :max="maxPages" 
+              @input="correctPageInput"
+              v-model="currentPage"
+              :placeholder="String(currentPage)">
 
             <button
-            @click="nagivateToPage(currentPage + 1)"
-            class="w-[32px] h-[32px] m-[8px] bg-secondary-light border-[1px] rounded-md"
-            v-if="currentPage + 1 <= maxPages">
+              @click="nagivateToPage(currentPage + 1)"
+              class="w-[32px] h-[32px] m-[8px] bg-secondary-light border-[1px] rounded-md"
+              v-if="currentPage + 1 <= maxPages">
                 {{ currentPage + 1 }}
             </button>
 
             <button
-            v-if="currentPage + 1 <= maxPages"
-            @click="increasePage">
+              v-if="currentPage + 1 <= maxPages"
+              @click="increasePage">
                 Следующая
             </button>
 
             <button
-            class="text-secondary-wrapper-light"
-            v-else>
+              class="text-secondary-wrapper-light"
+              v-else>
                 Следующая
             </button>
         </div>
