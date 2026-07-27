@@ -37,6 +37,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   svgo: {
-    autoImportPath: './assets/svg/',
+    autoImportPath: '~/assets/svg'
   }
 })
