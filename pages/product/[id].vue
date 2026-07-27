@@ -20,39 +20,55 @@ const productsApi = useProducts();
 const productInfo = ref<ApiProductItem | null>(null);
 const productItems = ref<IProductCard[]>([]);
 
+const loadingProduct = ref(true);
 const loadProduct = async () => {
+    loadingProduct.value = true;
+
     try {
         productInfo.value = await productsApi.getById(
             Number(route.params.id)
         );
     } catch {
         productInfo.value = null;
+    } finally {
+        loadingProduct.value = false;
     }
 };
 
+const loadingSimilarProducts = ref(true);
 const loadSimilarProducts = async () => {
+    loadingSimilarProducts.value = true;
 
-    if (!productInfo.value) {
-        productItems.value = [];
-        return;
+    try {
+        if (!productInfo.value) {
+            productItems.value = [];
+            return;
+        }
+
+        const products = await productsApi.getAll(
+            Number(productInfo.value.category.id)
+        );
+
+        productItems.value = products
+            .filter(product => product.id !== productInfo.value!.id)
+            .slice(0, 6)
+            .map(product => ({
+                id: String(product.id),
+                image: "api/products/image/" + product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                supply_quantum: product.supply_quantum
+            }));
+    } finally {
+        loadingSimilarProducts.value = false;
     }
-
-    const products = await productsApi.getAll(Number(productInfo.value.category.id));
-    productItems.value = products
-        .filter(product => product.id !== productInfo.value!.id)
-        .slice(0, 6)
-        .map(product => ({
-            id: String(product.id),
-            image: String("api/products/image/" + product.id),
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            supply_quantum: product.supply_quantum
-        }));
 };
 
-await loadProduct();
-await loadSimilarProducts();
+onMounted(async () => {
+    await loadProduct();
+    await loadSimilarProducts();
+});
 
 watch(
     () => route.params.id,
@@ -74,7 +90,30 @@ watch(
                 :title="String(CompanyData.title)" 
                 :subtitle="String(CompanyData.subtitle)"></Header>
 
-            <div v-if="productInfo">
+
+            <div v-if="loadingProduct" class="w-full flex justify-center">
+                <div class="flex flex-row max-w-[1200px] w-full gap-8">
+                    <SkeletonAnimation
+                        width="w-[350px]"
+                        height="h-[350px]" />
+
+                    <div class="flex flex-col gap-4 flex-1">
+                        <SkeletonAnimation
+                            width="w-2/3"
+                            height="h-10" />
+
+                        <SkeletonAnimation
+                            width="w-40"
+                            height="h-6" />
+
+                        <SkeletonAnimation
+                            width="w-full"
+                            height="h-12" />
+                    </div>
+                </div>
+            </div>
+
+            <div v-else-if="productInfo">
                 <div class="w-full flex justify-center">
                     <div class="flex flex-col max-w-[1200px]">
                         <div class="w-full flex flex-row">
@@ -127,7 +166,29 @@ watch(
         </DesktopOnly>
 
         <MobileOnly>
-            <div v-if="productInfo">
+            <div v-if="loadingProduct" class="w-full flex justify-center">
+                <div class="flex flex-col max-w-[1200px] w-full gap-8">
+                    <SkeletonAnimation
+                        width="w-full"
+                        height="h-[400px]" />
+
+                    <div class="flex flex-col gap-4 flex-1">
+                        <SkeletonAnimation
+                            width="w-full"
+                            height="h-10" />
+
+                        <SkeletonAnimation
+                            width="w-40"
+                            height="h-6" />
+
+                        <SkeletonAnimation
+                            width="w-full"
+                            height="h-12" />
+                    </div>
+                </div>
+            </div>
+
+            <div v-else-if="productInfo">
                 <div class="w-full pb-[100px]">
                     <div class="m-[60px]">
                         <img class="w-full object-contain" :src="'/' + productInfo.imageUrl">

@@ -7,8 +7,7 @@ import {
     CurrentCity,
 } from "~/content/contactheader/ContactHeaderData";
 import { CompanyData } from "~/content/header/HeaderData";
-
-import NotFoundIcon from "~/assets/svg/404.svg";
+import ErrorGeoIcon from "~/assets/svg/errorgeo.svg";
 
 const { t } = useI18n();
 
@@ -34,19 +33,16 @@ try {
       class="w-full h-[100vh] flex flex-col gap-[20px] justify-center items-center"
       v-if="!succesfullLoad">
       <div class="text-center flex flex-col justify-center items-center">
-        <NotFoundIcon
-          class="w-[96px] h-[96px]"
-        />
+        <ErrorGeoIcon class="w-[148px] [&>*]:fill-primary-primary"/>
 
-        <p>{{ t("404.sub_title") }}</p>
-        <p>{{ t("404.title") }}</p>
+        <p class="text-[32px] font-bold">404</p>
+        <p class="text-[20px] font-bold">{{ t("404.sub_title") }}</p>
+        <RouterLink 
+          class="text-[16px]" 
+          to="/">
+          {{ t("404.comeback") }}
+        </RouterLink>
       </div>
-    
-      <NuxtLink 
-        class="flex flex-row items-center justify-center select-none text-secondary-primary font-semibold p-[5px] rounded-[5px] bg-primary-primary"
-        to="/">
-        {{ t("404.comeback") }}
-      </NuxtLink>
     </div>
 
   <template 

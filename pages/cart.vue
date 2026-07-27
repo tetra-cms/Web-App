@@ -21,7 +21,6 @@ import { FieldType } from "~/types/form/FormField";
 import { useOrdersApi } from "~/composables/api/useOrdersApi";
 import { useClients } from "~/composables/api/useClients";
 import type ApiClient from "~/types/api/ApiClient";
-import Desktop from "~/components/views/Desktop.vue";
 
 const { t } = useI18n();
 
@@ -244,7 +243,7 @@ function changeView()
         v-if="isLoading"
         class="flex items-center justify-center min-h-[60vh]"
     >
-        {{ $t("common.loading") }}
+        {{ t("common.loading") }}
     </div>
 
     <template v-else>
@@ -269,13 +268,13 @@ function changeView()
                   class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
                   @click.prevent="clearCart"
               >
-                  {{ $t("common.actions.remove") }}
+                  {{ t("common.actions.remove") }}
               </button>
 
               <button
                   @click.prevent="showModalClear = false"
               >
-                  {{ $t("common.actions.cancel") }}
+                  {{ t("common.actions.cancel") }}
               </button>
           </div>
         </DesktopOnly>
@@ -286,14 +285,14 @@ function changeView()
                   class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
                   @click.prevent="clearCart"
               >
-                  {{ $t("common.actions.remove") }}
+                  {{ t("common.actions.remove") }}
               </button>
 
               <button
                   class="px-[15px] py-[10px]"
                   @click.prevent="showModalClear = false"
               >
-                  {{ $t("common.actions.cancel") }}
+                  {{ t("common.actions.cancel") }}
               </button>
           </div>
         </MobileOnly>
@@ -355,7 +354,7 @@ function changeView()
                 class="text-secondary-primary bg-red-600 px-[15px] py-[10px] rounded-[10px]"
                 @click.prevent="showModalOrder = false"
             >
-                {{ $t("common.actions.close") }}
+                {{ t("common.actions.close") }}
             </button>
           </MobileOnly>
         </div>
@@ -381,7 +380,7 @@ function changeView()
                         <TrashIcon />
                     </div>
 
-                    <p class="text-[red]">{{ $t('tables.cart.clear') }}</p>
+                    <p class="text-[red]">{{ t('tables.cart.clear') }}</p>
                 </button>
 
                 <div class="w-full flex flex-row">
@@ -389,15 +388,15 @@ function changeView()
                       <thead>
                           <tr class="bg-secondary-secondary">
                               <th class="w-[50%] px-4 py-3 text-left rounded-l-[30px]">
-                                  {{ $t('tables.cart.name') }}
+                                  {{ t('tables.cart.name') }}
                               </th>
 
                               <th class="w-[20%] px-4 py-3 text-center">
-                                  {{ $t('tables.cart.amount') }}
+                                  {{ t('tables.cart.amount') }}
                               </th>
 
                               <th class="w-[20%] px-4 py-3 text-center">
-                                  {{ $t('tables.cart.price') }}
+                                  {{ t('tables.cart.price') }}
                               </th>
 
                               <th class="w-[10%] px-4 py-3 rounded-r-[30px]"></th>
@@ -479,13 +478,13 @@ function changeView()
                                 </div>
                               
                                 <div class="flex flex-row justify-between">
-                                    <p>{{ $t("order.block.summary") }}:</p>
+                                    <p>{{ t("order.block.summary") }}:</p>
                                     <p class="font-bold">{{ totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) }} ₽</p>
                                 </div>
 
                                 <p v-if="cart.amount" class="text-secondary-wrapper-light">
                                     {{ cart.amount }}
-                                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount)
+                                    {{ pluralizeWord($t("labels.item.singular"), t("labels.item.plural"), cart.amount)
                                     }}
                                 </p>
                             </div>
@@ -530,15 +529,15 @@ function changeView()
         <div v-else>
             <div class="w-full flex flex-col text-center items-center">
                 <CartIcon class="[&>*]:fill-primary-primary w-[128px] h-[128px]"/>
-                <p class="text-primary-primary uppercase font-black text-[16pt]">{{ $t("tables.cart.emptycart.title") }}</p>
-                <p class="text-[14pt]">{{ $t("tables.cart.emptycart.subtitle") }}</p>
+                <p class="text-primary-primary uppercase font-black text-[16pt]">{{ t("tables.cart.emptycart.title") }}</p>
+                <p class="text-[14pt]">{{ t("tables.cart.emptycart.subtitle") }}</p>
 
                 <RouterLink
                 class="mt-[20px] flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[10px] rounded-[30px] bg-primary-primary"
-                to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
+                to="/">{{ t("buttons.backincatalog") }}</RouterLink>
             </div>
 
-            <h1 class="font-druk mt-[20px] text-[24px] text-center font-bold">{{ $t('headers.mightlike') }}</h1>
+            <h1 class="font-druk mt-[20px] text-[24px] text-center font-bold">{{ t('headers.mightlike') }}</h1>
 
             <div class="flex flex-col items-center justify-center">
                 <div>
@@ -551,10 +550,10 @@ function changeView()
     <MobileOnly>
         <div v-if="cart.amount" class="pb-[100px]">
             <div class="flex flex-start flex-row items-center">
-                <h1 class="text-[24px] font-bold">{{ $t('headers.cart') }}</h1>
+                <h1 class="text-[24px] font-bold">{{ t('headers.cart') }}</h1>
                 <p class="text-secondary-wrapper-light ml-[10px]">
                     {{ cart.amount }}
-                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount) }}
+                    {{ pluralizeWord(t("labels.item.singular"), t("labels.item.plural"), cart.amount) }}
                 </p>
             </div>
 
@@ -653,19 +652,19 @@ function changeView()
 
                 <p class="text-secondary-wrapper-light">
                     {{ cart.amount }}
-                    {{ pluralizeWord($t("labels.item.singular"), $t("labels.item.plural"), cart.amount) }}
+                    {{ pluralizeWord(t("labels.item.singular"), t("labels.item.plural"), cart.amount) }}
                 </p>
             </div>
         </div>
 
         <div v-else class="w-full h-full flex flex-col justify-center text-center items-center">
             <CartIcon class="[&>*]:fill-primary-primary w-[96px] h-[96px]" />
-            <p class="font-bold text-[24pt]">{{ $t('errors.cart.noitems') }}</p>
-            <p class="text-[16pt]">{{ $t('tables.cart.emptycart.subtitle') }}</p>
+            <p class="font-bold text-[24pt]">{{ t('errors.cart.noitems') }}</p>
+            <p class="text-[16pt]">{{ t('tables.cart.emptycart.subtitle') }}</p>
 
             <RouterLink
                 class="mt-[20px] flex flex-row items-center text-center justify-center select-none text-secondary-primary font-semibold p-[10px] rounded-[30px] bg-primary-primary"
-                to="/">{{ $t("buttons.backincatalog") }}</RouterLink>
+                to="/">{{ t("buttons.backincatalog") }}</RouterLink>
         </div>
     </MobileOnly>
     </template>
