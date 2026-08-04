@@ -44,8 +44,8 @@ useDetectOutsideClick(userMenu, () => {
         <div class="flex justify-between items-center px-[25px] py-[25px]">
             <NuxtLink to="/">
                 <div class="flex flex-row">
-                    <div class="px-[10px]">
-                        <LogoIcon />
+                    <div class="px-[10px] ">
+                        <LogoIcon class="h-[70px]" />
                     </div>
 
                     <div class="flex flex-col mr-[10px] max-md:hidden">
@@ -102,7 +102,7 @@ useDetectOutsideClick(userMenu, () => {
         <NuxtLink to="/">
             <div class="flex justify-center flex-row">
                 <div class="px-[10px]">
-                    <LogoIcon />
+                    <LogoIcon class="h-[70px]" />
                 </div>
 
                 <div class="flex flex-col mr-[10px]">
