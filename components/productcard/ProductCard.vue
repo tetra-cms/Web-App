@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { IProductCard } from '~/types/productcard/ProductCard';
 const props = defineProps<IProductCard>();
+
+const imageLoaded = ref<boolean>(false);
 </script>
 
 <template>
@@ -8,7 +10,16 @@ const props = defineProps<IProductCard>();
         <div class="flex flex-col justify-between w-[190px] h-[300px] min-h-[300px] p-[15px] border-secondary-secondary border-[3px] rounded-[10px]">
             <NuxtLink :to="'/product/' + props.id">
                 <div class="w-full flex justify-center">
-                    <img class="max-h-[90px]" v-if="props.image" :src="props.image">
+                    <SkeletonAnimation 
+                      v-if="!imageLoaded"
+                      :width="'w-[90px]'" 
+                      :height="'h-[90px]'"/>
+
+                    <img 
+                      class="max-h-[90px]" 
+                      v-show="props.image && imageLoaded" 
+                      :src="props.image" 
+                      @load="imageLoaded = true">
                 </div>
             
                 <p class="text-[12pt] font-bold">{{ props.name }}</p>
@@ -41,7 +52,16 @@ const props = defineProps<IProductCard>();
               :to="'/product/' + props.id">
                 <div>
                   <div class="w-full flex justify-center">
-                      <img class="max-h-[85px]" v-if="props.image" :src="props.image">
+                      <SkeletonAnimation 
+                        v-if="!imageLoaded"
+                        :width="'w-[90px]'" 
+                        :height="'h-[90px]'"/>
+
+                      <img 
+                        class="max-h-[85px]" 
+                        v-show="props.image && imageLoaded" 
+                        :src="props.image" 
+                        @load="imageLoaded = true">
                   </div>
               
                   <p class="text-[10pt] font-bold">{{ props.name.length >= 40 ? props.name.substring(0, 40) + "..." : props.name }}</p>

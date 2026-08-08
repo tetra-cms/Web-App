@@ -48,6 +48,8 @@ const registerUser = async (userData: RegisterSubmitData) => {
         loading.value = false;
     }
 };
+
+import UserIcon from "~/assets/svg/user.svg?skipsvgo";
 </script>
 
 <template>
@@ -63,29 +65,59 @@ const registerUser = async (userData: RegisterSubmitData) => {
         :subtitle="String(CompanyData.subtitle)"></Header>
 
     <div class="w-full h-[80%] flex justify-center flex-col items-center">
-        <CustomForm 
-            :title="$t('auth.title.register')"
-            @submitinfo="registerUser"
-            :fields="RegisterFormFields">
-            <template #terms-label>
-              <p class="text-sm">Я принимаю 
-                <RouterLink
-                    to="/terms"
-                    class="text-primary-primary">
-                    условиями использования
-                </RouterLink>
-              </p>
-            </template>
-            <template #privacy-label>
-              <p class="text-sm">Я выражаю своё согласие с
-                <RouterLink
-                    to="/privacy"
-                    class="text-primary-primary">
-                   согласием на обработку персональных данных
-                </RouterLink>
-              </p>
-            </template>
-        </CustomForm>
+        <DesktopOnly>
+          <CustomForm 
+              :icon="UserIcon"
+              :title="$t('auth.title.register')"
+              @submitinfo="registerUser"
+              :fields="RegisterFormFields">
+              <template #terms-label>
+                <p class="text-sm">Я принимаю 
+                  <RouterLink
+                      to="/terms"
+                      class="text-primary-primary">
+                      условиями использования
+                  </RouterLink>
+                </p>
+              </template>
+              <template #privacy-label>
+                <p class="text-sm">Я выражаю своё согласие с
+                  <RouterLink
+                      to="/privacy"
+                      class="text-primary-primary">
+                    согласием на обработку персональных данных
+                  </RouterLink>
+                </p>
+              </template>
+          </CustomForm>
+        </DesktopOnly>
+
+        <MobileOnly>
+          <CustomForm 
+              :title="$t('auth.title.register')"
+              @submitinfo="registerUser"
+              :fields="RegisterFormFields">
+              <template #terms-label>
+                <p class="text-sm">Я принимаю 
+                  <RouterLink
+                      to="/terms"
+                      class="text-primary-primary">
+                      условиями использования
+                  </RouterLink>
+                </p>
+              </template>
+              <template #privacy-label>
+                <p class="text-sm">Я выражаю своё согласие с
+                  <RouterLink
+                      to="/privacy"
+                      class="text-primary-primary">
+                    согласием на обработку персональных данных
+                  </RouterLink>
+                </p>
+              </template>
+          </CustomForm>
+        </MobileOnly>
+        
 
         <p class="text-[red]">{{ $t(errorMessage) }}</p>
     </div>

@@ -46,6 +46,8 @@ const authUser = async (userData: AuthSubmitData) => {
         loading.value = false;
     }
 };
+
+import UserIcon from "~/assets/svg/user.svg?skipsvgo";
 </script>
 
 <template>
@@ -62,11 +64,23 @@ const authUser = async (userData: AuthSubmitData) => {
         :subtitle="String(CompanyData.subtitle)"></Header>
 
     <div class="w-full h-[80%] flex justify-center flex-col items-center">
-        <CustomForm 
-            :title="$t('auth.title.login')"
-            @submitinfo="authUser"
-            :fields="AuthFormFields"
-        />
+        <DesktopOnly>
+          <CustomForm 
+              :icon="UserIcon"
+              :title="$t('auth.title.login')"
+              @submitinfo="authUser"
+              :fields="AuthFormFields"
+          />
+        </DesktopOnly>
+
+        <MobileOnly>
+          <CustomForm 
+              :title="$t('auth.title.login')"
+              @submitinfo="authUser"
+              :fields="AuthFormFields"
+          />
+        </MobileOnly>
+        
 
         <p class="text-[red]">{{ $t(errorMessage) }}</p>
     </div>

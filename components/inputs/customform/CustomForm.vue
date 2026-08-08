@@ -4,6 +4,7 @@ import type IFormElement from '~/types/form/FormField';
 
 const props = defineProps<{
     title?: string,
+    icon?: Component
     subtitle?: string,
     textLabels?: boolean,
     fields: Array<IFormElement>
@@ -34,8 +35,15 @@ const deviceType = inject('deviceType');
         :class="$attrs.class ?? 'rounded-[10px] p-[40px] w-full max-w-[400px] ' + (deviceType == UserDeviceTypes.Desktop ? 'border-secondary-wrapper-light border-[1px]' : '')"
         @submit.prevent="onSubmit">
 
-        <h2 v-if="props.title" class="text-[24px] text-center font-bold mb-[10px]">{{ title }}</h2>
-        <p class="text-center" v-if="subtitle">{{ subtitle }}</p>
+        <div 
+          v-if="props.icon ? true : false"
+          class="w-full my-4 flex justify-center h-[48px]">
+          <component 
+            :is="props.icon"></component>
+        </div>
+
+        <h2 v-if="props.title ?? false" class="text-[24px] text-center font-bold mb-[10px]">{{ title }}</h2>
+        <p class="text-center" v-if="props.subtitle ?? false">{{ subtitle }}</p>
 
         <ul>
             <li class="my-[20px]" v-for="field in props.fields">
@@ -65,6 +73,11 @@ const deviceType = inject('deviceType');
                     :placeholder="!props.textLabels ? field.placeholder + (field.required ? '*' : '') : ''"
                     :value="field.default ?? ''"
                     :required="field.required">
+
+                <div :class="field.class ?? undefined">
+                  <component 
+                    :is="field.component"></component>
+                </div>
 
                 <label
                   v-if="field.type == FieldType.Checkbox"

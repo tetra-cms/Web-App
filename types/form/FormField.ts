@@ -7,6 +7,7 @@ export enum FieldType {
     InputPassword,
     InputEmail,
     Link, 
+    CustomComponent,
     Button,
     List,
     Checkbox
@@ -20,6 +21,10 @@ export default interface IFormElement {
     listItems?: Array<IFormElementListItem>;
     route?: string;
     required?: boolean;
+
+    class?: string
+
+    component?: Component
     
     checked?: boolean;
 }
