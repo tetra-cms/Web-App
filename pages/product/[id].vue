@@ -77,6 +77,8 @@ watch(
         await loadSimilarProducts();
     }
 );
+
+const imageLoaded = ref<boolean>(false);
 </script>
 
 <template>
@@ -118,9 +120,16 @@ watch(
                     <div class="flex flex-col max-w-[1200px]">
                         <div class="w-full flex flex-row">
                             <div class="m-[20px]">
+                                <SkeletonAnimation 
+                                  v-if="!imageLoaded"
+                                  :width="'w-[350px]'" 
+                                  :height="'h-[350px]'"/>
+
                                 <img 
+                                  v-show="imageLoaded"
                                   class="w-[350px] max-w-[350px]" 
-                                  :src="'/' + productInfo.imageUrl">
+                                  :src="'/' + productInfo.imageUrl"
+                                  @load="imageLoaded = true">
                             </div>
 
                             <div class="flex flex-col h-full justify-center items-start w-full">
@@ -193,7 +202,15 @@ watch(
             <div v-else-if="productInfo">
                 <div class="w-full pb-[100px]">
                     <div class="m-[60px]">
-                        <img class="w-full object-contain" :src="'/' + productInfo.imageUrl">
+                        <SkeletonAnimation 
+                          v-if="!imageLoaded"
+                          :width="'w-full'"/>
+
+                        <img 
+                          v-show="imageLoaded"
+                          class="w-full object-contain" 
+                          :src="'/' + productInfo.imageUrl"
+                          @load="imageLoaded = true">
                     </div>
 
                     <div class="px-[10px]">
